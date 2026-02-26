@@ -17,7 +17,7 @@ if (i.lenght == 0||f.lenght==0||p.lenght==0){
 
 for (let c = i ; c <= f ; c+=p ){
     console.log (c)
-
+    res.innerHTML += ` ${c} \u{1F449} `
 }
 
 
