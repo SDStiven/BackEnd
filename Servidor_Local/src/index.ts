@@ -1,5 +1,6 @@
 import express, { type Request, type Response } from "express";
-import { adicionarServico, apagarServico, listarServicos, obterServico } from "./Serviço.js";
+import { adicionarServico, apagarServico, listarServicos, obterServico } from "./Servico.js";
+import { calcularOrcamento, SelecionarServicos } from "./orcamento.js";
 
 const app = express(); // cria a aplicação
 app.use(express.json()); // para interpretar o corpo das requisições como JSON
@@ -43,6 +44,21 @@ app.get("/obter-servico", (req: Request,res: Response) => {
     {message:"nome do servico é obrigatório"}
   }
 })
+
+// rota para selecionar servico
+app.post("/selecionar-servico", (req: Request, res: Response) => {
+  const {nome} = req.body;
+
+    const selecionarServicoResponse = SelecionarServicos(nome as string);
+    res.json({selecionarServicoResponse})  
+})
+
+// Rota: coalcula orçamento
+app.post("/calcular-orcamento", (req: Request, res: Response) => {
+  const pedido = req.body;
+  const calcularOrcamentoResponse = calcularOrcamento(pedido);
+  res.json({calcularOrcamentoResponse})
+})  
 
 // inicia o servidor na porta 3000
 app.listen(8080, () => {

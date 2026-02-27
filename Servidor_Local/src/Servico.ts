@@ -1,19 +1,7 @@
 import { response } from "express";
+import type { responseType, Servicotype } from "./Utils/types.js";
 
-interface Servicotype {
-  nome: string;
-  precoHora: number;
-  minimiDesconto: number;
-  categoria: string;
-  percentagemDesconto?: number;
-}
-interface responseType {
-  success: boolean;
-  message: string;
-data: Servicotype|null
-}
-
-let catalogoServico: Servicotype[] = [
+export let catalogoServico: Servicotype[] = [
   {
     nome: "Serviço de limpeza",
     precoHora: 50,
@@ -22,48 +10,55 @@ let catalogoServico: Servicotype[] = [
     categoria: "Limpeza",
   },
 ];
-export function adicionarServico(NovoServico: Servicotype): void|responseType {
+
+// adicionar um serviço
+export function adicionarServico(NovoServico: Servicotype): responseType {
   // 1. Validação de Dados
   if (NovoServico.nome.trim() === "") {
     console.log("Erro: O nome do serviço não pode ser vazio.");
-    return;
-  }
+    return{
+      success: false,
+      message: "O nome do serviço não pode ser vazio.",
+      data:"erro:o nome do serviço não pode ser vazio."
+    }
+  }  
   if (NovoServico.precoHora <= 0) {
     console.log("Erro: O preço por hora deve ser um número positivo.");
-    return;
+    return{
+      success: false,
+      message: "O preço por hora deve ser um número positivo.",
+      data:"erro:O preço por hora deve ser um número positivo."
+    }
   }
-
-  // 2. Verificação de Duplicados
   for (let i = 0; i < catalogoServico.length; i++) {
     if (catalogoServico[i]?.nome === NovoServico.nome) {
       console.log("Erro: O serviço já existe no catálogo.");
       return({
         success: false,
         message: "O serviço já existe no catálogo.",
-        data: null
+        data:"erro:O serviço já existe no catálogo."
       })
     }
   }
-
-
   // 3. Se passou por todos os "filtros" acima, adicionamos
   catalogoServico.push(NovoServico);
+  return({
+    success: true,
+    message: "Serviço adicionado com sucesso.",
+    data:NovoServico
+  })
 }
-
-
+ 
 // listar todos os servicos
 export function listarServicos(): Servicotype[] 
 {
   return catalogoServico;
 }
 
-// todo: implementar fetch de servicos
-
 // apagar um servico
 export function apagarServico(nome: string): boolean {
   // todo: implementar fetch de servicos
 const novocatalogtempprario: Servicotype[] = []
-
 for (let i = 0; i < catalogoServico.length; i++) {
   if (catalogoServico[i]?.nome !== undefined && catalogoServico[i]?.nome !== nome ){
     novocatalogtempprario.push(catalogoServico[i]!)
