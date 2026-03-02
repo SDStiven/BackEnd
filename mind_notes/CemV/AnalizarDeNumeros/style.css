@@ -1,0 +1,40 @@
+body {
+  background: hsl(152, 100%, 62%);
+  font: normal 15pt Arial;
+  /* color: white; */
+}
+div {
+  text-align: start;
+}
+
+.erro {
+  border: 2px solid red;
+}
+.valido {
+  border: 2px solid green;
+}
+h1 {
+  text-align: center;
+  color: white;
+}
+p {
+  margin: 0;
+}
+img {
+  width: 200px;
+  height: 200px;
+  border-radius: 500px;
+}
+section {
+  background: white;
+  border-radius: 20px;
+  padding: 15px;
+  width: 500px;
+  margin: auto;
+  box-shadow: 3px 3px 10px black;
+}
+footer {
+  color: white;
+  text-align: center;
+  font-style: italic;
+}

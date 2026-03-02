@@ -1,5 +1,4 @@
 import { response } from "express";
-
 import type { responseType, Servicotype } from "./Utils/types.js";
 
 export let catalogoServico: Servicotype[] = [
