@@ -1,74 +1,91 @@
-import { catalogoServico } from "./Servico.js";
-import type { pedindoServico, Servicotype } from "./Utils/types.js";
+import { catalogoServicoatalogoServicos} from "./Servico.js"
+import { type PedidoServicoType, type PrestadorType, type ServicoType } from "./Utils/types.js"
 
-const pedido: pedindoServico = {
-  cliente: "Ismar",
-  descricao: "Serviço de limpeza",
-  horasestimadas: 5,
-  urgente: true,
-};
-const servicoSelecionados: Servicotype[] = [];
+const taxaUrgencia: number = 0.3
+const minimoParaDesconto: number = 100
+const percentagemDesconto: number = 0.1
 
-// função para adicionar servico e HorasEstimadas
-export function SelecionarServicos(nome: string) {
-  for (let i = 0; i < catalogoServico.length; i++) {
-    if (catalogoServico[i]?.nome === nome) {
-      servicoSelecionados.push(catalogoServico[i]!);
-      return true;
+const servicosSelecionados: ServicoType[] = []
+const prestadoresDeServicos: PrestadorType[] = []
+const prestadoressSelecionados: PrestadorType[] = []
+
+
+// funcao para selecionar servicos e horasEstimadas
+export function selecionarServicos(nome: string) {
+    for (let i = 0; i < catalogoServicos.length; i++) {
+        if (catalogoServicos[i]?.nome === nome) {
+            servicosSelecionados.push(catalogoServicos[i]!)
+            return true
+        }
     }
-  }
-  return false;
+    return false
 }
 
-const taxaUrgencia: number = 0.3;
-const minimodesconto: number = 100;
-const peecentagemDeDesconto: number = 0.1;
 
-// função para processar o pedido
-function processarPedido(pedido: pedindoServico, precoHora: number): number {
-  let total: number;
-  if (pedido.urgente) {
-    total = pedido.horasestimadas * precoHora;
-    total = total + total * taxaUrgencia;
-  } else {
-    total = pedido.horasestimadas * precoHora;
-  }
-  return total;
+// funcao para selecionar prestadores
+export function criarPrestadoresDeServico(novoPrestador: PrestadorType) {
+    //verificar se os prestadores ja esta no array
+    prestadoresDeServicos.map((prestadorExisteente: PrestadorType) => {
+        if (prestadorExisteente.nome === novoPrestador.nome) {
+            //se o prestador ja existe, nao adicionar e retornar mensagem de erro
+            return {
+                status: false,
+                mensagem: " ja existe um prestador de servicocom esse nome",
+                data: null
+            }
+        }
+    })
+
+
+    //se o prestador nao existe, adicionar ao array de prestadores
+    prestadoresDeServicos.push(novoPrestador)
+    return {
+        status: true,
+        mensagem: "Prestador adicionado com sucesso",
+        data: null
+    } 
 }
 
-// calcular o orçamento
-export function calcularOrcamento(pedido: pedindoServico){
-  let totalBroto: number = 0;
-  let totalFinal: number = 0;
 
-  servicoSelecionados.map((servico: Servicotype) => {
-    let totalDoServico: number = servico.precoHora * pedido.horasestimadas;
-    totalBroto = totalBroto + totalDoServico;
-  })
+// funcao para calcular o orcamento
+export function calcularOrcamento(pedido: PedidoServicoType) {
+    let totalBruto: number = 0
+    let totalFinal: number = 0
 
-totalFinal = totalBroto;
+    servicosSelecionados.map((servico: ServicoType) => {
+        let totalDoServico: number = servico.precoHora * pedido.horasEstimadas
+        totalBruto = totalBruto + totalDoServico
+    })
 
-  if (pedido.urgente) {
-    totalFinal = totalBroto + (totalBroto * 0.3)
-  }
-  if (totalBroto>=minimodesconto) {
-    totalFinal = totalFinal - (totalFinal * peecentagemDeDesconto);
-  }
-    return totalFinal;
-    /*
-    uegente:;true
-    taxa de urgencia: 0.3
-    totabroto: 100
-    totaltaxa:100*0.3=30
-    totalfinal: 100+30=130  
+    totalFinal = totalBruto
 
-    totalbroto: 100
-    total broto apos urgencia: 150
-    minimo desconto: 100
-    percentual desconto: 0.1
-    desconto sobre taxa final: 150*0.1=15
-    desconto sobre taxa broto: 100*0.1=10
+    if (pedido.urgente) {
+        totalFinal = totalBruto + (totalBruto * taxaUrgencia)
+    }
+
+    if (totalBruto >= minimoParaDesconto) {
+        totalFinal = totalFinal - (totalBruto * percentagemDesconto)
+    }
+
+    return totalFinal
+
+    // () => {} --- arrow function
+    // function () {} --- function normal
+
+    /* 
     
+    urgente: true
+    taxaUrgencia: 0.3
+    totalBruto: 100
+    totalTaxa: 100 * 0.3 = 30
+    totalFinal: 100 + 30 = 130
+ 
+    totalBruto: 100
+    totalbruto apos urgencia: 150
+    minimo descnto: 100
+    percentagem: 10%
+    desconto sobre total final: 150 * 0.1 = 15
+    desconto sobre total bruto: 100 * 0.1 = 10
+ 
     */
 }
-

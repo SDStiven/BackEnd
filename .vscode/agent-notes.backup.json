@@ -1,0 +1,29 @@
+{
+  "version": 1,
+  "threads": [
+    {
+      "id": "c3757d71-bdb4-4796-a44c-588062dfa63f",
+      "uri": "Servidor-Local/src/Prestador.ts",
+      "range": {
+        "startLine": 33,
+        "startCharacter": 4,
+        "endLine": 33,
+        "endCharacter": 5
+      },
+      "selectedText": "}",
+      "contextBefore": "    alterarNome(novoNome: string) {\n        this.nome = novoNome\n    }",
+      "contextAfter": "",
+      "contentHash": "7d",
+      "comments": [
+        {
+          "id": "07c71627-c974-458d-a3be-f73bcb96ca9c",
+          "body": "cria uma função contar",
+          "author": "da777279",
+          "createdAt": "2026-03-02T12:56:26.685Z"
+        }
+      ],
+      "orphaned": false
+    }
+  ],
+  "lastBackup": "2026-03-02T12:57:28.431Z"
+}
