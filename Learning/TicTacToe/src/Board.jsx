@@ -1,5 +1,7 @@
 import { useState } from "react";
+import './App.css';
 
+// função que renderiza um botão(o quadrado)
 function Square({ value, onSquareClick }) {
   return (
     <button className="square " onClick={onSquareClick}>
@@ -7,10 +9,11 @@ function Square({ value, onSquareClick }) {
     </button>
   );
 }
-function Board({xIsNext, squares, onPlay }) {
-  const [xIsNext, setXIsNext] = useState(true);
-  const [squares, setSquares] = useState(Array(9).fill(null));
 
+// função que renderiza o tabuleiro
+function Board({ xIsNext, squares, onPlay }) {
+
+  // função que lida com o clique no botão
   function handleClick(i) {
     if (squares[i] || calculateWinner(squares)) {
       return;
@@ -26,7 +29,7 @@ function Board({xIsNext, squares, onPlay }) {
     setSquares(nextSquares);
     setXIsNext(!xIsNext);
   }
-
+  // função que verifica se há um vencedor
   const winner = calculateWinner(squares);
   let status;
   if (winner) {
@@ -56,6 +59,7 @@ function Board({xIsNext, squares, onPlay }) {
   );
 }
 
+// função que verifica se há um vencedor
 function calculateWinner(squares) {
   const lines = [
     [0, 1, 2],
@@ -67,6 +71,8 @@ function calculateWinner(squares) {
     [0, 4, 8],
     [2, 4, 6],
   ];
+
+  // função que verifica se há um vencedor
   for (let i = 0; i < lines.length; i++) {
     const [a, b, c] = lines[i];
     if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
@@ -76,9 +82,11 @@ function calculateWinner(squares) {
   return null;
 }
 
+// função que renderiza o jogo  
 export default function Game() {
   const [xIsNext, setXIsNext] = useState(true);
   const [history, setHistory] = useState([Array(9).fill(null)]);
+  const [currentMove, setCurrentMove] = useState(0);
   const currentSquares = history[history.length - 1];
 
   function handlePlay(nextSquares) {
@@ -87,11 +95,12 @@ export default function Game() {
     setXIsNext(!xIsNext);
   }
 
-   function jumpTo(nextMove) {
+  function jumpTo(nextMove) {
     // TODO
   }
 
-   const moves = history.map((squares, move) => {
+  // função que renderiza os movimentos
+  const moves = history.map((squares, move) => {
     let description;
     if (move > 0) {
       description = 'Go to move #' + move;
@@ -99,7 +108,7 @@ export default function Game() {
       description = 'Go to game start';
     }
     return (
-      <li>
+      <li key={move}>
         <button onClick={() => jumpTo(move)}>{description}</button>
       </li>
     );
@@ -110,10 +119,9 @@ export default function Game() {
         <Board xIsNext={xIsNext} squares={currentSquares} onPlay={handlePlay} />
       </div>
       <div className="game-info">
-        <ol>{/*TODO*/}</ol>
-          <ol>{moves}</ol>
+        <ol>{moves}</ol>
       </div>
     </div>
   );
 }
-Escolhendo uma tonalidade 
+// Limpeza final
