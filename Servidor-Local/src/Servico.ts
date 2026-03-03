@@ -1,7 +1,7 @@
 import { response } from "express";
 import type { responseType, Servicotype } from "./Utils/types.js";
 
-export let catalogoServico: Servicotype[] = [
+export let catalogoServicos: Servicotype[] = [
   {
     nome: "Serviço de limpeza",
     precoHora: 50,
@@ -10,7 +10,7 @@ export let catalogoServico: Servicotype[] = [
     categoria: "Limpeza",
   },
 ];
-
+ 
 // adicionar um serviço
 export function adicionarServico(NovoServico: Servicotype): responseType {
   // 1. Validação de Dados
@@ -30,8 +30,8 @@ export function adicionarServico(NovoServico: Servicotype): responseType {
       data:"erro:O preço por hora deve ser um número positivo."
     }
   }
-  for (let i = 0; i < catalogoServico.length; i++) {
-    if (catalogoServico[i]?.nome === NovoServico.nome) {
+  for (let i = 0; i < catalogoServicos.length; i++) {
+    if (catalogoServicos[i]?.nome === NovoServico.nome) {
       console.log("Erro: O serviço já existe no catálogo.");
       return({
         success: false,
@@ -41,7 +41,7 @@ export function adicionarServico(NovoServico: Servicotype): responseType {
     }
   }
   // 3. Se passou por todos os "filtros" acima, adicionamos
-  catalogoServico.push(NovoServico);
+  catalogoServicos.push(NovoServico);
   return({
     success: true,
     message: "Serviço adicionado com sucesso.",
@@ -52,28 +52,28 @@ export function adicionarServico(NovoServico: Servicotype): responseType {
 // listar todos os servicos
 export function listarServicos(): Servicotype[] 
 {
-  return catalogoServico;
+  return catalogoServicos;
 }
 
 // apagar um servico
 export function apagarServico(nome: string): boolean {
   // todo: implementar fetch de servicos
 const novocatalogtempprario: Servicotype[] = []
-for (let i = 0; i < catalogoServico.length; i++) {
-  if (catalogoServico[i]?.nome !== undefined && catalogoServico[i]?.nome !== nome ){
-    novocatalogtempprario.push(catalogoServico[i]!)
+for (let i = 0; i < catalogoServicos.length; i++) {
+  if (catalogoServicos[i]?.nome !== undefined && catalogoServicos[i]?.nome !== nome ){
+    novocatalogtempprario.push(catalogoServicos[i]!)
   }
 } // Densemvolver um novo catalogo sem o serviço a ser apagado
-catalogoServico = novocatalogtempprario
+catalogoServicos = novocatalogtempprario
 return true
 }
 
 // obter um serviço por nome
 export function obterServico(nome: string): Servicotype | null {
  
-  for (let i = 0; i < catalogoServico.length; i++) {
-    if (catalogoServico[i]?.nome === nome) {
-      return catalogoServico[i]!
+  for (let i = 0; i < catalogoServicos.length; i++) {
+    if (catalogoServicos[i]?.nome === nome) {
+      return catalogoServicos[i]!
     }
   }
   return null
