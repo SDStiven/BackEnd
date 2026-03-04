@@ -1,5 +1,6 @@
 import express from "express";
 import type { Request, Response } from "express";
+import { AdicionarServico, ListarServicos, RemoverServico } from "./Servicos.js";
 
 const app = express();
 app.use(express.json());
@@ -35,6 +36,24 @@ app.get('/usuario/:nome', (req: Request, res: Response) => {
         res.send(`nome:${nome}`)
     }
 })
+
+// rota:Adicionar Servico
+app.get('/adicionar-servico', (req: Request, res: Response) => {
+    const novoServico = req.body
+    res.send(AdicionarServico(novoServico))
+})
+
+
+// rota:Listar Servicos
+app.get('/listar-servicos', (req: Request, res: Response) => {
+    res.send(ListarServicos())
+})
+
+// rota:Remover Servico
+app.delete('/remover-servico', (req: Request, res: Response) => {
+    const { nome } = req.body
+    res.send(RemoverServico(nome as string))
+})  
 
 // A escuta do servidor
 app.listen(3000, () => {
