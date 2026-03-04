@@ -153,6 +153,100 @@ export function selecionarPrestadoresDeServico(novoPrestador: PrestadorType) {
         status: true,
         mensagem: "Prestador adicionado com sucesso",
         data: null
-    } 
+    }
 }
+
+// Função para editar prestador
+export function editarPrestadorDeServico(nomeDoPretador: string, novosDadosDoPrestador: PrestadorType) {
+    // 1. Verifica se o prestador está na lista de disponíveis /cliclo 
+    prestadoresDeServicos.map((prestadorExistente: PrestadorType) => {
+        if (prestadorExistente.nome === nomeDoPretador) {
+            // 2. Se estiver disponível, adiciona à lista de selecionados
+            prestadorExistente.nome === novosDadosDoPrestador.nome
+            prestadorExistente.precoHora === novosDadosDoPrestador.precoHora
+            prestadorExistente.profissao === novosDadosDoPrestador.profissao
+            prestadorExistente.minimoParaDesconto === novosDadosDoPrestador.minimoParaDesconto
+            prestadorExistente.percentagemDesconto === novosDadosDoPrestador.percentagemDesconto
+            prestadorExistente.taxaUrgencia === novosDadosDoPrestador.taxaUrgencia
+
+            // 3. Retorna true indicando que foi adicionado com sucesso
+            return {
+                status: true,
+                mensagem: 'prestador de servico editado com sucesso',
+                data: prestadorExistente
+            }
+        } else {
+            // 4. Caso não esteja disponível, retorna false
+            return {
+                status: false,
+                mensagem: 'Este Pretador de serviso não existe"',
+                data: null
+            }
+        }
+    })
+}
+
+// Função para pagar prestador
+export function apagarPrestador(nomeprestadordeservico: string) {
+    const novoArreyprestadoresDeServico: PrestadorType[] = []
+    // 1. Verifica se o prestador está na lista de disponíveis / usar ciclo
+    for (let i = 0; i < prestadoresDeServicos.length; i++) {
+        // 2. Se estiver disponível/if para verificar se o nomedo pretador for igual ao nome recebido
+        if (nomeprestadordeservico === prestadoresDeServicos[i]?.nome) {
+            // se encontrar remover o pretador
+            novoArreyprestadoresDeServico.push(prestadoresDeServicos[i]!)
+            // 3. Retorna true indicando que foi adicionado com sucesso/ sms
+            return {
+                status: true,
+                mensagem: 'prestador de servico eliminado com sucesso',
+                data: novoArreyprestadoresDeServico
+            }
+        }else{
+            // 4. Caso não esteja disponível, retorna false/sms
+            return {
+                status: false,
+                mensagem: 'Este Pretador de serviso não existe para eliminar',
+                data: null
+            }
+        }
+    }
+}
+
+// Função para pagar prestador
+export function apagarPrestadorFilter(nomeprestadordeservico: string) {
+
+    if(!nomeprestadordeservico){
+        return {
+            status: false,
+            mensagem: 'Prestador de servico nao encontrado',
+            data: null
+        }
+    } 
+
+    prestadoresDeServicos.filter((prestadorExistente: PrestadorType) => prestadorExistente.nome !== nomeprestadordeservico)
+    return { 
+        status: true,
+        mensagem: 'prestador de servico eliminado com sucesso',
+        data: prestadoresDeServicos
+    } 
+   
+}
+
+
+
+
+
+// funcao para obter prestador de servico pelo nome
+export function obterPrestador(nomePrestador: string) {
+    const prestadorEncontrado = prestadoresDeServicos.filter((prestador: PrestadorType) => prestador.nome === nomePrestador)
+    
+}
+// 1. Verifica se o prestador está na lista de disponíveis
+// 2. Se estiver disponível, adiciona à lista de selecionados
+
+// 3. Retorna true indicando que foi adicionado com sucesso
+// 4. Caso não esteja disponível, retorna false
+
+
+
 
