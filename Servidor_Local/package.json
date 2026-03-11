@@ -18,9 +18,10 @@
     "dev": "tsx watch src/index.ts",
     "start": "node  src/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
-  }, 
+  },
   "dependencies": {
     "express": "^5.2.1",
+    "mysql2": "^3.19.1",
     "ts-node": "^10.9.2",
     "tsx": "^4.21.0",
     "typescript": "^5.9.3"
