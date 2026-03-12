@@ -1,6 +1,8 @@
 import express, { type Request, type Response } from "express";
 import { adicionarServico, apagarServico, listarServicos, obterServico, } from "./Servico.js";
 import { apagarPrestador, apagarPrestadorFilter, calcularOrcamento, criarPrestadoresDeServico, editarPrestadorDeServico, selecionarPrestador, SelecionarServicos } from "./orcamento.js";
+import { getUseById, getUser, novoUtilizador } from "./users.js";
+import type { utilizadorType } from "./Utils/types.js";
 
 const app = express(); // cria a aplicação
 app.use(express.json()); // para interpretar o corpo das requisições como JSON
@@ -91,6 +93,44 @@ app.delete("/apagar-prestadorrrrr", (req: Request, res: Response) => {
  const{nome}=req.body 
   const apagarPrestadorResponseFilter = apagarPrestadorFilter(nome as string);
   res.json(apagarPrestadorResponseFilter)
+})
+
+// SElecionar todos os utilivadores presentes na base de dados
+app.get("//get-users",async (req: Request, res: Response) => {
+  const getUserResponse = await getUser()
+
+  res.json(getUserResponse)
+})
+
+// SElecionar um utilizador pelo id
+app.get("/get-user-By-Id",async (req: Request, res: Response) => {
+  const {id} = req.query
+  if(id){
+    const getUserResponse = await getUseById(id as string)
+    if(!getUserResponse){
+      res.status(404).json({
+      status:"error",
+      message:"utilizador não encontrado",
+      data:null
+    })
+    }
+    res.status(200).json({
+      status:"success",
+      message:"utilizador encontrado",
+      data:getUserResponse
+    })
+  }
+})
+
+// Inserir um novo utilizador
+app.post("/novo-utilizador", async (req: Request, res: Response) => {
+  const utilizador = req.body as utilizadorType
+console.log({" utilizador index.ts":utilizador})
+  const novoUtilizadorResponse =  await novoUtilizador(utilizador)
+  res.json(novoUtilizadorResponse)
+  // res.send("Servidor funcionando!");
+  
+
 })
 
 // inicia o servidor na porta 3000

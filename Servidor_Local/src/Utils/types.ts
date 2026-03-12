@@ -26,3 +26,18 @@ export interface PrestadorType {
     taxaUrgencia: number
 }
 
+export interface utilizadorType {
+id : string
+nome : string
+numero_identificacao : string
+data_nascemento : Date
+email : string
+telefone : string
+pais : string
+localidade : string
+password : string
+enabled : boolean
+created_at : string
+update_at : string
+}
+
