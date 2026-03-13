@@ -37,7 +37,8 @@ export function novoUtilizador(utilizador: utilizadorMySqlType) {
             utilizador.enabled,
             utilizador.created_at,
             utilizador.update_at
-        ])
+        ]
+    )
     if (Array.isArray(user) && user.length === 0) return null
     return user
 }catch(error){
