@@ -1,5 +1,5 @@
-import { response } from "express";
-import type { responseType, Servicotype } from "./Utils/types.js";
+import type { responseType, ServicoMySqlType, Servicotype } from "./Utils/types.js";
+import db from "./lib/db.js";
 
 export let catalogoServicos: Servicotype[] = [
   {
@@ -78,3 +78,35 @@ export function obterServico(nome: string): Servicotype | null {
   }
   return null
 }
+
+// novo Serviço mysql
+export async function novoServico(servico: ServicoMySqlType) {
+  console.log({"servico Servico.ts":servico})
+  try {
+    const novoServico =   await db.execute(
+      `
+      insert into tbl_servicos
+      values(
+      ?,?,?,?,?,?,?
+      )
+      `,
+      [
+        null,
+        servico.nome,
+        servico.descricao,
+        servico.categoria,
+        servico.enabled,
+        servico.create_at,
+        servico.apdate_at
+      ]
+    )
+    console.log({"novoServico Servico.ts":novoServico})
+    return novoServico
+    
+  } catch (error) {
+    console.log({"catch Servico.ts":error})
+    return null
+  }
+  
+}
+

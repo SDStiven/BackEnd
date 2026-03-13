@@ -1,5 +1,5 @@
 import db from "./lib/db.js"
-import type { utilizadorType } from "./Utils/types.js"
+import type { utilizadorMySqlType } from "./Utils/types.js"
 
 export async function getUser() {
     const [rows] = await db.execute(`select * from tbl_utilizadores`)
@@ -16,7 +16,7 @@ export async function getUseById(id: string) {
 
 }
 
-export function novoUtilizador(utilizador: utilizadorType) {
+export function novoUtilizador(utilizador: utilizadorMySqlType) {
     console.log({"utilizador users.ts":utilizador})
     try {
     const user =  db.execute(`
@@ -41,7 +41,7 @@ export function novoUtilizador(utilizador: utilizadorType) {
     if (Array.isArray(user) && user.length === 0) return null
     return user
 }catch(error){
-    console.log({"chafgfg":error})
+    console.log({"catch users.ts":error})
     return null
 }
 }

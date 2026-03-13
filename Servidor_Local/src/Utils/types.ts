@@ -26,7 +26,7 @@ export interface PrestadorType {
     taxaUrgencia: number
 }
 
-export interface utilizadorType {
+export interface utilizadorMySqlType {
 id : string
 nome : string
 numero_identificacao : string
@@ -41,3 +41,24 @@ created_at : string
 update_at : string
 }
 
+export interface ServicoMySqlType {
+  id:string
+  nome: string;
+  descricao: string;
+  categoria: string;
+  enabled: boolean;
+  create_at: string;
+  apdate_at: string;
+}
+
+export interface PrestadorMySqlType {
+ id:string
+ nome: string;
+ profissao: string;
+ taxa_urgencia: number;
+ minimo_desconto: number;
+ nif: number;
+ persentagem_desconto: number;
+ preco_hora: number;
+ disponivel: boolean;
+}

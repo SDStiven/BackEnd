@@ -1,3 +1,6 @@
+import db from "./lib/db.js"
+import type { PrestadorMySqlType } from "./Utils/types.js"
+
 class Prestador {
     nome: string
     precoHora: number
@@ -24,7 +27,7 @@ class Prestador {
         this.taxaUrgencia = taxaUrgenciaDoPrestador
     }
 
-alterarPrecoHora(novoPrecoHora: number) {
+    alterarPrecoHora(novoPrecoHora: number) {
         this.precoHora = novoPrecoHora
     }
 
@@ -46,4 +49,46 @@ const prestador1 = new Prestador(
 )
 console.log(prestador1)
 
- 
+
+
+// novo prestador mysql
+export async function novoPrestador(prestador: PrestadorMySqlType) {
+    console.log({ "prestador Prestador.ts": prestador })
+    try {
+        const novoPrestador = await db.execute(
+            `
+          insert into tbl_prestadores 
+          values(
+            ?,?,?,?,?,?,?,?,?
+          )
+          `,
+            [
+                prestador.id,
+                prestador.nome,
+                prestador.profissao,
+                prestador.taxa_urgencia,
+                prestador.minimo_desconto,
+                prestador.nif,
+                prestador.persentagem_desconto,
+                prestador.preco_hora,
+                prestador.disponivel
+            ]
+        )
+        if (!novoPrestador) {
+            return {
+                status: "error",
+                message: "prestador não adicionado",
+                data: null
+            }
+        }
+        console.log({ "novoPrestador Prestador.ts": novoPrestador })
+
+        return novoPrestador
+
+    } catch (error) {
+        console.log({ "catch Prestador.ts": error })
+        return null
+    }
+
+}
+
