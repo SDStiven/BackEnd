@@ -1,5 +1,5 @@
 import express, { type Request, type Response } from "express";
-import { adicionarServico, apagarServico, listarServicos, novoServico, obterServico, } from "./Servico.js";
+import { adicionarServico, apagarServico, listarServicos, novoServico, obterServico, selecionarServicoById, selecionarServicos, } from "./Servico.js";
 import { apagarPrestador, apagarPrestadorFilter, calcularOrcamento, criarPrestadoresDeServico, editarPrestadorDeServico, selecionarPrestador, SelecionarServicos } from "./orcamento.js";
 import { getUseById, getUser, novoUtilizador } from "./users.js";
 import type { PrestadorMySqlType, ServicoMySqlType, utilizadorMySqlType } from "./Utils/types.js";
@@ -145,6 +145,25 @@ app.post("/novo-prestador", async (req: Request, res: Response) => {
   console.log({ " prestador index.ts": prestador })
   const novoPrestadorResponse = await novoPrestador(prestador)
   res.json(novoPrestadorResponse)
+})
+
+// SElecionar todos os servicos presentes na base de dados
+app.get("/get-servicos", async (req: Request, res: Response) => {
+  const getServicosResponse = await selecionarServicos()
+
+  res.json(getServicosResponse)
+})
+
+// SElecionar um servico pelo id mysql
+app.get("/get-servico-by-id", async (req: Request, res: Response) => {
+  // const iidd   = req.body
+  // const novo = await selecionarServicoById(iidd.id)
+  // ou este aqui
+  const{id}=req.body 
+  const novo = await selecionarServicoById(id)
+
+  res.json(novo)
+  
 })
 
 // inicia o servidor na porta 3000

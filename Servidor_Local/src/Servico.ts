@@ -86,9 +86,7 @@ export async function novoServico(servico: ServicoMySqlType) {
     const novoServico =   await db.execute(
       `
       insert into tbl_servicos
-      values(
-      ?,?,?,?,?,?,?
-      )
+      values(?,?,?,?,?,?,?)
       `,
       [
         null,
@@ -109,4 +107,38 @@ export async function novoServico(servico: ServicoMySqlType) {
   }
   
 }
+
+// selecionar todos os servicos mysql
+export async function selecionarServicos() {
+  try {
+    const servicos = await db.execute(
+      `
+      select * from tbl_servicos
+      `
+    )
+    return servicos[0]
+  } catch (error) {
+    console.log({"catch Servico.ts":error})
+    return null
+  }
+}
+ 
+// selecionar um servico pelo id mysql
+export async function selecionarServicoById(id:string
+  
+) {
+  try {
+    const servico = await db.execute(
+      `
+      select * from tbl_servicos where id = ?
+      `,
+      [id]
+    )
+    return servico[0]
+  } catch (error) {
+    console.log({"catch Servico.ts":error})
+    return null
+  }
+}
+
 

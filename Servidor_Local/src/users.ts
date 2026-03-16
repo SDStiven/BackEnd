@@ -16,6 +16,7 @@ export async function getUseById(id: string) {
 
 }
 
+// Inserir um novo utilizador mysql
 export function novoUtilizador(utilizador: utilizadorMySqlType) {
     console.log({"utilizador users.ts":utilizador})
     try {
