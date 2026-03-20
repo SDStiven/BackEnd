@@ -47,13 +47,13 @@ const prestador1 = new Prestador(
     0.1,
     0.3
 )
-console.log(prestador1)
+// console.log(prestador1)
 
 
 
 // novo prestador mysql
 export async function novoPrestador(prestador: PrestadorMySqlType) {
-    console.log({ "prestador Prestador.ts": prestador })
+    // console.log({ "prestador Prestador.ts": prestador })
     try {
         const novoPrestador = await db.execute(
             `
@@ -81,7 +81,7 @@ export async function novoPrestador(prestador: PrestadorMySqlType) {
                 data: null
             }
         }
-        console.log({ "novoPrestador Prestador.ts": novoPrestador })
+        // console.log({ "novoPrestador Prestador.ts": novoPrestador })
 
         return novoPrestador
 

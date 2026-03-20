@@ -1,5 +1,8 @@
 import db from "./lib/db.js"
+import { formatDateDDMMYYYY } from "./Utils/date.js"
+import { hashPassword } from "./Utils/password.js"
 import type { utilizadorMySqlType } from "./Utils/types.js"
+import { generateUUID } from "./Utils/uuid.js"
 
 export async function getUser() {
     const [rows] = await db.execute(`select * from tbl_utilizadores`)
@@ -17,7 +20,7 @@ export async function getUseById(id: string) {
 }
 
 // Inserir um novo utilizador mysql
-export function novoUtilizador(utilizador: utilizadorMySqlType) {
+export async function novoUtilizador(utilizador: utilizadorMySqlType) {
     console.log({"utilizador users.ts":utilizador})
     try {
     const user =  db.execute(`
@@ -25,19 +28,19 @@ export function novoUtilizador(utilizador: utilizadorMySqlType) {
         values(
         ?,?,?,?,?,?,?,?,?,?,?,?)
         `,
-        [
-            utilizador.id,
+        [ 
+            generateUUID(),
             utilizador.nome,
             utilizador.numero_identificacao,
-            utilizador.data_nascemento,
+            formatDateDDMMYYYY(utilizador.data_nascemento),
             utilizador.email,
             utilizador.telefone,
             utilizador.pais,
             utilizador.localidade,
-            utilizador.password,
+            await hashPassword(utilizador.password),
             utilizador.enabled,
-            utilizador.created_at,
-            utilizador.update_at
+            new Date(),
+            new Date()
         ]
     )
     if (Array.isArray(user) && user.length === 0) return null
@@ -46,4 +49,11 @@ export function novoUtilizador(utilizador: utilizadorMySqlType) {
     console.log({"catch users.ts":error})
     return null
 }
+}
+
+export async function deleteUser(id: string) {
+    const [rows] = await db.execute(`DELETE FROM tbl_utilizadores WHERE tbl_utilizadores.id = ?`,
+        [id]
+    )
+   return rows
 }

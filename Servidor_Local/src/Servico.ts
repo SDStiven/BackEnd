@@ -107,7 +107,7 @@ export async function novoServico(servico: ServicoMySqlType) {
   }
   
 }
-
+ 
 // selecionar todos os servicos mysql
 export async function selecionarServicos() {
   try {

@@ -3,7 +3,7 @@ export interface PedidoServicoType {
   descricao: string;
   horasEstimadas: number;
   urgente: boolean;
-}
+} 
 export interface Servicotype {
   nome: string;
   precoHora: number;
@@ -30,7 +30,7 @@ export interface utilizadorMySqlType {
 id : string
 nome : string
 numero_identificacao : string
-data_nascemento : Date
+data_nascemento : string
 email : string
 telefone : string
 pais : string
