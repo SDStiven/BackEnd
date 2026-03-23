@@ -5,5 +5,5 @@ const db =mysql.createPool({
     password:'Servidor-Local',
     database:'Servidor_local'
 })
-
+ 
 export default db

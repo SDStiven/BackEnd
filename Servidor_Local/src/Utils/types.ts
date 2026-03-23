@@ -25,7 +25,7 @@ export interface PrestadorType {
     percentagemDesconto: number,
     taxaUrgencia: number
 }
-
+ 
 export interface utilizadorMySqlType {
 id : string
 nome : string
@@ -61,4 +61,6 @@ export interface PrestadorMySqlType {
  persentagem_desconto: number;
  preco_hora: number;
  disponivel: boolean;
+ create_at: string;
+ apdate_at: string;
 }

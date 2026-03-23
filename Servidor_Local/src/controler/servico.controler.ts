@@ -3,7 +3,7 @@ import type { Request, Response } from "express"
 import { servicoModel } from "../models/serveco.modesl.js"
 import type { ServicoMySqlType } from "../Utils/types.js"
 
-
+ 
 export const servicoComtroler = {
     // create servico
     async createServico(req: Request, res: Response) {
