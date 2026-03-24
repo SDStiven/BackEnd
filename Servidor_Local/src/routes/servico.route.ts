@@ -9,7 +9,7 @@ const ServicoRoute ={
     update:"/update/:id",
     delete:"/delete/:id"
 }
-
+ 
 const router = Router()
 router.get (ServicoRoute.getAll, servicoComtroler.getAll)
 router.get (ServicoRoute.getById, servicoComtroler.get)

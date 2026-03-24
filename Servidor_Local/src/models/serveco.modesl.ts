@@ -1,22 +1,22 @@
 import db from "../lib/db.js";
 import type { ServicoMySqlType } from "../Utils/types.js";
-
+ 
 // Funções do modelo de servico
 export const servicoModel = {
     // create servico
     async create(newServico: ServicoMySqlType) {
         try {
-            const novoServico = `insert into tbl_servicos values(?,?,?,?,?,?,?)`
+            const query = `insert into tbl_servicos values(?,?,?,?,?,?,?)`
             const values = [
                 null,
                 newServico.nome,
                 newServico.descricao,
                 newServico.categoria,
                 newServico.enabled,
-                newServico.create_at,
-                newServico.apdate_at
+                new Date(),
+                new Date()
             ]
-            const rows = await db.execute(novoServico, values)
+            const rows = await db.execute(query, values)
             return rows
         } catch (error) {
             console.log({ "catch Servico.ts": error })
@@ -66,7 +66,7 @@ export const servicoModel = {
                 ServicoAtualizado.descricao,
                 ServicoAtualizado.categoria,
                 ServicoAtualizado.enabled,
-                ServicoAtualizado.apdate_at,
+                new Date(),
                 id
             ]
             const rows = await db.execute(updateServico, values)

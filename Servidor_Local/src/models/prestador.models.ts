@@ -77,7 +77,7 @@ export const prestadorModel = {
                 apdatePrestador.persentagem_desconto,
                 apdatePrestador.preco_hora,
                 apdatePrestador.disponivel,
-                apdatePrestador.apdate_at,
+                new Date(),
                 id
             ]
             const rows = await db.execute(updatePrestador, values)

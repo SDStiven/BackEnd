@@ -3,18 +3,21 @@
 import { Router } from "express";
 import { prestadorControler } from "../controler/prestador.controler.js";
 
-const servicoRoutes = {
+
+const prestadorRoutes = {
     create:'/create',
     getAll: '/',
-    get: '/:id',
-    update: '/:id',
-    delete: '/:id'
+    getById: 'getById/:id',
+    update: 'update/:id',
+    delete: 'delete/:id'
 }
 
-export const prestadorRoutes = Router()
+const router = Router()
 
-prestadorRoutes.post(servicoRoutes.create, prestadorControler.create)
-prestadorRoutes.get(servicoRoutes.getAll, prestadorControler.getAll)
-prestadorRoutes.get(servicoRoutes.get, prestadorControler.get)
-prestadorRoutes.put(servicoRoutes.update, prestadorControler.update)
-prestadorRoutes.delete(servicoRoutes.delete, prestadorControler.delete)
+router.post(prestadorRoutes.create, prestadorControler.create)
+router.get(prestadorRoutes.getAll, prestadorControler.getAll)
+router.get(prestadorRoutes.getById, prestadorControler.get)
+router.put(prestadorRoutes.update, prestadorControler.update)
+router.delete(prestadorRoutes.delete, prestadorControler.delete)
+
+export { router } 

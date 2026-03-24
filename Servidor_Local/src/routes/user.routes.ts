@@ -18,4 +18,4 @@ router.post(UserRoute.create,userControler.create)
 router.put(UserRoute.update,userControler.update)
 router.delete(UserRoute.delete,userControler.delete)
 
-export { router } 
+export { router }  

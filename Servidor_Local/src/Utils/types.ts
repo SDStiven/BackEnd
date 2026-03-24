@@ -64,3 +64,38 @@ export interface PrestadorMySqlType {
  create_at: string;
  apdate_at: string;
 }
+
+export interface PropostaMySqlType {
+    id: string
+    id_prestacao: string
+    preco_hora: number
+    preco_estimado: number
+    estado: string
+    anable: boolean
+    create_at: string
+    apdate_at: string
+}
+
+export interface OrcamentoMySqlType {
+    id: string
+    total: number
+    id_utilizador: string
+    enable: boolean
+    create_at: string
+    apdate_at: string
+}
+
+export interface Prestacao_servicoType {
+id: string 
+disignacao: string 
+subtotal: number 
+haras_estimadas: number 
+id_prestador: string 
+id_servico: string 
+preco_hora: number 
+estado: string 
+id_orcamento: string 
+enabled: boolean 
+created_at: string 
+updated_at: string
+}
