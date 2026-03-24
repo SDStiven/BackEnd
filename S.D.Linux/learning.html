@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="./css/images.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
 </head>
 
 <body class="">
@@ -30,61 +31,290 @@
             </li>
         </ul>
     </div>
-    <section class=" d-flex m-3 ">
-        <div class="row g-3">
-            <div class="col-sm-6 mb-3 mb-sm-0">
-                <div class="card">
+
+
+    <div class="container my-5 pb-5">
+        <h2 class="text-center mb-4">Módulos de Aprendizagem</h2>
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            <!-- Card 1 -->
+            <div class="col">
+                <div class="card h-100 shadow-sm">
+                    <img src="./img/ubuntu.webp" class="card-img-top" alt="Ubuntu"
+                        style="object-fit: contain; height: 150px; padding: 10px;">
                     <div class="card-body">
-                        <h5 class="card-title">Special title treatment</h5>
-                        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                        <a href="#" class="btn color-gradial">Go somewhere</a>
+                        <h5 class="card-title">Introdução ao Linux</h5>
+                        <button class="btn btn-primary" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseCard1" aria-expanded="false" aria-controls="collapseCard1">
+                            Ver detalhes
+                        </button>
+                        <div class="collapse mt-3" id="collapseCard1">
+                            <div class="card card-body">
+                                Aprenda os conceitos básicos do sistema operativo Linux, sua história, e porque ele é a
+                                principal escolha para servidores e desenvolvimento em todo o mundo.
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="col-sm-6">
-                <div class="card">
+
+            <!-- Card 2 -->
+            <div class="col">
+                <div class="card h-100 shadow-sm">
+                    <img src="./img/log_S_D_Linux.png" class="card-img-top" alt="S.D. Linux"
+                        style="object-fit: contain; height: 150px; padding: 10px;">
                     <div class="card-body">
-                        <h5 class="card-title">Special title treatment</h5>
-                        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                        <a href="#" class="btn color-gradial">Go somewhere</a>
+                        <h5 class="card-title">Comandos Básicos</h5>
+                        <button class="btn btn-primary" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseCard2" aria-expanded="false" aria-controls="collapseCard2">
+                            Ver detalhes
+                        </button>
+                        <div class="collapse mt-3" id="collapseCard2">
+                            <div class="card card-body">
+                                Domine o terminal Linux. Aprenda comandos essenciais como ls, cd, cp, mv, rm, e como
+                                navegar pelo sistema de ficheiros com confiança.
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-             <div class="col-sm-6 mb-3 mb-sm-0">
-                <div class="card">
+
+            <!-- Card 3 -->
+            <div class="col">
+                <div class="card h-100 shadow-sm">
+                    <img src="./img/ubuntu.webp" class="card-img-top" alt="Ubuntu"
+                        style="object-fit: contain; height: 150px; padding: 10px;">
                     <div class="card-body">
-                        <h5 class="card-title">Special title treatment</h5>
-                        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                        <a href="#" class="btn color-gradial">Go somewhere</a>
+                        <h5 class="card-title">Gestão de Permissões</h5>
+                        <button class="btn btn-primary" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseCard3" aria-expanded="false" aria-controls="collapseCard3">
+                            Ver detalhes
+                        </button>
+                        <div class="collapse mt-3" id="collapseCard3">
+                            <div class="card card-body">
+                                Entenda como funcionam os utilizadores e grupos no Linux. Aprenda a utilizar chmod,
+                                chown e gerir acessos a ficheiros de forma segura.
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="col-sm-6">
-                <div class="card">
+
+            <!-- Card 4 -->
+            <div class="col">
+                <div class="card h-100 shadow-sm">
+                    <img src="./img/log_S_D_Linux.png" class="card-img-top" alt="S.D. Linux"
+                        style="object-fit: contain; height: 150px; padding: 10px;">
                     <div class="card-body">
-                        <h5 class="card-title">Special title treatment</h5>
-                        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                        <a href="#" class="btn color-gradial">Go somewhere</a>
+                        <h5 class="card-title">Gestão de Pacotes</h5>
+                        <button class="btn btn-primary" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseCard4" aria-expanded="false" aria-controls="collapseCard4">
+                            Ver detalhes
+                        </button>
+                        <div class="collapse mt-3" id="collapseCard4">
+                            <div class="card card-body">
+                                Como instalar, atualizar e remover software no Linux. Aprenda a usar gerenciadores como
+                                apt, yum ou o gerenciador de pacotes da sua distribuição.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 5 -->
+            <div class="col">
+                <div class="card h-100 shadow-sm">
+                    <img src="./img/ubuntu.webp" class="card-img-top" alt="Ubuntu"
+                        style="object-fit: contain; height: 150px; padding: 10px;">
+                    <div class="card-body">
+                        <h5 class="card-title">Scripts em Bash</h5>
+                        <button class="btn btn-primary" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseCard5" aria-expanded="false" aria-controls="collapseCard5">
+                            Ver detalhes
+                        </button>
+                        <div class="collapse mt-3" id="collapseCard5">
+                            <div class="card card-body">
+                                Automatize tarefas rotineiras criando os seus próprios scripts. Entenda variáveis,
+                                loops, condicionais e muito mais no Bash.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Card 6 -->
+            <div class="col">
+                <div class="card h-100 shadow-sm">
+                    <img src="./img/log_S_D_Linux.png" class="card-img-top" alt="Ubuntu"
+                        style="object-fit: contain; height: 150px; padding: 10px;">
+                    <div class="card-body">
+                        <h5 class="card-title">Onde usar o Linux</h5>
+                        <button class="btn btn-primary" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseCard5" aria-expanded="false" aria-controls="collapseCard5">
+                            Ver detalhes
+                        </button>
+                        <div class="collapse mt-3" id="collapseCard5">
+                            <div class="card card-body">
+                                Automatize tarefas rotineiras criando os seus próprios scripts. Entenda variáveis,
+                                loops, condicionais e muito mais no Bash.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Card 1 -->
+            <div class="col">
+                <div class="card h-100 shadow-sm">
+                    <img src="./img/ubuntu.webp" class="card-img-top" alt="Ubuntu"
+                        style="object-fit: contain; height: 150px; padding: 10px;">
+                    <div class="card-body">
+                        <h5 class="card-title">Introdução ao Linux</h5>
+                        <button class="btn btn-primary" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseCard1" aria-expanded="false" aria-controls="collapseCard1">
+                            Ver detalhes
+                        </button>
+                        <div class="collapse mt-3" id="collapseCard1">
+                            <div class="card card-body">
+                                Aprenda os conceitos básicos do sistema operativo Linux, sua história, e porque ele é a
+                                principal escolha para servidores e desenvolvimento em todo o mundo.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="col">
+                <div class="card h-100 shadow-sm">
+                    <img src="./img/log_S_D_Linux.png" class="card-img-top" alt="S.D. Linux"
+                        style="object-fit: contain; height: 150px; padding: 10px;">
+                    <div class="card-body">
+                        <h5 class="card-title">Comandos Básicos</h5>
+                        <button class="btn btn-primary" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseCard2" aria-expanded="false" aria-controls="collapseCard2">
+                            Ver detalhes
+                        </button>
+                        <div class="collapse mt-3" id="collapseCard2">
+                            <div class="card card-body">
+                                Domine o terminal Linux. Aprenda comandos essenciais como ls, cd, cp, mv, rm, e como
+                                navegar pelo sistema de ficheiros com confiança.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="col">
+                <div class="card h-100 shadow-sm">
+                    <img src="./img/ubuntu.webp" class="card-img-top" alt="Ubuntu"
+                        style="object-fit: contain; height: 150px; padding: 10px;">
+                    <div class="card-body">
+                        <h5 class="card-title">Gestão de Permissões</h5>
+                        <button class="btn btn-primary" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseCard3" aria-expanded="false" aria-controls="collapseCard3">
+                            Ver detalhes
+                        </button>
+                        <div class="collapse mt-3" id="collapseCard3">
+                            <div class="card card-body">
+                                Entenda como funcionam os utilizadores e grupos no Linux. Aprenda a utilizar chmod,
+                                chown e gerir acessos a ficheiros de forma segura.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 4 -->
+            <div class="col">
+                <div class="card h-100 shadow-sm">
+                    <img src="./img/log_S_D_Linux.png" class="card-img-top" alt="S.D. Linux"
+                        style="object-fit: contain; height: 150px; padding: 10px;">
+                    <div class="card-body">
+                        <h5 class="card-title">Gestão de Pacotes</h5>
+                        <button class="btn btn-primary" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseCard4" aria-expanded="false" aria-controls="collapseCard4">
+                            Ver detalhes
+                        </button>
+                        <div class="collapse mt-3" id="collapseCard4">
+                            <div class="card card-body">
+                                Como instalar, atualizar e remover software no Linux. Aprenda a usar gerenciadores como
+                                apt, yum ou o gerenciador de pacotes da sua distribuição.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 5 -->
+            <div class="col">
+                <div class="card h-100 shadow-sm">
+                    <img src="./img/ubuntu.webp" class="card-img-top" alt="Ubuntu"
+                        style="object-fit: contain; height: 150px; padding: 10px;">
+                    <div class="card-body">
+                        <h5 class="card-title">Scripts em Bash</h5>
+                        <button class="btn btn-primary" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseCard5" aria-expanded="false" aria-controls="collapseCard5">
+                            Ver detalhes
+                        </button>
+                        <div class="collapse mt-3" id="collapseCard5">
+                            <div class="card card-body">
+                                Automatize tarefas rotineiras criando os seus próprios scripts. Entenda variáveis,
+                                loops, condicionais e muito mais no Bash.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Card 6 -->
+            <div class="col">
+                <div class="card h-100 shadow-sm">
+                    <img src="./img/log_S_D_Linux.png" class="card-img-top" alt="Ubuntu"
+                        style="object-fit: contain; height: 150px; padding: 10px;">
+                    <div class="card-body">
+                        <h5 class="card-title">Onde usar o Linux</h5>
+                        <button class="btn btn-primary" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseCard5" aria-expanded="false" aria-controls="collapseCard5">
+                            Ver detalhes
+                        </button>
+                        <div class="collapse mt-3" id="collapseCard5">
+                            <div class="card card-body">
+                                Automatize tarefas rotineiras criando os seus próprios scripts. Entenda variáveis,
+                                loops, condicionais e muito mais no Bash.
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+        <section>
+            <div class="footer-social d-flex gap-3 mt-4">
+                <a href="https://github.com/seuusuario" class="social-icon"><i class="bi bi-github"></i></a>
+                <a href="https://linkedin.com/in/seuusuario" class="social-icon"><i class="bi bi-linkedin"></i></a>
+                <a href="https://twitter.com/seuusuario" class="social-icon"><i class="bi bi-twitter"></i></a>
+                <a href="https://facebook.com/seuusuario" class="social-icon"><i class="bi bi-facebook"></i></a>
+            </div>
+        </section>
+    </div>
+    <section>
+        <img src="./img/log_S_D_Linux.png" class="log" alt="">
     </section>
+    <footer class="bg-dark text-white text-center p-3 fixed-bottom">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous">
+            </script>
+        <div>
+            <p>
+                © 2026 S.D.Linux | <a href="Contacto.html" class="text-white">Contato</a>
+            </p>
+            <img src="./img/log_S_D_Linux.png" class="log" alt="">
+            <div class="footer-social d-flex gap-3 mt-4">
+                <a href="https://github.com/seuusuario" class="social-icon"><i class="bi bi-github"></i></a>
+                <a href="https://linkedin.com/in/seuusuario" class="social-icon"><i class="bi bi-linkedin"></i></a>
+                <a href="https://twitter.com/seuusuario" class="social-icon"><i class="bi bi-twitter"></i></a>
+                <a href="https://facebook.com/seuusuario" class="social-icon"><i class="bi bi-facebook"></i></a>
+            </div>
 
-
-
-
-   
-<footer class="bg-dark text-white text-center p-3 fixed-bottom">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous">
-        </script>
-
-    <img src="./img/log_S_D_Linux.png" class="log" alt="">
-    <p>
-        © 2026 S.D.Linux | <a href="Contacto.html" class="text-white">Contato</a>
-    </p>
-</footer>
+        </div>
+    </footer>
 </body>
 
 </html>
