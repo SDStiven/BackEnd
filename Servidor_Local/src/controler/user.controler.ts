@@ -9,104 +9,149 @@ import type { Request, Response } from "express"
 export const userControler = {
     // create user
     async create(req: Request, res: Response) {
-        const newuser:utilizadorMySqlType = req.body
-        if (!newuser) {
-            return res.status(400).json({
-                status: "error",
-                message: "Dados do servico inválidos",
-                data: null
+        try {
+            const newuser:utilizadorMySqlType = req.body
+            if (!newuser) {
+                return res.status(400).json({
+                    status: "error",
+                    message: "Dados do servico inválidos",
+                    data: null
+                })
+            }
+
+            const CreiteServicoRsesponse = await userModel.create(newuser)
+
+            if (CreiteServicoRsesponse === null) {
+                return res.status(500).json({
+                    status: "error",
+                    message: "Erro ao criar servico",
+                    data: null
+                })
+            }
+            return res.status(200).json({
+                status: "success",
+                message: "Servico criado com sucesso",
+                data: CreiteServicoRsesponse
             })
-        }
-
-        const CreiteServicoRsesponse = await userModel.create(newuser)
-
-        if (CreiteServicoRsesponse === null) {
+        } catch (error) {
+            console.error(error)
             return res.status(500).json({
                 status: "error",
-                message: "Erro ao criar servico",
+                message: "Erro interno do servidor",
                 data: null
             })
         }
-        return res.status(200).json({
-            status: "success",
-            message: "Servico criado com sucesso",
-            data: CreiteServicoRsesponse
-        })
     },
     // get all users
     async getAll(req: Request, res: Response) {
-        const users = await userModel.getAll()
-        if (users === null) {
+        try {
+            const users = await userModel.getAll()
+            if (users === null) {
+                return res.status(500).json({
+                    status: "error",
+                    message: "Erro ao buscar usuarios",
+                    data: null
+                })
+            }
+            return res.status(200).json({
+                status: "success",
+                message: "Usuarios buscados com sucesso",
+                data: users
+            })
+        } catch (error) {
+            console.error(error)
             return res.status(500).json({
                 status: "error",
-                message: "Erro ao buscar usuarios",
+                message: "Erro interno do servidor",
                 data: null
             })
         }
-        return res.status(200).json({
-            status: "success",
-            message: "Usuarios buscados com sucesso",
-            data: users
-        })
     },
     // get one user by id
     async get(req: Request, res: Response) {
-        const { id } = req.params
-        const user = await userModel.get(id as string)
-        if (user === null) {
+        try {
+            const { id } = req.params
+            const user = await userModel.get(id as string)
+            if (user === null) {
+                return res.status(500).json({
+                    status: "error",
+                    message: "Erro ao buscar usuario",
+                    data: null
+                })
+            }
+            return res.status(200).json({
+                status: "success",
+                message: "Usuario buscado com sucesso",
+                data: user
+            })
+        } catch (error) {
+            console.error(error)
             return res.status(500).json({
                 status: "error",
-                message: "Erro ao buscar usuario",
+                message: "Erro interno do servidor",
                 data: null
             })
         }
-        return res.status(200).json({
-            status: "success",
-            message: "Usuario buscado com sucesso",
-            data: user
-        })
     },
     // update user
     async update(req: Request, res: Response) {
-        const { id } = req.params
-        const user:utilizadorMySqlType = req.body
-        if (!user) {
-            return res.status(400).json({
-                status: "error",
-                message: "Dados do servico inválidos",
-                data: null
+        try {
+            const { id } = req.params
+            const user:utilizadorMySqlType = req.body
+            if (!user) {
+                return res.status(400).json({
+                    status: "error",
+                    message: "Dados do servico inválidos",
+                    data: null
+                })
+            }
+            const updateServicoRsesponse = await userModel.update(id as string, user)
+            if (updateServicoRsesponse === null) {
+                return res.status(500).json({
+                    status: "error",
+                    message: "Erro ao atualizar servico",
+                    data: null
+                })
+            }
+            return res.status(200).json({
+                status: "success",
+                message: "Servico atualizado com sucesso",
+                data: updateServicoRsesponse
             })
-        }
-        const updateServicoRsesponse = await userModel.update(id as string, user)
-        if (updateServicoRsesponse === null) {
+        } catch (error) {
+            console.error(error)
             return res.status(500).json({
                 status: "error",
-                message: "Erro ao atualizar servico",
+                message: "Erro interno do servidor",
                 data: null
             })
         }
-        return res.status(200).json({
-            status: "success",
-            message: "Servico atualizado com sucesso",
-            data: updateServicoRsesponse
-        })
     },
     // delete user
     async delete(req: Request, res: Response) {
-        const { id } = req.params
-        const deleteServicoRsesponse = await userModel.delete(id as string)
-        if (deleteServicoRsesponse === null) {
+        try {
+            const { id } = req.params
+            const deleteServicoRsesponse = await userModel.delete(id as string)
+            if (deleteServicoRsesponse === null) {
+                return res.status(500).json({
+                    status: "error",
+                    message: "Erro ao deletar servico",
+                    data: null
+                })
+            }
+            return res.status(200).json({
+                status: "success",
+                message: "Servico deletado com sucesso",
+                data: deleteServicoRsesponse
+            })
+        } catch (error) {
+            console.error(error)
             return res.status(500).json({
                 status: "error",
-                message: "Erro ao deletar servico",
+                message: "Erro interno do servidor",
                 data: null
             })
         }
-        return res.status(200).json({
-            status: "success",
-            message: "Servico deletado com sucesso",
-            data: deleteServicoRsesponse
-        })
     }
 
 

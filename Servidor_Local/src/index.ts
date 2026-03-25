@@ -11,7 +11,7 @@ import { router as prestacao_servicoRouter} from "./routes/prestacao_servico.rou
 const app = express(); // cria a aplicação
 app.use(express.json()); // para interpretar o corpo das requisições como JSON
 
-app.use("/service", servicoRouter)
+app.use("/servico", servicoRouter)
 app.use("/proposta", propostaRouter)
 app.use("/orcamento", orcamentoRouter )
 app.use("/user", utilizadorRouter)
