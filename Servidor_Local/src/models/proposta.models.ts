@@ -1,5 +1,6 @@
 import db from "../lib/db.js"
 import type { PropostaMySqlType } from "../Utils/types.js"
+import { generateUUID } from "../Utils/uuid.js"
 
 
 export const propostaModel = {
@@ -8,7 +9,7 @@ export const propostaModel = {
         try {
             const query = `insert into tbl_propostas values(?,?,?,?,?,?,?,?,?,?,?,?)`
             const values = [
-                null,
+                generateUUID(),
                 newProposta.id_prestacao,
                 newProposta.preco_hora,
                 newProposta.preco_estimado,

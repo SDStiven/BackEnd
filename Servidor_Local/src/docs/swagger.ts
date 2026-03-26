@@ -8,18 +8,18 @@ const options: swaggerJsdoc.Options = {
             title: "API Servidor Local",
             description: "Plataforma de gestião de prestadores e servicios",
             version: "1.0.0",
-        }
-    },
-    servers: [
-        {
-            url: "http://localhost:8080",
-            description: "dev"
         },
-        {
-            url: "https://localhost:3000",
-            description: "production"
-        }
-    ],
+        servers: [
+            {
+                url: "http://localhost:8080",
+                description: "dev"
+            },
+            {
+                url: "https://localhost:3000",
+                description: "production"
+            }
+        ]
+    },
     apis: [
         path.join(process.cwd(), "./src/docs/schemas/*.yaml"),
         path.join(process.cwd(), "./src/docs/paths/*.yaml")

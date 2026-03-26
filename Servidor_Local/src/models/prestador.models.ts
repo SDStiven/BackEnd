@@ -1,14 +1,15 @@
 import db from "../lib/db.js"
 import type { PrestadorMySqlType } from "../Utils/types.js"
+import { generateUUID } from "../Utils/uuid.js"
 
-
+ 
 export const prestadorModel = {
     // create prestador
     async create(Prestador: PrestadorMySqlType) {
         try {
             const newPrestador = `insert into tbl_prestador values(?,?,?,?,?,?,?,?,?,?,?)`
             const values = [
-                null, 
+                generateUUID(), 
                 Prestador.nome,
                 Prestador.profissao,
                 Prestador.taxa_urgencia,

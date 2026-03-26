@@ -8,10 +8,11 @@
 #   create_at: string;
 #   apdate_at: string;
 # }
-
+ 
 components:
-#  schemas principal de servico
-  shemas:
+  #  schemas principal de servico
+  schemas:
+    # shemas principal de servico para listar todos os servicos
     servico:
       type: object
       properties:
@@ -36,20 +37,51 @@ components:
         apdate_at:
           type: string
           example: '2022-01-01 00:00:00'
-        # shemas de resposta de erro
-        RespostaError:
+    # schemas para criar servico
+    createServico:
+      type: object 
+      properties:
+        nome:
+          type: string
+          example: 'Servico de Limpesa'
+        descricao:
+          type: string
+          example: 'Servico de limpesa praficional para residencia'
+        categoria:
+          type: string
+          example: Limpeza
+        enabled:
+          type: string
+          example: true
+    # schemas generico para susseso
+    responseSucesso:
+      type: object
+      properties:
+        message:
+          type: string
+          example: servico criado com sucesso
+        status:
+          type: boolean
+          example: true
+        data:
           type: object
           properties:
-            message:
-              type: string
-              example: error ao buscar servico   
-            status:
-              type: boolean
-              example: false
-            data:
-              type: object
-              properties:
-                null 
+            null 
+      
+    # shemas de resposta de erro
+    RespostaError:
+      type: object
+      properties:
+        message:
+          type: string
+          example: error ao buscar servico   
+        status:
+          type: boolean
+          example: false
+        data:
+          type: object
+          properties:
+            null 
                
         
          

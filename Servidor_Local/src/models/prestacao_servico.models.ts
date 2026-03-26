@@ -1,5 +1,6 @@
 import db from "../lib/db.js"
 import type { Prestacao_servicoType } from "../Utils/types.js"
+import { generateUUID } from "../Utils/uuid.js"
 
 
 export const prestacao_servicoModel = { 
@@ -8,7 +9,7 @@ export const prestacao_servicoModel = {
         try {
             const query = `insert into tbl_prestacao_servico values(?,?,?,?,?,?,?,?,?,?,?,?)`
             const values = [
-                null,
+                generateUUID(),
                 novo.disignacao,
                 novo.subtotal,
                 novo.haras_estimadas,
@@ -20,7 +21,6 @@ export const prestacao_servicoModel = {
                 novo.enabled,
                 new Date(),
                 new Date(),
-                novo.preco_hora,
             ]
             const rows = await db.execute(query, values)
             return rows

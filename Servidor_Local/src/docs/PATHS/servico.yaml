@@ -9,37 +9,131 @@
 #     delete:"/delete/:id"
 # }
 
-
 paths: 
- /servico:
-  get:
-   sumary: Listar todos os Servicos
-   descricao: Retorna uma lista de todos os servicos cadastrados
-   respostas:
-    '200':
-    Descriptions: listar todos os servicos
-    content:  
-     application/json:
-      schema:
-       type: array
-       items:
-        $ref: '#/components/shemas/servico'
-    '404':
-     Descriptions: Nenhun servico encontrado
-     content:
-      application/json:
-       schema:
-        type: object
-        $ref: '#/components/shemas/RespostaError'
-  /servico/create:
-   post:
-    sumary: Criar um novo servico
-    descricao: Cria um novo servico
-    respostasBody:
-     requied: true
-     content:  
-      application/json:
-       schema:
-        type: object
-          
-     
+    # listar todos os servicos
+    /servico:
+        get:
+            sumary: Listar todos os Servicos
+            descricao: Retorna uma lista de todos os servicos cadastrados
+            respostas:
+                '200':
+                    Descriptions: listar todos os servicos
+                    content:  
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: '#/components/schemas/servico'
+                '404':
+                    Descriptions: Nenhun servico encontrado
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                $ref: '#/components/schemas/RespostaError'
+    # criar um novo servico
+    /servico/create:
+        post:
+            sumary: Criar um novo servico
+            descricao: Cria um novo servico
+            respostasBody:
+                requied: true
+                content:  
+                    application/json:
+                        schema:
+                            type: object
+            respostas:
+                '200':
+                    $ref: '#/components/shemas/responseSucesso'
+                '400':
+                    $ref: '#/components/shemas/RespostaError'   
+    # buscar um servico por id
+    /servico/getById/{id}:
+        get:
+            sumary: Buscar um servico por id
+            descricao: Busca um servico por id
+            respostasBody:
+                requied: true
+                content:  
+                    application/json:
+                        schema:
+                            type: object
+            respostas:
+                '200':
+                    $ref: '#/components/shemas/responseSucesso'
+                '400':
+                    $ref: '#/components/shemas/RespostaError'   
+    # atualizar um servico por id
+    /servico/update/{id}:
+        put:
+            sumary: Atualizar um servico
+            descricao: Atualiza um servico especifico por id
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  description: id do servico a ser atualizado
+                  schema:
+                    type: string
+                    example: 1
+            respostasBody:
+                requied: true
+                content:  
+                    application/json:
+                        shema:
+                            type: objeto
+                            $ref: '#/components/shemas/createServico'
+            respostas:
+                '200':
+                    descricao: servico atualizado com sucesso
+                    content: #conteudo da resposta
+                        application/json:
+                            schema:
+                                type: object
+                                $ref: '#/components/shemas/responseSucesso'
+                '400':
+                    descricao: dados invalidos
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                $ref: '#/components/shemas/RespostaError'   
+                404:
+                    descricao: servico nao encontrado
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                $ref: '#/components/shemas/RespostaError'  
+    # deletar servico por id
+    /servico/delete/{id}:
+        delete:
+            sumary: Deletar um Servico
+            Description: Deletar um servico especifico por id
+            parameters: 
+                -nome: id
+                in: path
+                requied: true
+                description: id do sevico a ser deletado
+                shcema: 
+                    type: inter
+                    example: 1
+            responses:
+                '200': 
+                description: 'servco deleado com sucesso'
+                content:
+                    appliction/json: 
+                        schema:
+                            type: object
+                            $ref: '#/components/shemas/responseSucesso'
+                '404':
+                    descricao: servico nao encontrado
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                $ref: '#/components/shemas/RespostaError'   
+
+
+
+                                

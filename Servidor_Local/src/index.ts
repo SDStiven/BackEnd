@@ -6,6 +6,8 @@ import { router as orcamentoRouter} from "./routes/orcamento.routes.js";
 import { router as utilizadorRouter} from "./routes/user.routes.js"; 
 import { router as prestadorRouter} from "./routes/prestador.ruotes.js";
 import { router as prestacao_servicoRouter} from "./routes/prestacao_servico.routes.js";
+import{swaggerSpec} from "./docs/swagger.js"
+import swaggerUi from "swagger-ui-express"
 
 
 const app = express(); // cria a aplicação
@@ -18,11 +20,13 @@ app.use("/user", utilizadorRouter)
 app.use("/prestador", prestadorRouter)
 app.use("/prestacao_servico", prestacao_servicoRouter)
 
+app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec))
+
 // rota inicial
 app.get("/", (req, res) => {
   res.send("Hello World!");
 });
-
+ 
 // inicia o servidor na porta 3000
 app.listen(8080, () => {
   console.log("Servidor rodando em http://localhost:8080");
