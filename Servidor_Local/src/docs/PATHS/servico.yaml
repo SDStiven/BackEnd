@@ -44,9 +44,9 @@ paths:
                             type: object
             respostas:
                 '200':
-                    $ref: '#/components/shemas/responseSucesso'
+                    $ref: '#/components/schemas/responseSucesso'
                 '400':
-                    $ref: '#/components/shemas/RespostaError'   
+                    $ref: '#/components/schemas/RespostaError'   
     # buscar um servico por id
     /servico/getById/{id}:
         get:
@@ -60,9 +60,9 @@ paths:
                             type: object
             respostas:
                 '200':
-                    $ref: '#/components/shemas/responseSucesso'
+                    $ref: '#/components/schemas/responseSucesso'
                 '400':
-                    $ref: '#/components/shemas/RespostaError'   
+                    $ref: '#/components/schemas/RespostaError'   
     # atualizar um servico por id
     /servico/update/{id}:
         put:
@@ -82,7 +82,7 @@ paths:
                     application/json:
                         shema:
                             type: objeto
-                            $ref: '#/components/shemas/createServico'
+                            $ref: '#/components/schemas/createServico'
             respostas:
                 '200':
                     descricao: servico atualizado com sucesso
@@ -90,21 +90,21 @@ paths:
                         application/json:
                             schema:
                                 type: object
-                                $ref: '#/components/shemas/responseSucesso'
+                                $ref: '#/components/schemas/responseSucesso'
                 '400':
                     descricao: dados invalidos
                     content:
                         application/json:
                             schema:
                                 type: object
-                                $ref: '#/components/shemas/RespostaError'   
+                                $ref: '#/components/schemas/RespostaError'   
                 404:
                     descricao: servico nao encontrado
                     content:
                         application/json:
                             schema:
                                 type: object
-                                $ref: '#/components/shemas/RespostaError'  
+                                $ref: '#/components/schemas/RespostaError'  
     # deletar servico por id
     /servico/delete/{id}:
         delete:
@@ -125,14 +125,14 @@ paths:
                     appliction/json: 
                         schema:
                             type: object
-                            $ref: '#/components/shemas/responseSucesso'
+                            $ref: '#/components/schemas/responseSucesso'
                 '404':
                     descricao: servico nao encontrado
                     content:
                         application/json:
                             schema:
                                 type: object
-                                $ref: '#/components/shemas/RespostaError'   
+                                $ref: '#/components/schemas/RespostaError'   
 
 
 
