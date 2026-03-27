@@ -10,6 +10,7 @@ import { generateUUID } from "../Utils/uuid.js"
 export const userModel = {
     // create user
     async create(user: utilizadorMySqlType) {
+         console.log(user)
         try {
             const query = `insert into tbl_utilizadores values(?,?,?,?,?,?,?,?,?,?,?,?)`
             const values = [
@@ -33,6 +34,7 @@ export const userModel = {
             console.log(error)
             return null
         }
+       
     },
 
     // get all users

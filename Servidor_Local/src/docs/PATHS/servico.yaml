@@ -1,6 +1,6 @@
 
 # paths/servico.yaml
-
+ 
 # const ServicoRoute ={
 #     create:"/create",
 #     getById:"/getById/:id",
@@ -13,11 +13,11 @@ paths:
     # listar todos os servicos
     /servico:
         get:
-            sumary: Listar todos os Servicos
-            descricao: Retorna uma lista de todos os servicos cadastrados
-            respostas:
+            summary: Listar todos os Servicos
+            description: Retorna uma lista de todos os servicos cadastrados
+            responses:
                 '200':
-                    Descriptions: listar todos os servicos
+                    description: listar todos os servicos
                     content:  
                         application/json:
                             schema:
@@ -25,7 +25,7 @@ paths:
                                 items:
                                     $ref: '#/components/schemas/servico'
                 '404':
-                    Descriptions: Nenhun servico encontrado
+                    description: Nenhum servico encontrado
                     content:
                         application/json:
                             schema:
@@ -34,40 +34,63 @@ paths:
     # criar um novo servico
     /servico/create:
         post:
-            sumary: Criar um novo servico
-            descricao: Cria um novo servico
-            respostasBody:
-                requied: true
+            summary: Criar um novo servico
+            description: Cria um novo servico
+            requestBody:
+                required: true
                 content:  
                     application/json:
                         schema:
                             type: object
-            respostas:
+                            $ref: '#/components/schemas/createServico'
+            responses:
                 '200':
-                    $ref: '#/components/schemas/responseSucesso'
+                    description: servico criado com sucesso
+                    content:  
+                        application/json:
+                            schema:
+                                type: object
+                                $ref: '#/components/schemas/responseSucesso'
                 '400':
-                    $ref: '#/components/schemas/RespostaError'   
+                    description: dados invalidos
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                $ref: '#/components/schemas/RespostaError'   
     # buscar um servico por id
     /servico/getById/{id}:
         get:
-            sumary: Buscar um servico por id
-            descricao: Busca um servico por id
-            respostasBody:
-                requied: true
-                content:  
-                    application/json:
-                        schema:
-                            type: object
-            respostas:
+            summary: Buscar um servico por id
+            description: Busca um servico por id
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  description: id do servico a ser buscado
+                  schema:
+                    type: string
+                    example: 1
+            responses:
                 '200':
-                    $ref: '#/components/schemas/responseSucesso'
+                    description: servico encontrado com sucesso
+                    content:  
+                        application/json:
+                            schema:
+                                type: object
+                                $ref: '#/components/schemas/responseSucessoBuscarServico'
                 '400':
-                    $ref: '#/components/schemas/RespostaError'   
+                    description: dados invalidos
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                $ref: '#/components/schemas/RespostaError'   
     # atualizar um servico por id
     /servico/update/{id}:
         put:
-            sumary: Atualizar um servico
-            descricao: Atualiza um servico especifico por id
+            summary: Atualizar um servico
+            description: Atualiza um servico especifico por id
             parameters:
                 - name: id
                   in: path
@@ -76,58 +99,58 @@ paths:
                   schema:
                     type: string
                     example: 1
-            respostasBody:
-                requied: true
+            requestBody:
+                required: true
                 content:  
                     application/json:
-                        shema:
-                            type: objeto
+                        schema:
+                            type: object
                             $ref: '#/components/schemas/createServico'
-            respostas:
+            responses:
                 '200':
-                    descricao: servico atualizado com sucesso
+                    description: servico atualizado com sucesso
                     content: #conteudo da resposta
                         application/json:
                             schema:
                                 type: object
-                                $ref: '#/components/schemas/responseSucesso'
+                                $ref: '#/components/schemas/responseSucessoAtualizarServico'
                 '400':
-                    descricao: dados invalidos
+                    description: dados invalidos
                     content:
                         application/json:
                             schema:
                                 type: object
-                                $ref: '#/components/schemas/RespostaError'   
-                404:
-                    descricao: servico nao encontrado
+                                $ref: '#/components/schemas/RespostaErrorAtualizarServico'   
+                '404':
+                    description: servico nao encontrado
                     content:
                         application/json:
                             schema:
                                 type: object
-                                $ref: '#/components/schemas/RespostaError'  
+                                $ref: '#/components/schemas/RespostaErrorServicoNaoEncontrado'  
     # deletar servico por id
     /servico/delete/{id}:
         delete:
-            sumary: Deletar um Servico
-            Description: Deletar um servico especifico por id
+            summary: Deletar um Servico
+            description: Deletar um servico especifico por id
             parameters: 
-                -nome: id
-                in: path
-                requied: true
-                description: id do sevico a ser deletado
-                shcema: 
-                    type: inter
-                    example: 1
+                - name: id
+                  in: path
+                  required: true
+                  description: id do servico a ser deletado
+                  schema: 
+                      type: integer
+                      example: 1
             responses:
                 '200': 
-                description: 'servco deleado com sucesso'
-                content:
-                    appliction/json: 
-                        schema:
-                            type: object
-                            $ref: '#/components/schemas/responseSucesso'
+                    description: 'servico deletado com sucesso'
+                    content:
+                        application/json: 
+                            schema:
+                                type: object
+                                $ref: '#/components/schemas/responseSucesso'
                 '404':
-                    descricao: servico nao encontrado
+                    description: servico nao encontrado
                     content:
                         application/json:
                             schema:

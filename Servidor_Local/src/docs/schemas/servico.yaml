@@ -1,40 +1,39 @@
-# shema/servico.yaml
+# schema/servico.yaml
 
 # id:string
 #   nome: string;
 #   descricao: string;
 #   categoria: string;
 #   enabled: boolean;
-#   create_at: string;
-#   apdate_at: string;
+#   created_at: string;
+#   updated_at: string;
 # }
- 
+  
 components:
-  #  schemas principal de servico
   schemas:
-    # shemas principal de servico para listar todos os servicos
+    # schemas principal de servico para listar todos os servicos
     servico:
       type: object
       properties:
         id: 
-         type: integer
-         example: 1
+          type: integer
+          example: 1
         nome:
           type: string
-          example: 'Servico de limpesa'
+          example: 'Servico de limpeza'
         descricao:
-         type: string
-         example: 'Servico de limpesa praficional para residencia'
+          type: string
+          example: 'Servico de limpeza profissional para residencia'
         categoria:
           type: string
           example: Limpeza
         enabled:
-          type: string
+          type: boolean
           example: true
-        create_at:
+        created_at:
           type: string
           example: '2022-01-01 00:00:00'
-        apdate_at:
+        updated_at:
           type: string
           example: '2022-01-01 00:00:00'
     # schemas para criar servico
@@ -43,17 +42,62 @@ components:
       properties:
         nome:
           type: string
-          example: 'Servico de Limpesa'
+          example: 'Servico de Limpeza'
         descricao:
           type: string
-          example: 'Servico de limpesa praficional para residencia'
+          example: 'Servico de limpeza profissional para residencia'
         categoria:
           type: string
           example: Limpeza
         enabled:
-          type: string
+          type: boolean
           example: true
-    # schemas generico para susseso
+        updated_at:
+          type: string
+          example: '2022-01-01 00:00:00'
+    # schemas para atualizar servico
+    updateServico:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        nome:
+          type: string
+          example: 'Servico de Limpeza'
+        descricao:
+          type: string
+          example: 'Servico de limpeza profissional para residencia'
+        categoria:
+          type: string
+          example: Limpeza
+        enabled:
+          type: boolean
+          example: true
+    # schemas para deletar servico
+    deleteServico:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+
+    # schemas para buscar servico por nome
+    getServicoByName:
+      type: object
+      properties:
+        nome:
+          type: string
+          example: 'Servico de Limpeza'
+    # schemas para buscar servico por categoria
+    getServicoByCategory:
+      type: object
+      properties:
+        categoria:
+          type: string
+          example: Limpeza
+
+    # schemas generico para sucesso
     responseSucesso:
       type: object
       properties:
@@ -65,10 +109,77 @@ components:
           example: true
         data:
           type: object
+    # schemas para atualizar servico com sucesso
+    responseSucessoAtualizarServico:
+      type: object
+      properties:
+        message:
+          type: string
+          example: servico atualizado com sucesso
+        status:
+          type: boolean
+          example: true
+        data:
+          type: object
           properties:
-            null 
+            id:
+              type: integer
+              example: 1
+            nome:
+              type: string
+              example: 'Servico de Limpeza'
+            descricao:
+              type: string
+              example: 'Servico de limpeza profissional para residencia'
+            categoria:
+              type: string
+              example: Limpeza
+            enabled:
+              type: boolean
+              example: true
+            created_at:
+              type: string
+              example: '2022-01-01 00:00:00'
+            updated_at:
+              type: string
+              example: '2022-01-01 00:00:00'
+            
+    # schemas para buscar servico com sucesso
+    responseSucessoBuscarServico:
+      type: object
+      properties:
+        message:
+          type: string
+          example: servico encontrado com sucesso
+        status:
+          type: boolean
+          example: true
+        data:
+          type: object
+          properties:
+            id:
+              type: integer
+              example: 1
+            nome:
+              type: string
+              example: 'Servico de Limpeza'
+            descricao:
+              type: string
+              example: 'Servico de limpeza profissional para residencia'
+            categoria:
+              type: string
+              example: Limpeza
+            enabled:
+              type: boolean
+              example: true
+            created_at:
+              type: string
+              example: '2022-01-01 00:00:00'
+            updated_at:
+              type: string
+              example: '2022-01-01 00:00:00'
       
-    # shemas de resposta de erro
+    # schemas de resposta de erro
     RespostaError:
       type: object
       properties:
@@ -80,8 +191,27 @@ components:
           example: false
         data:
           type: object
-          properties:
-            null 
-               
-        
-         
+    # schemas para atualizar servico com erro
+    RespostaErrorAtualizarServico:
+      type: object
+      properties:
+        message:
+          type: string
+          example: error ao atualizar servico   
+        status:
+          type: boolean
+          example: false
+        data:
+          type: object
+    # schemas para buscar servico com erro
+    RespostaErrorServicoNaoEncontrado:
+      type: object
+      properties:
+        message:
+          type: string
+          example: servico nao encontrado   
+        status:
+          type: boolean
+          example: false
+        data:
+          type: object

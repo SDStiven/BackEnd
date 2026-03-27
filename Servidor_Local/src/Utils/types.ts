@@ -11,7 +11,7 @@ export interface Servicotype {
   categoria: string;
   percentagemDesconto?: number;
 }
-
+ 
 export interface responseType {
   success: boolean;
   message: string;
@@ -43,14 +43,14 @@ update_at : string
 
 export interface ServicoMySqlType {
   id:string
-  nome: string;
+  nome: string; 
   descricao: string;
   categoria: string;
   enabled: boolean;
-  create_at: string;
-  apdate_at: string;
+  created_at: string;
+  updated_at: string;
 }
-
+ 
 export interface PrestadorMySqlType {
  id:string
  nome: string;
@@ -72,8 +72,8 @@ export interface PropostaMySqlType {
     preco_estimado: number
     estado: string
     anable: boolean
-    create_at: string
-    apdate_at: string
+    created_at: string
+    updated_at: string
 }
 
 export interface OrcamentoMySqlType {
@@ -81,8 +81,8 @@ export interface OrcamentoMySqlType {
     total: number
     id_utilizador: string
     enable: boolean
-    create_at: string
-    apdate_at: string
+    created_at: string
+    updated_at: string
 }
 
 export interface Prestacao_servicoType {

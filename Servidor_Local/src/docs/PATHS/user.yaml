@@ -1,0 +1,95 @@
+# export interface utilizadorMySqlType {
+# id : string
+# nome : string
+# numero_identificacao : string
+# data_nascemento : string
+# email : string
+# telefone : string
+# pais : string
+# localidade : string
+# password : string
+# enabled : boolean
+# created_at : string
+# update_at : string
+# }
+
+# const UserRoute = {
+#     create: "/create",
+#     getById: "/getById/:id",
+#     getAll: "/",
+#     update: "/update/:id",
+#     delete: "/delete/:id",
+# }
+
+paths:
+  # listar todos os users
+  /user:
+    get:
+      tags:
+        - User
+      summary: Listar todos os users
+      description: Retorna uma lista de todos os users cadastrados
+      responses:
+        '200':
+          description: listar todos os users
+          content:  
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/user'
+        '404':
+          description: Nenhum user encontrado
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/RespostaError'
+  # criar um novo user
+  /user/create:
+    post:
+      tags:
+        - User
+      summary: Criar um novo user
+      description: Cria um novo user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/components/schemas/createUser'
+      responses:
+        '200':
+          description: user criado com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/user'
+        '404':
+          description: user não criado
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/RespostaError'
+  # buscar um user por id
+  /user//getById/{id}:
+    get:
+      summary: Buscar um user por id
+      description: Busca um user por id
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: id do user a ser buscado
+          schema:
+            type: string
+            example: 1
+      
+
+      
+                  
+        
+
