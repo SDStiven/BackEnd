@@ -5,7 +5,7 @@
 #     update: "/update/:id",
 #     delete: "/delete/:id",
 # }
-
+ 
 components:
   schemas:
     # schemas principal para listar todos os users
@@ -80,3 +80,42 @@ components:
           type: boolean
           example: true
 
+      #  shema para resposta de erro  
+    RespostaError:
+      type: object
+      properties:
+        message: 
+          type: string
+          example: "user nao encontrado"
+        status: 
+          type: boolean
+          example: false
+        data: 
+          type: object
+          example: null
+    # schemas para resposta de sucesso
+    responseSucesso:
+      type: object
+      properties:
+        message: 
+          type: string
+          example: "user criado com sucesso"
+        status: 
+          type: boolean
+          example: true
+        data: 
+          type: object
+          example: null
+    # shema para resposta de erro 400
+    RespostaError400:
+      type: object
+      properties:
+        message: 
+          type: string
+          example: "user dados invalidos"
+        status: 
+          type: boolean
+          example: false
+        data: 
+          type: object
+          example: null

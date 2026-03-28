@@ -13,6 +13,8 @@ paths:
     # listar todos os servicos
     /servico:
         get:
+            tags:
+                - Servico
             summary: Listar todos os Servicos
             description: Retorna uma lista de todos os servicos cadastrados
             responses:
@@ -34,6 +36,8 @@ paths:
     # criar um novo servico
     /servico/create:
         post:
+            tags:
+                - Servico
             summary: Criar um novo servico
             description: Cria um novo servico
             requestBody:
@@ -61,6 +65,8 @@ paths:
     # buscar um servico por id
     /servico/getById/{id}:
         get:
+            tags:
+                - Servico
             summary: Buscar um servico por id
             description: Busca um servico por id
             parameters:
@@ -89,6 +95,8 @@ paths:
     # atualizar um servico por id
     /servico/update/{id}:
         put:
+            tags:
+                - Servico
             summary: Atualizar um servico
             description: Atualiza um servico especifico por id
             parameters:
@@ -113,7 +121,7 @@ paths:
                         application/json:
                             schema:
                                 type: object
-                                $ref: '#/components/schemas/responseSucessoAtualizarServico'
+                                $ref: '#/components/schemas/responseSucesso'
                 '400':
                     description: dados invalidos
                     content:
@@ -131,6 +139,8 @@ paths:
     # deletar servico por id
     /servico/delete/{id}:
         delete:
+            tags:
+                - Servico
             summary: Deletar um Servico
             description: Deletar um servico especifico por id
             parameters: 

@@ -2,9 +2,9 @@ import express, { type Request, type Response } from "express";
 import { adicionarServico, apagarServico, listarServicos, novoServico, obterServico, selecionarServicoById, selecionarServicos, } from "./Servico.js";
 import { apagarPrestador, apagarPrestadorFilter, calcularOrcamento, criarPrestadoresDeServico, editarPrestadorDeServico, selecionarPrestador, SelecionarServicos } from "./orcamento.js";
 import { deleteUser, getUseById, getUser, novoUtilizador } from "./users.js";
-import type { PrestadorMySqlType, ServicoMySqlType, utilizadorMySqlType } from "./Utils/types.js";
+import type { PrestadorMySqlType, ServicoMySqlType, utilizadorMySqlType } from "../Utils/types.js";
 import { novoPrestador } from "./Prestador.js";
- 
+
 const app = express(); // cria a aplicação
 app.use(express.json()); // para interpretar o corpo das requisições como JSON
 
@@ -159,11 +159,11 @@ app.get("/get-servico-by-id", async (req: Request, res: Response) => {
   // const iidd   = req.body
   // const novo = await selecionarServicoById(iidd.id)
   // ou este aqui
-  const{id}=req.body 
+  const { id } = req.body
   const novo = await selecionarServicoById(id)
 
   res.json(novo)
-  
+
 })
 
 // apagar um utilizador pelo id

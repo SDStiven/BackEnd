@@ -12,7 +12,7 @@
 # created_at : string
 # update_at : string
 # }
-
+ 
 # const UserRoute = {
 #     create: "/create",
 #     getById: "/getById/:id",
@@ -66,7 +66,7 @@ paths:
             application/json:
               schema:
                 type: object
-                $ref: '#/components/schemas/user'
+                $ref: '#/components/schemas/responseSucesso'
         '404':
           description: user não criado
           content:
@@ -75,8 +75,10 @@ paths:
                 type: object
                 $ref: '#/components/schemas/RespostaError'
   # buscar um user por id
-  /user//getById/{id}:
+  /user/getById/{id}:
     get:
+      tags:
+        - User
       summary: Buscar um user por id
       description: Busca um user por id
       parameters:
@@ -87,9 +89,96 @@ paths:
           schema:
             type: string
             example: 1
-      
+      responses:
+        '200':
+          description: user encontrado com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/user'
+        '404':
+          description: user não encontrado
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/RespostaError'
+  # atualizar um user
+  /user/update/{id}:
+    put:
+      tags:
+        - User
+      summary: Atualizar um user
+      description: Atualiza um user
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: id do user a ser atualizado
+          schema:
+            type: string
+            example: 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/components/schemas/user'
+      responses:
+        '200':
+          description: user atualizado com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/responseSucesso'
+        '400':
+          description: user dados invalidos
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/RespostaError400'
+        '404':
+          description: user não atualizado
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/RespostaError'
 
-      
+    # deletar um user
+    /user/delete/{id}:
+      delete:
+        tags:
+          - User
+        summary: Deletar um user
+        description: Deleta um user
+        parameters:
+          - name: id
+            in: path
+            required: true
+            description: id do user a ser deletado
+            schema:
+              type: string
+              example: 1
+        responses:
+          '200':
+            description: user deletado com sucesso
+            content:
+              application/json:
+                schema:
+                  type: object
+                  $ref: '#/components/schemas/responseSucesso'
+          '404':
+            description: user não deletado
+            content:
+              application/json:
+                schema:
+                  type: object
+                  $ref: '#/components/schemas/RespostaError'
                   
         
 

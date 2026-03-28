@@ -1,5 +1,5 @@
 import { catalogoServicos } from "./Servico.js"
-import { type PedidoServicoType, type PrestadorType, type Servicotype } from "./Utils/types.js"
+import { type PedidoServicoType, type PrestadorType, type Servicotype } from "../Utils/types.js"
 
 // 1. Constantes de configuração
 const taxaUrgencia: number = 0.3              // Percentual extra aplicado em pedidos urgentes (30%)
@@ -201,7 +201,7 @@ export function apagarPrestador(nomeprestadordeservico: string) {
                 mensagem: 'prestador de servico eliminado com sucesso',
                 data: novoArreyprestadoresDeServico
             }
-        }else{
+        } else {
             // 4. Caso não esteja disponível, retorna false/sms
             return {
                 status: false,
@@ -215,21 +215,21 @@ export function apagarPrestador(nomeprestadordeservico: string) {
 // Função para pagar prestador
 export function apagarPrestadorFilter(nomeprestadordeservico: string) {
 
-    if(!nomeprestadordeservico){
+    if (!nomeprestadordeservico) {
         return {
             status: false,
             mensagem: 'Prestador de servico nao encontrado',
             data: null
         }
-    } 
+    }
 
     prestadoresDeServicos.filter((prestadorExistente: PrestadorType) => prestadorExistente.nome !== nomeprestadordeservico)
-    return { 
+    return {
         status: true,
         mensagem: 'prestador de servico eliminado com sucesso',
         data: prestadoresDeServicos
-    } 
-   
+    }
+
 }
 
 
@@ -239,7 +239,7 @@ export function apagarPrestadorFilter(nomeprestadordeservico: string) {
 // funcao para obter prestador de servico pelo nome
 export function obterPrestador(nomePrestador: string) {
     const prestadorEncontrado = prestadoresDeServicos.filter((prestador: PrestadorType) => prestador.nome === nomePrestador)
-    
+
 }
 // 1. Verifica se o prestador está na lista de disponíveis
 // 2. Se estiver disponível, adiciona à lista de selecionados

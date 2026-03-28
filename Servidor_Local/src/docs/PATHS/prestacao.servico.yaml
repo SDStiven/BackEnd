@@ -1,0 +1,126 @@
+
+# const Prestacao_servicoRoute ={
+#     create:"/create",
+#     getById:"/getById/:id",
+#     getAll:"/",
+#     update:"/update/:id",
+#     delete:"/delete/:id"
+# }
+
+path:
+  # buscar todas as prestacoes de servico
+  /prestacao_servico:
+    get:
+      tags:
+        - Prestacao de servico
+      summary: Buscar todas as prestacoes de servico
+      description: Retorna uma lista de todas as prestacoes de servico cadastradas
+      responses:
+        '200':
+          description: prestacao de servico encontrada com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/prestacao_servico'
+        '404':
+          description: Nenhuma prestacao de servico encontrada
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/RespostaErrorPrestacao_servico'
+  # buscar uma prestacao de servico por id
+  /prestacao_servico/{id}:
+    get:
+      tags:
+        - Prestacao de servico
+      summary: Buscar uma prestacao de servico por id
+      description: Retorna uma prestacao de servico cadastrada
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: id da prestacao de servico
+          schema:
+            type: string
+      responses:
+        '200':
+          description: prestacao de servico encontrada com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/prestacao_servico'
+        '404':
+          description: Nenhuma prestacao de servico encontrada
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/RespostaErrorPrestacao_servico'
+  # atualizar uma prestacao de servico
+  /prestacao_servico/update/{id}:
+    put:
+      tags:
+        - Prestacao de servico
+      summary: Atualizar uma prestacao de servico
+      description: Atualiza uma prestacao de servico cadastrada
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: id da prestacao de servico
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/components/schemas/prestacao_servico'
+      responses:
+        '200':
+          description: prestacao de servico atualizada com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/RespostaSucessoPrestacao_servico'
+        '404':
+          description: Nenhuma prestacao de servico encontrada
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/RespostaErrorPrestacao_servico'
+  # deletar uma prestacao de servico
+  /prestacao_servico/delete/{id}:
+    delete:
+      tags:
+        - Prestacao de servico
+      summary: Deletar uma prestacao de servico
+      description: Deleta uma prestacao de servico cadastrada
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: id da prestacao de servico
+          schema:
+            type: string
+      responses:
+        '200':
+          description: prestacao de servico deletada com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/RespostaSucessoPrestacao_servico'
+        '404':
+          description: Nenhuma prestacao de servico encontrada
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/RespostaErrorPrestacao_servico'

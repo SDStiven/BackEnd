@@ -1,0 +1,156 @@
+# const propostaRouter ={
+#     create:"/create",
+#     getAll:"/",
+#     get:"/:id",
+#     update:"/update/:id",
+#     delete:"/delete/:id"
+# }
+ 
+paths: 
+    # listar todas as propostas
+    /proposta:
+        get:
+          tags:
+            - Proposta
+          summary: Listar todas as propostas
+          description: Retorna uma lista de todas as propostas cadastradas
+          responses:
+            '200':
+              description: listar todas as propostas
+              content:  
+                application/json:
+                  schema:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/proposta'
+            '404':
+              description: Nenhuma proposta encontrada
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    $ref: '#/components/schemas/RespostaErrorproposta'
+                                
+    # criar uma proposta
+    /proposta/create:
+        post:
+            tags:
+                - Proposta
+            summary: Criar uma proposta
+            description: Cria uma nova proposta
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            $ref: '#/components/schemas/proposta'
+            responses:
+                '200':
+                    description: proposta criada com sucesso
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                $ref: '#/components/schemas/RespostaSucessoProposta'
+                '404':
+                    description: Nenhuma proposta encontrada
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                $ref: '#/components/schemas/RespostaErrorproposta'
+    # buscar uma proposta por id
+    /proposta/{id}:
+        get:
+          tags:
+            - Proposta
+          summary: Buscar uma proposta por id
+          description: Retorna uma proposta cadastrada
+          parameters:
+            - name: id
+              in: path
+              required: true
+              description: id da proposta
+              schema:
+                type: string
+          responses:
+            '200':
+              description: proposta encontrada com sucesso
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    $ref: '#/components/schemas/proposta'
+            '404':
+              description: Nenhuma proposta encontrada
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    $ref: '#/components/schemas/RespostaErrorproposta'
+    # atualizar uma proposta
+    /proposta/update/{id}:
+        put:
+          tags:
+            - Proposta
+          summary: Atualizar uma proposta
+          description: Atualiza uma proposta cadastrada
+          parameters:
+            - name: id
+              in: path
+              required: true
+              description: id da proposta
+              schema:
+                type: string
+          requestBody:
+            required: true
+            content:
+              application/json:
+                schema:
+                  type: object
+                  $ref: '#/components/schemas/proposta'
+          responses:
+            '200':
+              description: proposta atualizada com sucesso
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    $ref: '#/components/schemas/RespostaSucessoProposta'
+            '404':
+              description: Nenhuma proposta encontrada
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    $ref: '#/components/schemas/RespostaErrorproposta'
+    # deletar uma proposta
+    /proposta/delete/{id}:
+        delete:
+          tags:
+            - Proposta
+          summary: Deletar uma proposta
+          description: Deleta uma proposta cadastrada
+          parameters:
+            - name: id
+              in: path
+              required: true
+              description: id da proposta
+              schema:
+                type: string
+          responses:
+            '200':
+              description: proposta deletada com sucesso
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    $ref: '#/components/schemas/RespostaSucessoProposta'
+            '404':
+              description: Nenhuma proposta encontrada
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    $ref: '#/components/schemas/RespostaErrorproposta'

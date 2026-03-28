@@ -1,0 +1,89 @@
+
+# const Prestacao_servicoRoute ={
+#     create:"/create",
+#     getById:"/getById/:id",
+#     getAll:"/",
+#     update:"/update/:id",
+#     delete:"/delete/:id"
+# }
+
+# export interface Prestacao_servicoType {
+# id: string 
+# disignacao: string 
+# subtotal: number 
+# haras_estimadas: number 
+# id_prestador: string 
+# id_servico: string 
+# preco_hora: number 
+# estado: string 
+# id_orcamento: string 
+# enabled: boolean 
+# created_at: string 
+# updated_at: string
+# }
+
+components:
+  schemas:
+    prestacao_servico:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 1
+        disignacao:
+          type: string
+          example: 1
+        subtotal:
+          type: number
+          example: 1
+        haras_estimadas:
+          type: number
+          example: 1
+        id_prestador:
+          type: string
+          example: 1
+        id_servico:
+          type: string
+          example: 1
+        preco_hora:
+          type: number
+          example: 1
+        estado:
+          type: string
+          example: 1
+        id_orcamento:
+          type: string
+          example: 1
+        enabled:
+          type: boolean
+          example: true
+        created_at:
+          type: string
+          example: 1
+        updated_at:
+          type: string
+          example: 1
+    RespostaErrorPrestacao_servico:
+      type: object
+      properties:
+        message:
+          type: string
+          example: "prestacao de servico nao encontrada"
+        status:
+          type: boolean
+          example: false
+        data:
+          type: object
+          example: null
+    RespostaSucessoPrestacao_servico:
+      type: object
+      properties:
+        message:
+          type: string
+          example: "prestacao de servico criada com sucesso"
+        status:
+          type: boolean
+          example: true
+        data:
+          type: object
+          example: null

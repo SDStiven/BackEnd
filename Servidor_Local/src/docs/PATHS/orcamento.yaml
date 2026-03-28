@@ -1,0 +1,155 @@
+# const orcamentoRoute ={
+#     create:"/create",
+#     getById:"/getById/:id",
+#     getAll:"/",
+#     update:"/update/:id",
+#     delete:"/delete/:id"
+# }
+
+paths:
+    # criar um orcamento
+    /orcamento/create:
+        post:
+            tags:
+                - Orcamento
+            summary: Criar um orcamento
+            description: Cria um novo orcamento
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            $ref: '#/components/schemas/orcamento'
+            responses:
+                '200':
+                    description: orcamento criado com sucesso
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                $ref: '#/components/schemas/RespostaSucessoOrcamento'
+                '404':
+                    description: Nenhuma orcamento encontrada
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                $ref: '#/components/schemas/RespostaErrorOrcamento'
+    # buscar um orcamento por id
+    /orcamento/{id}:
+        get:
+          tags:
+            - Orcamento
+          summary: Buscar um orcamento por id
+          description: Retorna um orcamento cadastrado
+          parameters:
+            - name: id
+              in: path
+              required: true
+              description: id do orcamento
+              schema:
+                type: string
+          responses:
+            '200':
+              description: orcamento encontrado com sucesso
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    $ref: '#/components/schemas/orcamento'
+            '404':
+              description: Nenhuma orcamento encontrada
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    $ref: '#/components/schemas/RespostaErrorOrcamento'
+    # listar todos os orcamentos
+    /orcamento:
+        get:
+          tags:
+            - Orcamento
+          summary: Listar todos os orcamentos
+          description: Retorna uma lista de todos os orcamentos cadastrados
+          responses:
+            '200':
+              description: listar todos os orcamentos
+              content:  
+                application/json:
+                  schema:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/orcamento'
+            '404':
+              description: Nenhuma orcamento encontrada
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    $ref: '#/components/schemas/RespostaErrorOrcamento'
+    # atualizar um orcamento
+    /orcamento/update/{id}:
+        put:
+          tags:
+            - Orcamento
+          summary: Atualizar um orcamento
+          description: Atualiza um orcamento cadastrado
+          parameters:
+            - name: id
+              in: path
+              required: true
+              description: id do orcamento
+              schema:
+                type: string
+          requestBody:
+            required: true
+            content:
+              application/json:
+                schema:
+                  type: object
+                  $ref: '#/components/schemas/orcamento'
+          responses:
+            '200':
+              description: orcamento atualizado com sucesso
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    $ref: '#/components/schemas/RespostaSucessoOrcamento'
+            '404':
+              description: Nenhuma orcamento encontrada
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    $ref: '#/components/schemas/RespostaErrorOrcamento'
+    # deletar um orcamento
+    /orcamento/delete/{id}:
+        delete:
+          tags:
+            - Orcamento
+          summary: Deletar um orcamento
+          description: Deleta um orcamento cadastrado
+          parameters:
+            - name: id
+              in: path
+              required: true
+              description: id do orcamento
+              schema:
+                type: string
+          responses:
+            '200':
+              description: orcamento deletado com sucesso
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    $ref: '#/components/schemas/RespostaSucessoOrcamento'
+            '404':
+              description: Nenhuma orcamento encontrada
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    $ref: '#/components/schemas/RespostaErrorOrcamento'

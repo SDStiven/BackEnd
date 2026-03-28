@@ -1,0 +1,168 @@
+# const prestadorRoutes = {
+#     create:'/create',
+#     getAll: '/',
+#     getById: 'getById/:id',
+#     update: 'update/:id',
+#     delete: 'delete/:id'
+# }
+
+# export interface PrestadorMySqlType {
+#  id:string
+#  nome: string;
+#  profissao: string;
+#  taxa_urgencia: number;
+#  minimo_desconto: number;
+#  nif: number;
+#  persentagem_desconto: number;
+#  preco_hora: number;
+#  disponivel: boolean;
+#  create_at: string;
+#  apdate_at: string;
+# }
+paths:
+    # listar todos os prestadores
+    /prestador:
+        get:
+            tags:
+                - Prestador
+            summary: Listar todos os prestadores
+            description: Retorna uma lista de todos os prestadores cadastrados
+            responses:
+                '200':
+                    description: listar todos os prestadores
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: '#/components/schemas/prestador'
+                '404':
+                    description: Nenhuma prestador encontrado
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                $ref: '#/components/schemas/RespostaErrorprestador'
+    # criar um prestador
+    /prestador/create:
+        post:
+            tags:
+                - Prestador
+            summary: Criar um prestador
+            description: Cria um novo prestador
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            $ref: '#/components/schemas/prestador'
+            responses:
+                '200':
+                    description: prestador criado com sucesso
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                $ref: '#/components/schemas/RespostaSucessoPrestador'
+                '404':
+                    description: Nenhuma prestador encontrado
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                $ref: '#/components/schemas/RespostaErrorprestador'
+    # buscar um prestador por id
+    /prestador/{id}:
+        get:
+            tags:
+                - Prestador
+            summary: Buscar um prestador por id
+            description: Retorna um prestador cadastrado
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  description: id do prestador
+                  schema:
+                    type: string
+            responses:
+                '200':
+                    description: prestador encontrado com sucesso
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                $ref: '#/components/schemas/prestador'
+                '404':
+                    description: Nenhuma prestador encontrado
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                $ref: '#/components/schemas/RespostaErrorprestador'
+    # atualizar um prestador
+    /prestador/update/{id}:
+        put:
+            tags:
+                - Prestador
+            summary: Atualizar um prestador
+            description: Atualiza um prestador cadastrado
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  description: id do prestador
+                  schema:
+                    type: string
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            $ref: '#/components/schemas/prestador'
+            responses:
+                '200':
+                    description: prestador atualizado com sucesso
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                $ref: '#/components/schemas/RespostaSucessoPrestador'
+                '404':
+                    description: Nenhuma prestador encontrado
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                $ref: '#/components/schemas/RespostaErrorprestador'
+    # deletar um prestador
+    /prestador/delete/{id}:
+        delete:
+            tags:
+                - Prestador
+            summary: Deletar um prestador
+            description: Deleta um prestador cadastrado
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  description: id do prestador
+                  schema:
+                    type: string
+            responses:
+                '200':
+                    description: prestador deletado com sucesso
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                $ref: '#/components/schemas/RespostaSucessoPrestador'
+                '404':
+                    description: Nenhuma prestador encontrado
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                $ref: '#/components/schemas/RespostaErrorprestador'

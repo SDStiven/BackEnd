@@ -1,0 +1,70 @@
+# const prestadorRoutes = {
+#     create:'/create',
+#     getAll: '/',
+#     getById: 'getById/:id',
+#     update: 'update/:id',
+#     delete: 'delete/:id'
+# }
+
+components:
+    schemas:
+        prestador:
+            type: object
+            properties:
+                id:
+                    type: string
+                    example: 1
+                nome:
+                    type: string
+                    example: "prestador"
+                profissao:
+                    type: string
+                    example: "prestador"
+                taxa_urgencia:
+                    type: number
+                    example: 1
+                minimo_desconto:
+                    type: number
+                    example: 1
+                nif:
+                    type: number
+                    example: 1
+                persentagem_desconto:
+                    type: number
+                    example: 1
+                preco_hora:
+                    type: number
+                    example: 1
+                disponivel:
+                    type: boolean
+                    example: true
+                create_at:
+                    type: string
+                    example: "2022-01-01"
+                apdate_at:
+                    type: string
+                    example: "2022-01-01"
+        RespostaErrorprestador:
+            type: object
+            properties:
+                message:
+                    type: string
+                    example: "prestador nao encontrado"
+                status:
+                    type: boolean
+                    example: false
+                data:
+                    type: object
+                    example: null
+        RespostaSucessoPrestador:
+            type: object
+            properties:
+                message:
+                    type: string
+                    example: "prestador criado com sucesso"
+                status:
+                    type: boolean
+                    example: true
+                data:
+                    type: object
+                    example: null
