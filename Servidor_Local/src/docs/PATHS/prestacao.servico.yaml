@@ -7,7 +7,7 @@
 #     delete:"/delete/:id"
 # }
 
-path:
+paths:
   # buscar todas as prestacoes de servico
   /prestacao_servico:
     get:

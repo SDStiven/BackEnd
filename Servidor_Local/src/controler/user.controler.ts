@@ -1,6 +1,8 @@
 import { userModel } from "../models/user.models.js"
+import { comparePassword } from "../Utils/password.js"
 import type { utilizadorMySqlType } from "../Utils/types.js"
 import type { Request, Response } from "express"
+import jwt from "jsonwebtoken"
 
 
 
@@ -118,6 +120,52 @@ export const userControler = {
                 message: "Servico atualizado com sucesso",
                 data: updateServicoRsesponse
             })
+        } catch (error) {
+            console.error(error)
+            return res.status(500).json({
+                status: "error",
+                message: "Erro interno do servidor",
+                data: null
+            })
+        }
+    },
+    // login user
+    async login(req: Request, res: Response) {
+        try {
+            const { email, password } = req.body
+            if (!email || !password) {
+                return res.status(400).json({
+                    status: "error",
+                    message: "Dados do servico inválidos",
+                    data: null
+                })
+            }
+            const userdata = await userModel.getByEmail(email as string)
+            if (userdata === null) {
+                return res.status(500).json({
+                    status: "error",
+                    message: "Nao existe usuario com este email",
+                    data: null
+                })
+            }
+            const isPasswordValid = await comparePassword(password, userdata.password)
+            if (!isPasswordValid) {
+                return res.status(401).json({
+                    status: "error",
+                    message: "Credenciais invalidas",
+                    data: null
+                })
+            }
+            const payload = {
+                id: userdata.id,
+                email: userdata.email,
+                nome: userdata.nome
+            }
+
+            const token = jwt.sign(payload,process.env.JWT_SECRET as string,{expiresIn:"1h"}
+            )
+            
+           
         } catch (error) {
             console.error(error)
             return res.status(500).json({

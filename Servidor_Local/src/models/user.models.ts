@@ -100,7 +100,19 @@ export const userModel = {
             return null
         }
     },
-
+    // login
+    async getByEmail(email: string): Promise<utilizadorMySqlType | null> {
+        try {
+            const query = `select * from tbl_utilizadores where tbl_utilizadores.email = ?`
+            const values = [email]
+            const[ rows ]= await db.execute(query, values)
+            if(Array.isArray(rows) && rows.length === 0)return null
+            return Array.isArray(rows) ? rows[0] as utilizadorMySqlType : null
+        } catch (error) {
+            console.log({ "catch user.models.ts": error })
+            return null
+        }
+    }, 
     // delete user
     async delete(id: string) {
         try {

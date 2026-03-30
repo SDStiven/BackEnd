@@ -150,35 +150,35 @@ paths:
                 $ref: '#/components/schemas/RespostaError'
 
     # deletar um user
-    /user/delete/{id}:
-      delete:
-        tags:
-          - User
-        summary: Deletar um user
-        description: Deleta um user
-        parameters:
-          - name: id
-            in: path
-            required: true
-            description: id do user a ser deletado
-            schema:
-              type: string
-              example: 1
-        responses:
-          '200':
-            description: user deletado com sucesso
-            content:
-              application/json:
-                schema:
-                  type: object
-                  $ref: '#/components/schemas/responseSucesso'
-          '404':
-            description: user não deletado
-            content:
-              application/json:
-                schema:
-                  type: object
-                  $ref: '#/components/schemas/RespostaError'
+  /user/delete/{id}:
+    delete:
+      tags:
+        - User
+      summary: Deletar um user
+      description: Deleta um user
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: id do user a ser deletado
+          schema:
+            type: string
+            example: 1
+      responses:
+        '200':
+          description: user deletado com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/responseSucesso'
+        '404':
+          description: user não deletado
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/RespostaError'
                   
         
 

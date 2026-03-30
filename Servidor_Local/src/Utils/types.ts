@@ -66,6 +66,7 @@ export interface PrestadorMySqlType {
 }
 
 export interface PropostaMySqlType {
+  
     id: string
     id_prestacao: string
     preco_hora: number
