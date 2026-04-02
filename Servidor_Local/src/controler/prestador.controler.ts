@@ -141,7 +141,7 @@ export const prestadorControler = {
     },
 
     // delete prestador
-    async delete(req: Request, res: Response) {
+    async delete (req: Request, res: Response) {
         try {
             const id = req.params.id
             if (!id) {

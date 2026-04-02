@@ -33,10 +33,10 @@ numero_identificacao : string
 data_nascemento : string
 email : string
 telefone : string
-pais : string
+pais : string 
 localidade : string
-password : string
-enabled : boolean
+passworde : string
+enabled : boolean 
 created_at : string
 update_at : string
 }

@@ -22,6 +22,35 @@
 # }
 
 paths:
+  # criar um novo user
+  /user/create:
+    post:
+      tags:
+        - User
+      summary: Criar um novo user
+      description: Cria um novo user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/components/schemas/createUser'
+      responses:
+        '200':
+          description: user criado com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/user'
+        '404':
+          description: user nao encontrado
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/createuserError'
   # listar todos os users
   /user:
     get:
@@ -44,36 +73,7 @@ paths:
             application/json:
               schema:
                 type: object
-                $ref: '#/components/schemas/RespostaError'
-  # criar um novo user
-  /user/create:
-    post:
-      tags:
-        - User
-      summary: Criar um novo user
-      description: Cria um novo user
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              $ref: '#/components/schemas/createUser'
-      responses:
-        '200':
-          description: user criado com sucesso
-          content:
-            application/json:
-              schema:
-                type: object
-                $ref: '#/components/schemas/responseSucesso'
-        '404':
-          description: user não criado
-          content:
-            application/json:
-              schema:
-                type: object
-                $ref: '#/components/schemas/RespostaError'
+                $ref: '#/components/schemas/getallUserError'
   # buscar um user por id
   /user/getById/{id}:
     get:
@@ -103,7 +103,7 @@ paths:
             application/json:
               schema:
                 type: object
-                $ref: '#/components/schemas/RespostaError'
+                $ref: '#/components/schemas/getByIdUserError'
   # atualizar um user
   /user/update/{id}:
     put:
@@ -133,21 +133,21 @@ paths:
             application/json:
               schema:
                 type: object
-                $ref: '#/components/schemas/responseSucesso'
+                $ref: '#/components/schemas/user'
         '400':
           description: user dados invalidos
           content:
             application/json:
               schema:
                 type: object
-                $ref: '#/components/schemas/RespostaError400'
+                $ref: '#/components/schemas/updateUserErrorinvalidos'
         '404':
           description: user não atualizado
           content:
             application/json:
               schema:
                 type: object
-                $ref: '#/components/schemas/RespostaError'
+                $ref: '#/components/schemas/updateUserError'
 
     # deletar um user
   /user/delete/{id}:
@@ -171,14 +171,49 @@ paths:
             application/json:
               schema:
                 type: object
-                $ref: '#/components/schemas/responseSucesso'
+                $ref: '#/components/schemas/user'
         '404':
           description: user não deletado
           content:
             application/json:
               schema:
                 type: object
-                $ref: '#/components/schemas/RespostaError'
-                  
+                $ref: '#/components/schemas/deleteUserError'
+  # login de um user
+  /user/login:
+    post:
+      tags:
+        - User
+      summary: Login de um user
+      description: Login de um user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/components/schemas/login'
+      responses:
+        '200':
+          description: user logado com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/login'
+        '400':
+          description: user dados invalidos
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/loginUserErrorinvalidos'
+        '404': 
+          description: user não logado
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/loginUserError'                  
         
 

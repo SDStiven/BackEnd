@@ -39,18 +39,18 @@ export const servicoModel = {
         }
     },
 
-    // get one service by id
+    // // get one service by id
     async get(id: string) {
         try {
-            const servico = `select * from tbl_servicos where id = ?`
-            const values = [id]
-            const rows = await db.execute(servico, values)
-            return Array.isArray(rows) && rows.length > 0 ? rows[0] : null
+            const servico = "select * from tbl_servicos  WHERE tbl_servicos.id = ? "
+            const rows = await db.execute(servico, [id])
+            return Array.isArray(rows) ? rows[0]: null
         } catch (error) {
             console.log({ "catch Servico.ts": error })
             return null
         }
     },
+  
 
     // update service
     async update(id: string, ServicoAtualizado: ServicoMySqlType) {

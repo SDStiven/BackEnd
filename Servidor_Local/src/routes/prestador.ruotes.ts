@@ -1,15 +1,13 @@
 
-
 import { Router } from "express";
 import { prestadorControler } from "../controler/prestador.controler.js";
-
 
 const prestadorRoutes = {
     create:'/create',
     getAll: '/',
-    getById: 'getById/:id',
-    update: 'update/:id',
-    delete: 'delete/:id'
+    getById: '/getById/:id',
+    update: '/update/:id',
+    delete: '/delete/:id'
 }
 
 const router = Router()

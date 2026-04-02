@@ -16,27 +16,28 @@ export const userControler = {
             if (!newuser) {
                 return res.status(400).json({
                     status: "error",
-                    message: "Dados do servico inválidos",
+                    message: "Dados do usuario inválidos",
                     data: null
                 })
             }
 
             const CreiteServicoRsesponse = await userModel.create(newuser)
+            console.log("CreiteServicoRsesponse",CreiteServicoRsesponse)
 
             if (CreiteServicoRsesponse === null) {
                 return res.status(500).json({
                     status: "error",
-                    message: "Erro ao criar servico",
+                    message: "Erro ao criar usuario",
                     data: null
                 })
             }
             return res.status(200).json({
                 status: "success",
-                message: "Servico criado com sucesso",
+                message: "Usuario criado com sucesso",
                 data: CreiteServicoRsesponse
             })
         } catch (error) {
-            console.error(error)
+            console.error("error user.controler.ts",error)
             return res.status(500).json({
                 status: "error",
                 message: "Erro interno do servidor",
@@ -72,15 +73,9 @@ export const userControler = {
     // get one user by id
     async get(req: Request, res: Response) {
         try {
-            const { id } = req.params
+            const id  = req.params.id
             const user = await userModel.get(id as string)
-            if (user === null) {
-                return res.status(500).json({
-                    status: "error",
-                    message: "Erro ao buscar usuario",
-                    data: null
-                })
-            }
+
             return res.status(200).json({
                 status: "success",
                 message: "Usuario buscado com sucesso",
@@ -103,7 +98,7 @@ export const userControler = {
             if (!user) {
                 return res.status(400).json({
                     status: "error",
-                    message: "Dados do servico inválidos",
+                    message: "Dados do usuario inválidos",
                     data: null
                 })
             }
@@ -111,13 +106,13 @@ export const userControler = {
             if (updateServicoRsesponse === null) {
                 return res.status(500).json({
                     status: "error",
-                    message: "Erro ao atualizar servico",
+                    message: "Erro ao atualizar usuario",
                     data: null
                 })
             }
             return res.status(200).json({
                 status: "success",
-                message: "Servico atualizado com sucesso",
+                message: "Usuario atualizado com sucesso",
                 data: updateServicoRsesponse
             })
         } catch (error) {
@@ -133,22 +128,27 @@ export const userControler = {
     async login(req: Request, res: Response) {
         try {
             const { email, password } = req.body
+            console.log("email",email)
+            console.log("password",password)
             if (!email || !password) {
                 return res.status(400).json({
                     status: "error",
-                    message: "Dados do servico inválidos",
+                    message: "Dados do usuario inválidos",
                     data: null
                 })
             }
             const userdata = await userModel.getByEmail(email as string)
-            if (userdata === null) {
-                return res.status(500).json({
+            if (!userdata) {
+                return res.status(404).json({
                     status: "error",
                     message: "Nao existe usuario com este email",
                     data: null
                 })
             }
-            const isPasswordValid = await comparePassword(password, userdata.password)
+            console.log("userdata",userdata)
+            console.log("password",userdata.passworde)
+            const isPasswordValid = await comparePassword(password, userdata.passworde)
+            console.log("isPasswordValid",isPasswordValid)
             if (!isPasswordValid) {
                 return res.status(401).json({
                     status: "error",
@@ -164,14 +164,18 @@ export const userControler = {
 
             const token = jwt.sign(payload,process.env.JWT_SECRET as string,{expiresIn:"1h"}
             )
-            
+            return res.status(200).json({
+                status: "success",
+                message: "Usuario logado com sucesso",
+                data: token
+            })
            
         } catch (error) {
             console.error(error)
             return res.status(500).json({
                 status: "error",
-                message: "Erro interno do servidor",
-                data: null
+                message: "Erro interno do servidor catch",
+                data: error
             })
         }
     },
@@ -183,13 +187,13 @@ export const userControler = {
             if (deleteServicoRsesponse === null) {
                 return res.status(500).json({
                     status: "error",
-                    message: "Erro ao deletar servico",
+                    message: "Erro ao deletar usuario",
                     data: null
                 })
             }
             return res.status(200).json({
                 status: "success",
-                message: "Servico deletado com sucesso",
+                message: "Usuario deletado com sucesso",
                 data: deleteServicoRsesponse
             })
         } catch (error) {

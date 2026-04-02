@@ -32,7 +32,7 @@ export const prestadorModel = {
     // getAll prestadores
     async getAll() {
         try {
-            const prestadores = `select * from tbl_prestador`
+            const prestadores = `select * from tbl_prestadores`
             const rows = await db.execute(prestadores)
             return Array.isArray(rows) && rows.length > 0 ? rows[0] : []
         } catch (error) {
@@ -92,7 +92,7 @@ export const prestadorModel = {
     // delete prestador
     async delete(id: string) {
         try {
-            const query = `delete from tbl_prestador where id = ?`
+            const query = `delete from tbl_prestadores where id = ?`
             const values = [id]
             const rows = await db.execute(query, values)
             return rows

@@ -42,7 +42,7 @@ paths:
             description: Cria um novo servico
             requestBody:
                 required: true
-                content:  
+                content:   
                     application/json:
                         schema:
                             type: object

@@ -8,10 +8,13 @@ import { router as prestadorRouter} from "./routes/prestador.ruotes.js";
 import { router as prestacao_servicoRouter} from "./routes/prestacao_servico.routes.js";
 import{swaggerSpec} from "./docs/swagger.js"
 import swaggerUi from "swagger-ui-express"
+import dotenv from "dotenv"
+
 
 
 const app = express(); // cria a aplicação
 app.use(express.json()); // para interpretar o corpo das requisições como JSON
+dotenv.config()
 
 app.use("/servico", servicoRouter)
 app.use("/proposta", propostaRouter)

@@ -70,7 +70,7 @@ export const servicoComtroler = {
     // get one service by id
     async get(req: Request, res: Response) {
         try {
-            const  id = req.params.id
+            const id = req.params.id
             if(!id){
                 return res.status(400).json({
                     status: "error",

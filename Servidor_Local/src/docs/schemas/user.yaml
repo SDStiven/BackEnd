@@ -8,6 +8,37 @@
  
 components:
   schemas:
+    # schemas para criar um novo user
+    createUser:
+      type: object
+      properties:
+        nome: 
+          type: string
+          example: "Stiven Dias"
+        numero_identificacao: 
+          type: string
+          example: "123456789"
+        data_nascemento: 
+          type: string
+          example: "01-02-2000"
+        email: 
+          type: string
+          example: "stiven@2222.cpm"
+        telefone: 
+          type: string
+          example: "123456789"
+        pais: 
+          type: string
+          example: "Angola"
+        localidade: 
+          type: string
+          example: "Luanda"
+        password: 
+          type: string
+          example: "123456789"
+        enabled: 
+          type: boolean
+          example: true
     # schemas principal para listar todos os users
     user:
       type: object
@@ -23,10 +54,10 @@ components:
           example: "123456789"
         data_nascemento: 
           type: string
-          example: "2000-01-01"
+          example: "01-02-2000"
         email: 
           type: string
-          example: "[EMAIL_ADDRESS]"
+          example: "stiven@11111.com"
         telefone: 
           type: string
           example: "123456789"
@@ -49,39 +80,7 @@ components:
           type: string
           example: "2000-01-01"
     # schemas para criar um novo user
-    createUser:
-      type: object
-      properties:
-        nome: 
-          type: string
-          example: "Stiven Dias"
-        numero_identificacao: 
-          type: string
-          example: "123456789"
-        data_nascemento: 
-          type: string
-          example: "2000-01-01"
-        email: 
-          type: string
-          example: "[EMAIL_ADDRESS]"
-        telefone: 
-          type: string
-          example: "123456789"
-        pais: 
-          type: string
-          example: "Angola"
-        localidade: 
-          type: string
-          example: "Luanda"
-        password: 
-          type: string
-          example: "123456789"
-        enabled: 
-          type: boolean
-          example: true
-
-      #  shema para resposta de erro  
-    RespostaError:
+    createuserError:
       type: object
       properties:
         message: 
@@ -93,21 +92,96 @@ components:
         data: 
           type: object
           example: null
-    # schemas para resposta de sucesso
-    responseSucesso:
+    # schemas para buscar todos os users
+    getallUserError:
       type: object
       properties:
         message: 
           type: string
-          example: "user criado com sucesso"
+          example: "user nao encontrado"
         status: 
           type: boolean
-          example: true
+          example: false
         data: 
           type: object
           example: null
-    # shema para resposta de erro 400
-    RespostaError400:
+    # schemas para buscar todos os users
+    getByIdUserError:
+      type: object
+      properties:
+        message: 
+          type: string
+          example: "user nao encontrado"
+        status: 
+          type: boolean
+          example: false
+        data: 
+          type: object
+          example: null
+    # schemas para atualizar um user
+    updateUserError: 
+      type: object
+      properties:
+        message: 
+          type: string
+          example: "user nao atualizado"
+        status: 
+          type: boolean
+          example: false
+        data: 
+          type: object
+          example: null
+    # schemas para atualizar um user
+    updateUserErrorinvalidos: 
+      type: object
+      properties:
+        message: 
+          type: string
+          example: "user dados invalidos"
+        status: 
+          type: boolean
+          example: false
+        data: 
+          type: object
+          example: null
+    # schemas para deletar um user
+    deleteUserError: 
+      type: object
+      properties:
+        message: 
+          type: string
+          example: "user nao deletado"
+        status: 
+          type: boolean
+          example: false
+        data: 
+          type: object
+          example: null
+    # schemas para login de um user
+    login: 
+      type: object
+      properties:
+        email: 
+          type: string
+          example: "stiven@111.com"
+        password: 
+          type: string
+          example: "123456789"
+    # schemas para login de um user
+    loginUserError: 
+      type: object
+      properties:
+        message: 
+          type: string
+          example: "user nao logado"
+        status: 
+          type: boolean
+          example: false
+        data: 
+          type: object
+          example: null
+    # schemas para login de um user
+    loginUserErrorinvalidos: 
       type: object
       properties:
         message: 

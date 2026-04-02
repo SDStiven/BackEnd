@@ -10,5 +10,5 @@ export async function comparePassword(passwordEmTexto: string,passwordHash: stri
  return await compare(passwordEmTexto,passwordHash)
 }
 
-// regex
+
 

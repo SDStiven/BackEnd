@@ -10,9 +10,10 @@ import { generateUUID } from "../Utils/uuid.js"
 export const userModel = {
     // create user
     async create(user: utilizadorMySqlType) {
-         console.log(user)
+        console.log("user user.models.ts",user)
         try {
             const query = `insert into tbl_utilizadores values(?,?,?,?,?,?,?,?,?,?,?,?)`
+            console.log("query user.models.ts",query)
             const values = [
                 generateUUID(),
                 user.nome,
@@ -22,13 +23,15 @@ export const userModel = {
                 user.telefone,
                 user.pais,
                 user.localidade,
-                await hashPassword(user.password),
+                await hashPassword(user.passworde),
                 user.enabled,
                 new Date(),
                 new Date()
             ]
+            console.log("values user.models.ts",values)
 
             const rows = await db.execute(query, values)
+            console.log("rows user.models.ts",rows)
             return rows
         } catch (error) {
             console.log(error)
@@ -54,10 +57,10 @@ export const userModel = {
      // get user by id
     async get(id: string) {
         try {
-            const user = `select * from tbl_utilizadores where id = ?`
+            const user = `select * from tbl_utilizadores where tbl_utilizadores.id = ?`
             const values = [id]
             const rows = await db.execute(user, values)
-            return Array.isArray(rows) && rows.length > 0 ? rows[0] : null
+            return Array.isArray(rows) ? rows[0] : null
         } catch (error) {
             console.log({ "catch user.models.ts": error })
             return null
@@ -80,7 +83,7 @@ export const userModel = {
             create_at = ?, 
             apdate_at = ? 
             where id = ?`
-            const values = [
+            const values = [ 
                 userupdate.nome,
                 userupdate.numero_identificacao,
                 userupdate.data_nascemento,
@@ -88,7 +91,7 @@ export const userModel = {
                 userupdate.telefone,
                 userupdate.pais,
                 userupdate.localidade,
-                userupdate.password,
+                userupdate.passworde,
                 userupdate.enabled,
                 new Date(),
                 id
