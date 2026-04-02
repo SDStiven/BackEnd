@@ -7,16 +7,9 @@
 # }
 
 # export interface OrcamentoMySqlType {
-#     id: string
-#     id_cliente: string
-#     id_prestador: string
-#     id_servico: string
-#     preco_hora: number
-#     preco_estimado: number
-#     estado: string
-#     anable: boolean
-#     created_at: string
-#     updated_at: string
+#     total: number
+#     id_utilizador: string
+#     enable: boolean
 # }
 
 components:
@@ -25,36 +18,15 @@ components:
     orcamento:
       type: object
       properties:
-        id:
-          type: string
-          example: 1
-        id_cliente:
-          type: string
-          example: 1
-        id_prestador:
-          type: string
-          example: 1
-        id_servico:
-          type: string
-          example: 1
-        preco_hora:
+        total:
           type: number
           example: 1
-        preco_estimado:
-          type: number
-          example: 1
-        estado:
+        id_utilizador:
           type: string
           example: 1
-        anable:
+        enable:
           type: boolean
           example: true
-        created_at:
-          type: string
-          example: 1
-        updated_at:
-          type: string
-          example: 1
     # Resposta de erro
     RespostaErrorOrcamento:
       type: object

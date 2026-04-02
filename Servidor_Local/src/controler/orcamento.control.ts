@@ -169,5 +169,38 @@ export const orcamentoControler = {
             })
         }
     },
+    // calcular total do orcamento
+    async calcularTotal(req: Request, res: Response) {
+        try {
+            const  id = req.params.id
+            if(!id){
+                return res.status(400).json({
+                    status: "error",
+                    message: "ID do orcamento inválido",
+                    data: null
+                })
+            }
+            const calcularTotalResponse = await orcamentoModel.calcularTotal(id as string)
+            if(!calcularTotalResponse){
+                return res.status(500).json({
+                    status: "error",
+                    message: "Erro ao calcular total do orcamento,verifique se o id existe",
+                    data: null
+                })
+            }
+            return res.status(200).json({
+                status: "success",
+                message: "Total do orcamento calculado com sucesso",
+                data: calcularTotalResponse
+            })
+        } catch (error) {
+            console.error(error)
+            return res.status(500).json({
+                status: "error",
+                message: "Erro interno do servidor",
+                data: null
+            })
+        }
+    },
 
 }

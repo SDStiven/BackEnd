@@ -84,4 +84,23 @@ export const orcamentoModel = {
             return null
         }
     },
+//     ## 2. O Motor Lógico (Cálculo de Orçamento)
+
+// - Calcular Total (PUT /orcamento/:id/calcular):
+//   - O endpoint deve ir à base de dados
+//   - consolidar os valores da tbl_prestacao_servico
+//     - cruzando preco_hora com horas_estimadas
+//   - aplicar as regras de negócio de taxa_urgencia ou descontos da tbl_prestadores
+//   - gravar o valor absoluto na coluna total da tbl_orcamento.
+  async calcularTotal(id: string) { 
+    try { 
+      const query = `select * from tbl_orcamentos where id = ?`
+      const values = [id]
+      const rows = await db.execute(query, values)
+      return Array.isArray(rows) && rows.length > 0 ? rows[0] : null
+    } catch (error) {
+      console.log({ "catch Orcamento.ts": error })
+      return null
+    }
+  }
 }
