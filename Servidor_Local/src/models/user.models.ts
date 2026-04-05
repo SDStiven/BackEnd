@@ -59,8 +59,8 @@ export const userModel = {
         try {
             const user = `select * from tbl_utilizadores where tbl_utilizadores.id = ?`
             const values = [id]
-            const rows = await db.execute(user, values)
-            return Array.isArray(rows) ? rows[0] : null
+            const [rows] = await db.execute(user, values)
+            return Array.isArray(rows) && rows.length > 0 ? rows[0] as utilizadorMySqlType : null
         } catch (error) {
             console.log({ "catch user.models.ts": error })
             return null
@@ -128,4 +128,16 @@ export const userModel = {
             return null
         }
     }, 
+    // update password
+    async updatePassword(id: string, newPasswordHash: string) {
+        try {
+            const query = `update tbl_utilizadores set passworde = ? where id = ?`
+            const values = [newPasswordHash, id]
+            const rows = await db.execute(query, values)
+            return rows
+        } catch (error) {
+            console.log({ "catch user.models.ts": error })
+            return null
+        }
+    }
 }

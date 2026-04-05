@@ -1,5 +1,5 @@
 import { userModel } from "../models/user.models.js"
-import { comparePassword } from "../Utils/password.js"
+import { comparePassword, hashPassword } from "../Utils/password.js"
 import type { utilizadorMySqlType } from "../Utils/types.js"
 import type { Request, Response } from "express"
 import jwt from "jsonwebtoken"
@@ -12,7 +12,7 @@ export const userControler = {
     // create user
     async create(req: Request, res: Response) {
         try {
-            const newuser:utilizadorMySqlType = req.body
+            const newuser: utilizadorMySqlType = req.body
             if (!newuser) {
                 return res.status(400).json({
                     status: "error",
@@ -22,7 +22,7 @@ export const userControler = {
             }
 
             const CreiteServicoRsesponse = await userModel.create(newuser)
-            console.log("CreiteServicoRsesponse",CreiteServicoRsesponse)
+            console.log("CreiteServicoRsesponse", CreiteServicoRsesponse)
 
             if (CreiteServicoRsesponse === null) {
                 return res.status(500).json({
@@ -37,7 +37,7 @@ export const userControler = {
                 data: CreiteServicoRsesponse
             })
         } catch (error) {
-            console.error("error user.controler.ts",error)
+            console.error("error user.controler.ts", error)
             return res.status(500).json({
                 status: "error",
                 message: "Erro interno do servidor",
@@ -73,7 +73,7 @@ export const userControler = {
     // get one user by id
     async get(req: Request, res: Response) {
         try {
-            const id  = req.params.id
+            const id = req.params.id
             const user = await userModel.get(id as string)
 
             return res.status(200).json({
@@ -94,7 +94,7 @@ export const userControler = {
     async update(req: Request, res: Response) {
         try {
             const { id } = req.params
-            const user:utilizadorMySqlType = req.body
+            const user: utilizadorMySqlType = req.body
             if (!user) {
                 return res.status(400).json({
                     status: "error",
@@ -128,8 +128,8 @@ export const userControler = {
     async login(req: Request, res: Response) {
         try {
             const { email, password } = req.body
-            console.log("email",email)
-            console.log("password",password)
+            console.log("email", email)
+            console.log("password", password)
             if (!email || !password) {
                 return res.status(400).json({
                     status: "error",
@@ -145,10 +145,10 @@ export const userControler = {
                     data: null
                 })
             }
-            console.log("userdata",userdata)
-            console.log("password",userdata.passworde)
+            console.log("userdata", userdata)
+            console.log("password", userdata.passworde)
             const isPasswordValid = await comparePassword(password, userdata.passworde)
-            console.log("isPasswordValid",isPasswordValid)
+            console.log("isPasswordValid", isPasswordValid)
             if (!isPasswordValid) {
                 return res.status(401).json({
                     status: "error",
@@ -162,14 +162,14 @@ export const userControler = {
                 nome: userdata.nome
             }
 
-            const token = jwt.sign(payload,process.env.JWT_SECRET as string,{expiresIn:"1h"}
+            const token = jwt.sign(payload, process.env.JWT_SECRET as string, { expiresIn: "1h" }
             )
             return res.status(200).json({
                 status: "success",
                 message: "Usuario logado com sucesso",
                 data: token
             })
-           
+
         } catch (error) {
             console.error(error)
             return res.status(500).json({
@@ -204,7 +204,41 @@ export const userControler = {
                 data: null
             })
         }
+    },
+    // Atualizar senha
+    async updatePassword(req: Request, res: Response) {
+        try {
+            const { oldPassword, newPassword } = req.body;
+            // Pegar o id do token decodificado no middleware
+            const userId = (req as any).user?.id || (req as any).user?.userId;
+
+            if (!userId) {
+                return res.status(401).json({ status: "error", message: "Utilizador não autenticado", data: null });
+            }
+
+            const user = await userModel.get(userId);
+            if (!user) {
+                return res.status(404).json({ status: "error", message: "Utilizador não encontrado", data: null });
+            }
+
+            // Verifica senha antiga
+            const isPasswordValid = await comparePassword(oldPassword, user.passworde);
+            if (!isPasswordValid) {
+                return res.status(400).json({ status: "error", message: "Senha antiga incorreta", data: null });
+            }
+
+            // Gera hash da nova senha e atualiza
+            const newHashedPassword = await hashPassword(newPassword);
+            const updateResult = await userModel.updatePassword(userId, newHashedPassword);
+
+            if (updateResult === null) {
+                return res.status(500).json({ status: "error", message: "Erro ao atualizar a senha", data: null });
+            }
+
+            return res.status(200).json({ status: "success", message: "Senha atualizada com sucesso. Faça login novamente.", data: null });
+        } catch (error) {
+            console.error(error);
+            return res.status(500).json({ status: "error", message: "Erro interno do servidor", data: null });
+        }
     }
-
-
 }

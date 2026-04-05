@@ -10,6 +10,7 @@ const UserRoute = {
     update: "/update/:id",
     delete: "/delete/:id",
     login: "/login",
+    updatePassword: "/auth/update-password",
 }
 
 const router = Router();
@@ -21,5 +22,6 @@ router.post(UserRoute.create,userControler.create)
 router.put(UserRoute.update,userControler.update)
 router.delete(UserRoute.delete,userControler.delete)
 router.post(UserRoute.login,userControler.login)
+router.put(UserRoute.updatePassword, authMiddelware, userControler.updatePassword)
 
 export { router }  
