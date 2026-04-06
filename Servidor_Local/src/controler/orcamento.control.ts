@@ -190,7 +190,7 @@ export const orcamentoControler = {
             }
             return res.status(200).json({
                 status: "success",
-                message: "Total do orcamento calculado com sucesso",
+                message: "Total do orcamento calculado e gravado com sucesso",
                 data: calcularTotalResponse
             })
         } catch (error) {

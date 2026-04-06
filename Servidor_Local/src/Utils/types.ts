@@ -54,6 +54,7 @@ export interface ServicoMySqlType {
 export interface PrestadorMySqlType {
  id:string
  nome: string;
+ email: string;
  profissao: string;
  taxa_urgencia: number;
  minimo_desconto: number;
