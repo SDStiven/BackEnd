@@ -7,9 +7,9 @@ export const prestacao_servicoModel = {
     // create prestacao_servico
      async create(novo: Prestacao_servicoType) {
         try {
-            const query = `insert into tbl_prestacao_servico values(?,?,?,?,?,?,?,?,?,?,?,?)`
+            const query = `insert into tbl_prestacao_servico values(?,?,?,?,?,?,?,?,?,?,?,?,?)`
             const values = [
-                generateUUID(),
+                null,
                 novo.disignacao,
                 novo.subtotal,
                 novo.haras_estimadas,

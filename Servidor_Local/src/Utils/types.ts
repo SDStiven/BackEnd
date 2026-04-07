@@ -35,7 +35,7 @@ email : string
 telefone : string
 pais : string 
 localidade : string
-passworde : string
+password : string
 enabled : boolean 
 created_at : string
 update_at : string

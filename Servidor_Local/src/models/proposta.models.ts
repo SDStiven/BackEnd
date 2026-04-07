@@ -12,9 +12,9 @@ export const propostaModel = {
     // create proposta
     async create(newProposta: PropostaMySqlType) {
         try {
-            const query = `insert into tbl_propostas values(?,?,?,?,?,?,?,?,?,?,?,?)`
+            const query = `insert into tbl_proposta values(?,?,?,?,?,?,?,?)`
             const values = [
-                generateUUID(),
+                null,
                 newProposta.id_prestacao,
                 newProposta.preco_hora,
                 newProposta.preco_estimado,
@@ -33,7 +33,7 @@ export const propostaModel = {
     // get all proposals
     async getAll() {
         try {
-            const query = `select * from tbl_propostas`
+            const query = `select * from tbl_proposta`
             const rows = await db.execute(query)
             return Array.isArray(rows) && rows.length > 0 ? rows[0] : []
         } catch (error) {
@@ -44,7 +44,7 @@ export const propostaModel = {
     // get one proposal by id
     async get(id: string) {
         try {
-            const query = `select * from tbl_propostas where id = ?`
+            const query = `select * from tbl_proposta where id = ?`
             const values = [id]
             const rows = await db.execute(query, values)
             return Array.isArray(rows) && rows.length > 0 ? rows[0] : null
@@ -56,7 +56,7 @@ export const propostaModel = {
     // update proposal
     async update(id: string, propostaAtualizada: PropostaMySqlType) {
         try {
-            const query = `update tbl_propostas set id_prestacao = ?, preco_hora = ?, preco_estimado = ?, estado = ?, anable = ?, apdate_at = ? where id = ?`
+            const query = `update tbl_proposta set id_prestacao = ?, preco_hora = ?, preco_estimado = ?, estado = ?, anable = ?, apdate_at = ? where id = ?`
             const values = [
                 propostaAtualizada.id_prestacao,
                 propostaAtualizada.preco_hora,
@@ -76,7 +76,7 @@ export const propostaModel = {
     // delete proposal
     async delete(id: string) {
         try {
-            const query = `delete from tbl_propostas where id = ?`
+            const query = `delete from tbl_proposta where id = ?`
             const values = [id]
             const rows = await db.execute(query, values)
             return rows
@@ -100,7 +100,7 @@ export const propostaModel = {
 
             // 1. Buscar a proposta selecionada
             const [propostaRows] = await conn.execute(
-                `select * from tbl_propostas where id = ?`,
+                `select * from tbl_proposta where id = ?`,
                 [propostaId]
             )
             const propostas = (Array.isArray(propostaRows) ? propostaRows : []) as PropostaMySqlType[]
@@ -113,7 +113,7 @@ export const propostaModel = {
 
             // 2. Marcar a proposta como 'Aceite'
             await conn.execute(
-                `update tbl_propostas set estado = 'Aceite', updated_at = ? where id = ?`,
+                `update tbl_proposta set estado = 'Aceite', updated_at = ? where id = ?`,
                 [new Date(), propostaId]
             )
 
@@ -135,7 +135,7 @@ export const propostaModel = {
 
             // 5. Rejeitar as outras propostas do mesmo id_prestacao
             await conn.execute(
-                `update tbl_propostas set estado = 'Rejeitada', updated_at = ? 
+                `update tbl_proposta set estado = 'Rejeitada', updated_at = ? 
                  where id_prestacao = ? and id != ? and estado != 'Aceite'`,
                 [new Date(), proposta.id_prestacao, propostaId]
             )
@@ -143,7 +143,7 @@ export const propostaModel = {
             // 6. Buscar todas as propostas rejeitadas (para notificações)
             const [rejeitadasRows] = await conn.execute(
                 `select p.*, pr.nome as prestador_nome, pr.id as prestador_id
-                 from tbl_propostas p
+                 from tbl_proposta p
                  left join tbl_prestadores pr on pr.id = p.id_prestacao
                  where p.id_prestacao = ? and p.id != ? and p.estado = 'Rejeitada'`,
                 [proposta.id_prestacao, propostaId]

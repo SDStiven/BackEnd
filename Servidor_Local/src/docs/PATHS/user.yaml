@@ -35,7 +35,7 @@ paths:
           application/json:
             schema:
               type: object
-              $ref: '#/components/schemas/createUser'
+              $ref: '#/components/schemas/User'
       responses:
         '200':
           description: user criado com sucesso
@@ -43,14 +43,14 @@ paths:
             application/json:
               schema:
                 type: object
-                $ref: '#/components/schemas/user'
+                $ref: '#/components/schemas/usersucess'
         '404':
           description: user nao encontrado
           content:
             application/json:
               schema:
                 type: object
-                $ref: '#/components/schemas/createuserError'
+                $ref: '#/components/schemas/usererror'
   # listar todos os users
   /user:
     get:
@@ -66,14 +66,14 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/user'
+                  $ref: '#/components/schemas/User'
         '404':
           description: Nenhum user encontrado
           content:
             application/json:
               schema:
                 type: object
-                $ref: '#/components/schemas/getallUserError'
+                $ref: '#/components/schemas/usererror'
   # buscar um user por id
   /user/getById/{id}:
     get:
@@ -88,7 +88,7 @@ paths:
           description: id do user a ser buscado
           schema:
             type: string
-            example: 1
+            example: 29443a96-63a2-46d5-ab92-2be8d79f9692
       responses:
         '200':
           description: user encontrado com sucesso
@@ -96,14 +96,14 @@ paths:
             application/json:
               schema:
                 type: object
-                $ref: '#/components/schemas/user'
+                $ref: '#/components/schemas/User'
         '404':
           description: user não encontrado
           content:
             application/json:
               schema:
                 type: object
-                $ref: '#/components/schemas/getByIdUserError'
+                $ref: '#/components/schemas/usererror'
   # atualizar um user
   /user/update/{id}:
     put:
@@ -118,14 +118,14 @@ paths:
           description: id do user a ser atualizado
           schema:
             type: string
-            example: 1
+            example: 29443a96-63a2-46d5-ab92-2be8d79f9692
       requestBody:
         required: true
         content:
           application/json:
             schema:
               type: object
-              $ref: '#/components/schemas/user'
+              $ref: '#/components/schemas/User'
       responses:
         '200':
           description: user atualizado com sucesso
@@ -133,21 +133,21 @@ paths:
             application/json:
               schema:
                 type: object
-                $ref: '#/components/schemas/user'
+                $ref: '#/components/schemas/User'
         '400':
           description: user dados invalidos
           content:
             application/json:
               schema:
                 type: object
-                $ref: '#/components/schemas/updateUserErrorinvalidos'
+                $ref: '#/components/schemas/usererror'
         '404':
           description: user não atualizado
           content:
             application/json:
               schema:
                 type: object
-                $ref: '#/components/schemas/updateUserError'
+                $ref: '#/components/schemas/usererror'
 
     # deletar um user
   /user/delete/{id}:
@@ -163,7 +163,7 @@ paths:
           description: id do user a ser deletado
           schema:
             type: string
-            example: 1
+            example: 29443a96-6reeykku151651j5jj456jk57kj7
       responses:
         '200':
           description: user deletado com sucesso
@@ -171,14 +171,14 @@ paths:
             application/json:
               schema:
                 type: object
-                $ref: '#/components/schemas/user'
+                $ref: '#/components/schemas/usersucess'
         '404':
           description: user não deletado
           content:
             application/json:
               schema:
                 type: object
-                $ref: '#/components/schemas/deleteUserError'
+                $ref: '#/components/schemas/usererror'
   # login de um user
   /user/login:
     post:
@@ -207,13 +207,57 @@ paths:
             application/json:
               schema:
                 type: object
-                $ref: '#/components/schemas/loginUserErrorinvalidos'
+                $ref: '#/components/schemas/loginerror'
         '404': 
           description: user não logado
           content:
             application/json:
               schema:
                 type: object
-                $ref: '#/components/schemas/loginUserError'                  
+                $ref: '#/components/schemas/loginerror'   
+  # update password de um user
+  /user/updatePassword/{id}:
+    put:
+      tags:
+        - User
+      summary: Update password de um user
+      description: Update password de um user
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: id do user a ser atualizado
+          schema:
+            type: string
+            example: 29443a96-63a2-46d5-ab92-2be8d79f9692
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/components/schemas/updatePassword'
+      responses:
+        '200':
+          description: user update password com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/usersucess'
+        '400':
+          description: user update password dados invalidos
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/usererror'
+        '404':
+          description: user update password não atualizado
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/usererror'
         
 

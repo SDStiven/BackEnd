@@ -23,7 +23,7 @@ export const userModel = {
                 user.telefone,
                 user.pais,
                 user.localidade,
-                await hashPassword(user.passworde),
+                await hashPassword(user.password),
                 user.enabled,
                 new Date(),
                 new Date()
@@ -69,7 +69,7 @@ export const userModel = {
 
       // update service
     async update(id: string, userupdate: utilizadorMySqlType) {
-        try {
+        try { 
             const updateServico = `update tbl_utilizadores 
             set nome = ?, 
             numero_identificacao = ?, 
@@ -80,19 +80,17 @@ export const userModel = {
             localidade = ?, 
             password = ?, 
             enabled = ?, 
-            create_at = ?, 
-            apdate_at = ? 
-            where id = ?`
+            update_at = ? where id = ?`
             const values = [ 
                 userupdate.nome,
                 userupdate.numero_identificacao,
-                userupdate.data_nascemento,
+                formatDateDDMMYYYY(userupdate.data_nascemento),
                 userupdate.email,
                 userupdate.telefone,
                 userupdate.pais,
                 userupdate.localidade,
-                userupdate.passworde,
-                userupdate.enabled,
+                await hashPassword(userupdate.password),
+                userupdate.enabled, 
                 new Date(),
                 id
             ]
@@ -131,7 +129,7 @@ export const userModel = {
     // update password
     async updatePassword(id: string, newPasswordHash: string) {
         try {
-            const query = `update tbl_utilizadores set passworde = ? where id = ?`
+            const query = `update tbl_utilizadores set password = ? where id = ?`
             const values = [newPasswordHash, id]
             const rows = await db.execute(query, values)
             return rows

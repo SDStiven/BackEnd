@@ -21,7 +21,6 @@ export async function getUseById(id: string) {
 
 // Inserir um novo utilizador mysql
 export async function novoUtilizador(utilizador: utilizadorMySqlType) {
-    console.log({ "utilizador users.ts": utilizador })
     try {
         const user = db.execute(`
         insert into tbl_utilizadores

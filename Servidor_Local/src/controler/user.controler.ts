@@ -22,7 +22,6 @@ export const userControler = {
             }
 
             const CreiteServicoRsesponse = await userModel.create(newuser)
-            console.log("CreiteServicoRsesponse", CreiteServicoRsesponse)
 
             if (CreiteServicoRsesponse === null) {
                 return res.status(500).json({
@@ -128,8 +127,6 @@ export const userControler = {
     async login(req: Request, res: Response) {
         try {
             const { email, password } = req.body
-            console.log("email", email)
-            console.log("password", password)
             if (!email || !password) {
                 return res.status(400).json({
                     status: "error",
@@ -145,10 +142,7 @@ export const userControler = {
                     data: null
                 })
             }
-            console.log("userdata", userdata)
-            console.log("password", userdata.passworde)
-            const isPasswordValid = await comparePassword(password, userdata.passworde)
-            console.log("isPasswordValid", isPasswordValid)
+            const isPasswordValid = await comparePassword(password, userdata.password)
             if (!isPasswordValid) {
                 return res.status(401).json({
                     status: "error",
@@ -208,21 +202,24 @@ export const userControler = {
     // Atualizar senha
     async updatePassword(req: Request, res: Response) {
         try {
-            const { oldPassword, newPassword } = req.body;
+            const { password, newPassword } = req.body;
             // Pegar o id do token decodificado no middleware
             const userId = (req as any).user?.id || (req as any).user?.userId;
+            /*
 
             if (!userId) {
                 return res.status(401).json({ status: "error", message: "Utilizador não autenticado", data: null });
-            }
+            }*/
 
-            const user = await userModel.get(userId);
+            const user: any= await userModel.get(userId);
+            /*
             if (!user) {
                 return res.status(404).json({ status: "error", message: "Utilizador não encontrado", data: null });
             }
+            */
 
             // Verifica senha antiga
-            const isPasswordValid = await comparePassword(oldPassword, user.passworde);
+            const isPasswordValid = await comparePassword(password, user.password);
             if (!isPasswordValid) {
                 return res.status(400).json({ status: "error", message: "Senha antiga incorreta", data: null });
             }

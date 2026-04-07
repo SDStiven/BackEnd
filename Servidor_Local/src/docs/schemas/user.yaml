@@ -9,7 +9,7 @@
 components:
   schemas:
     # schemas para criar um novo user
-    createUser:
+    User:
       type: object
       properties:
         nome: 
@@ -21,175 +21,76 @@ components:
         data_nascemento: 
           type: string
           example: "01-02-2000"
+        email: 
+          type: string
+          example: "stiven@2222.com"
+        telefone: 
+          type: string
+          example: "123456789"
+        pais: 
+          type: string
+          example: "Angola"
+        localidade: 
+          type: string
+          example: "Luanda"
+        password: 
+          type: string
+          example: "123456789"
+        enabled: 
+          type: boolean
+          example: true
+    usersucess:
+      type: object
+      properties:
+        message: 
+          type: string
+          example: "sucesso"
+        status: 
+          type: boolean
+          example: true
+        data: 
+          type: object
+          example: null
+    usererror:
+      type: object
+      properties:
+        message: 
+          type: string
+          example: "erro"
+        status: 
+          type: boolean
+          example: false
+        data: 
+          type: object
+          example: null
+
+    login:
+      type: object
+      properties:
         email: 
           type: string
           example: "stiven@2222.cpm"
-        telefone: 
-          type: string
-          example: "123456789"
-        pais: 
-          type: string
-          example: "Angola"
-        localidade: 
-          type: string
-          example: "Luanda"
         password: 
           type: string
           example: "123456789"
-        enabled: 
-          type: boolean
-          example: true
-    # schemas principal para listar todos os users
-    user:
+    loginerror:
       type: object
       properties:
-        id: 
+        message: 
           type: string
-          example: 1
-        nome: 
-          type: string
-          example: "Stiven Dias"
-        numero_identificacao: 
-          type: string
-          example: "123456789"
-        data_nascemento: 
-          type: string
-          example: "01-02-2000"
-        email: 
-          type: string
-          example: "stiven@11111.com"
-        telefone: 
-          type: string
-          example: "123456789"
-        pais: 
-          type: string
-          example: "Angola"
-        localidade: 
-          type: string
-          example: "Luanda"
+          example: "erro"
+        status: 
+          type: boolean
+          example: false
+        data: 
+          type: object
+          example: null
+    updatePassword:
+      type: object
+      properties:
         password: 
           type: string
           example: "123456789"
-        enabled: 
-          type: boolean
-          example: true
-        created_at: 
-          type: string
-          example: "2000-01-01"
-        update_at: 
-          type: string
-          example: "2000-01-01"
-    # schemas para criar um novo user
-    createuserError:
-      type: object
-      properties:
-        message: 
-          type: string
-          example: "user nao encontrado"
-        status: 
-          type: boolean
-          example: false
-        data: 
-          type: object
-          example: null
-    # schemas para buscar todos os users
-    getallUserError:
-      type: object
-      properties:
-        message: 
-          type: string
-          example: "user nao encontrado"
-        status: 
-          type: boolean
-          example: false
-        data: 
-          type: object
-          example: null
-    # schemas para buscar todos os users
-    getByIdUserError:
-      type: object
-      properties:
-        message: 
-          type: string
-          example: "user nao encontrado"
-        status: 
-          type: boolean
-          example: false
-        data: 
-          type: object
-          example: null
-    # schemas para atualizar um user
-    updateUserError: 
-      type: object
-      properties:
-        message: 
-          type: string
-          example: "user nao atualizado"
-        status: 
-          type: boolean
-          example: false
-        data: 
-          type: object
-          example: null
-    # schemas para atualizar um user
-    updateUserErrorinvalidos: 
-      type: object
-      properties:
-        message: 
-          type: string
-          example: "user dados invalidos"
-        status: 
-          type: boolean
-          example: false
-        data: 
-          type: object
-          example: null
-    # schemas para deletar um user
-    deleteUserError: 
-      type: object
-      properties:
-        message: 
-          type: string
-          example: "user nao deletado"
-        status: 
-          type: boolean
-          example: false
-        data: 
-          type: object
-          example: null
-    # schemas para login de um user
-    login: 
-      type: object
-      properties:
-        email: 
-          type: string
-          example: "stiven@111.com"
-        password: 
+        newPassword: 
           type: string
           example: "123456789"
-    # schemas para login de um user
-    loginUserError: 
-      type: object
-      properties:
-        message: 
-          type: string
-          example: "user nao logado"
-        status: 
-          type: boolean
-          example: false
-        data: 
-          type: object
-          example: null
-    # schemas para login de um user
-    loginUserErrorinvalidos: 
-      type: object
-      properties:
-        message: 
-          type: string
-          example: "user dados invalidos"
-        status: 
-          type: boolean
-          example: false
-        data: 
-          type: object
-          example: null

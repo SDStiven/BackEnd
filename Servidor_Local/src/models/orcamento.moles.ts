@@ -6,7 +6,7 @@ export const orcamentoModel = {
     // create orcamento
     async create(newOrcamento: OrcamentoMySqlType) {
         try {
-            const query = `insert into tbl_orcamentos values(?,?,?,?,?,?,?,?)`
+            const query = `insert into tbl_orcamento values(?,?,?,?,?,?)`
             const values = [
                 null,
                 newOrcamento.total,
@@ -25,7 +25,7 @@ export const orcamentoModel = {
     // get all orcamentos
     async getAll() {
         try {
-            const orcamentos = `select * from tbl_orcamentos`
+            const orcamentos = `select * from tbl_orcamento`
 
             const rows = await db.execute(orcamentos)
 
@@ -37,8 +37,9 @@ export const orcamentoModel = {
     },
     // get one orcamento by id
     async get(id: string) {
+        console.log("id1648+6645",id)
         try {
-            const orcamento = `select * from tbl_orcamentos where id = ?`
+            const orcamento = `select * from tbl_orcamento where id = ?`
             const values = [id]
             const rows = await db.execute(orcamento, values)
             return Array.isArray(rows) && rows.length > 0 ? rows[0] : null
@@ -50,7 +51,7 @@ export const orcamentoModel = {
     // update orcamento
     async update(id: string, orcamentoAtualizado: OrcamentoMySqlType) {
         try {
-            const updateOrcamento = `update tbl_orcamentos 
+            const updateOrcamento = `update tbl_orcamento 
             set id_prestacao = ?, 
             preco_hora = ?, 
             preco_estimado = ?, 
@@ -75,7 +76,7 @@ export const orcamentoModel = {
     // delete orcamento
     async delete(id: string) {
         try {
-            const query = `delete from tbl_orcamentos where id = ?`
+            const query = `delete from tbl_orcamento where id = ?`
             const values = [id]
             const rows = await db.execute(query, values)
             return rows
@@ -89,7 +90,7 @@ export const orcamentoModel = {
         try {
             // 1. Verificar se o orçamento existe
             const [orcRows] = await db.execute(
-                `select * from tbl_orcamentos where id = ?`,
+                `select * from tbl_orcamento where id = ?`,
                 [id]
             )
             if (!Array.isArray(orcRows) || orcRows.length === 0) return null
@@ -104,7 +105,7 @@ export const orcamentoModel = {
             if (servicos.length === 0) {
                 // Nenhum serviço — total é 0
                 await db.execute(
-                    `update tbl_orcamentos set total = 0, updated_at = ? where id = ?`,
+                    `update tbl_orcamento set total = 0, updated_at = ? where id = ?`,
                     [new Date(), id]
                 )
                 return { total: 0 }
@@ -157,7 +158,7 @@ export const orcamentoModel = {
             // 4. Gravar o total absoluto no orçamento
             const totalAbsoluto = Math.abs(totalGeral)
             await db.execute(
-                `update tbl_orcamentos set total = ?, updated_at = ? where id = ?`,
+                `update tbl_orcamento set total = ?, updated_at = ? where id = ?`,
                 [totalAbsoluto, new Date(), id]
             )
 

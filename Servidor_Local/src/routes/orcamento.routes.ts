@@ -4,7 +4,7 @@ import authMiddelware from "../security/auth.middelware.js"
 
 const orcamentoRoute ={
     create:"/create",
-    getById:"/getById/:id",
+    getById:"/:id",
     getAll:"/",
     update:"/update/:id",
     delete:"/delete/:id",

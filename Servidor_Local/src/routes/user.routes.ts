@@ -10,18 +10,17 @@ const UserRoute = {
     update: "/update/:id",
     delete: "/delete/:id",
     login: "/login",
-    updatePassword: "/auth/update-password",
+    updatePassword: "/updatePassword/:id",
 }
 
 const router = Router();
  
-router.get(UserRoute.getAll,authMiddelware,userControler.getAll)
-
-router.get(UserRoute.getById,userControler.get)
+router.get(UserRoute.getAll,userControler.getAll)
+router.get(UserRoute.getById,authMiddelware,userControler.get)
 router.post(UserRoute.create,userControler.create)
-router.put(UserRoute.update,userControler.update)
-router.delete(UserRoute.delete,userControler.delete)
+router.put(UserRoute.update,authMiddelware,userControler.update)
+router.delete(UserRoute.delete,authMiddelware,userControler.delete)
 router.post(UserRoute.login,userControler.login)
-router.put(UserRoute.updatePassword, authMiddelware, userControler.updatePassword)
+router.put(UserRoute.updatePassword,authMiddelware,userControler.updatePassword)
 
 export { router }  
