@@ -42,77 +42,73 @@ paths:
                         application/json:
                             schema:
                                 type: object
-                                $ref: '#/components/schemas/RespostaErrorprestador'
-    # criar um prestador
+                                $ref: '#/components/schemas/prestadorError'
     /prestador/create:
         post:
             tags:
                 - Prestador
-            summary: Criar um prestador
+            summary: Criar um novo prestador
             description: Cria um novo prestador
             requestBody:
                 required: true
                 content:
                     application/json:
                         schema:
-                            type: object
                             $ref: '#/components/schemas/prestador'
             responses:
                 '200':
-                    description: prestador criado com sucesso
-                    content:
-                        application/json:
-                            schema:
-                                type: object
-                                $ref: '#/components/schemas/RespostaSucessoPrestador'
-                '404':
-                    description: Nenhuma prestador encontrado
-                    content:
-                        application/json:
-                            schema:
-                                type: object
-                                $ref: '#/components/schemas/RespostaErrorprestador'
-    # buscar um prestador por id
-    /prestador/{id}:
-        get:
-            tags:
-                - Prestador
-            summary: Buscar um prestador por id
-            description: Retorna um prestador cadastrado
-            parameters:
-                - name: id
-                  in: path
-                  required: true
-                  description: id do prestador
-                  schema:
-                    type: string
-            responses:
-                '200':
-                    description: prestador encontrado com sucesso
+                    description: Prestador criado com sucesso
                     content:
                         application/json:
                             schema:
                                 type: object
                                 $ref: '#/components/schemas/prestador'
                 '404':
-                    description: Nenhuma prestador encontrado
+                    description: Prestador não encontrado
                     content:
                         application/json:
                             schema:
                                 type: object
-                                $ref: '#/components/schemas/RespostaErrorprestador'
-    # atualizar um prestador
-    /prestador/update/{id}:
-        put:
+                                $ref: '#/components/schemas/prestadorError'
+    /prestador/getById/{id}:
+        get:
             tags:
                 - Prestador
-            summary: Atualizar um prestador
-            description: Atualiza um prestador cadastrado
+            summary: Buscar um prestador por ID
+            description: Retorna um prestador específico pelo seu ID
             parameters:
                 - name: id
                   in: path
                   required: true
-                  description: id do prestador
+                  description: ID do prestador a ser buscado
+                  schema:
+                    type: string
+            responses:
+                '200':
+                    description: Prestador encontrado com sucesso
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                $ref: '#/components/schemas/prestador'
+                '404':
+                    description: Prestador não encontrado
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                $ref: '#/components/schemas/prestadorError'
+    /prestador/update/{id}:
+        put:
+            tags:
+                - Prestador
+            summary: Atualizar um prestador por ID
+            description: Atualiza um prestador específico pelo seu ID
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  description: ID do prestador a ser atualizado
                   schema:
                     type: string
             requestBody:
@@ -120,49 +116,48 @@ paths:
                 content:
                     application/json:
                         schema:
-                            type: object
                             $ref: '#/components/schemas/prestador'
             responses:
                 '200':
-                    description: prestador atualizado com sucesso
+                    description: Prestador atualizado com sucesso
                     content:
                         application/json:
                             schema:
                                 type: object
-                                $ref: '#/components/schemas/RespostaSucessoPrestador'
+                                $ref: '#/components/schemas/prestador'
                 '404':
-                    description: Nenhuma prestador encontrado
+                    description: Prestador não encontrado
                     content:
                         application/json:
                             schema:
                                 type: object
-                                $ref: '#/components/schemas/RespostaErrorprestador'
-    # deletar um prestador
+                                $ref: '#/components/schemas/prestadorError'
     /prestador/delete/{id}:
         delete:
             tags:
                 - Prestador
-            summary: Deletar um prestador
-            description: Deleta um prestador cadastrado
+            summary: Deletar um prestador por ID
+            description: Deleta um prestador específico pelo seu ID
             parameters:
                 - name: id
                   in: path
                   required: true
-                  description: id do prestador
+                  description: ID do prestador a ser deletado
                   schema:
                     type: string
             responses:
                 '200':
-                    description: prestador deletado com sucesso
+                    description: Prestador deletado com sucesso
                     content:
                         application/json:
                             schema:
                                 type: object
-                                $ref: '#/components/schemas/RespostaSucessoPrestador'
+                                $ref: '#/components/schemas/prestador'
                 '404':
-                    description: Nenhuma prestador encontrado
+                    description: Prestador não encontrado
                     content:
                         application/json:
                             schema:
                                 type: object
-                                $ref: '#/components/schemas/RespostaErrorprestador'
+                                $ref: '#/components/schemas/prestadorError'
+                                

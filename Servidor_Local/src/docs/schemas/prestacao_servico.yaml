@@ -63,7 +63,7 @@ components:
         updated_at:
           type: string
           example: 1
-    RespostaErrorPrestacao_servico:
+    prestacao_servicoError:
       type: object
       properties:
         message:
@@ -72,18 +72,6 @@ components:
         status:
           type: boolean
           example: false
-        data:
-          type: object
-          example: null
-    RespostaSucessoPrestacao_servico:
-      type: object
-      properties:
-        message:
-          type: string
-          example: "prestacao de servico criada com sucesso"
-        status:
-          type: boolean
-          example: true
         data:
           type: object
           example: null

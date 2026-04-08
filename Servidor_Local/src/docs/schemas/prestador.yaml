@@ -16,10 +16,10 @@ components:
                     example: 1
                 nome:
                     type: string
-                    example: "prestador"
+                    example: "prestador-teste"
                 profissao:
                     type: string
-                    example: "prestador"
+                    example: "engenheiro"
                 taxa_urgencia:
                     type: number
                     example: 1
@@ -38,33 +38,15 @@ components:
                 disponivel:
                     type: boolean
                     example: true
-                create_at:
-                    type: string
-                    example: "2022-01-01"
-                apdate_at:
-                    type: string
-                    example: "2022-01-01"
-        RespostaErrorprestador:
+        prestadorError:
             type: object
             properties:
                 message:
                     type: string
-                    example: "prestador nao encontrado"
+                    example: "error"
                 status:
                     type: boolean
                     example: false
-                data:
-                    type: object
-                    example: null
-        RespostaSucessoPrestador:
-            type: object
-            properties:
-                message:
-                    type: string
-                    example: "prestador criado com sucesso"
-                status:
-                    type: boolean
-                    example: true
                 data:
                     type: object
                     example: null

@@ -196,15 +196,7 @@ export const propostaControler = {
             // --- Notificações (assíncronas, não bloqueiam a resposta HTTP) ---
             const { prestadorAceite, propostasRejeitadas } = resultado
 
-            // E-mail para o prestador cuja proposta foi aceite
-            if (prestadorAceite?.email) {
-                sendMail({
-                    to: prestadorAceite.email,
-                    subject: "A sua proposta foi aceite!",
-                    html: `<h2>Parabéns, ${prestadorAceite.nome}!</h2>
-                           <p>A sua proposta foi <strong>aceite</strong>. Por favor, inicie a execução do serviço.</p>`
-                })
-            }
+           
 
             // E-mail para os prestadores com propostas rejeitadas
             for (const rejeitada of (propostasRejeitadas as any[])) {

@@ -44,7 +44,7 @@ export const propostaModel = {
     // get one proposal by id
     async get(id: string) {
         try {
-            const query = `select * from tbl_proposta where id = ?`
+            const query = `select * from tbl_proposta where tbl_proposta.id = ?`
             const values = [id]
             const rows = await db.execute(query, values)
             return Array.isArray(rows) && rows.length > 0 ? rows[0] : null
@@ -55,18 +55,21 @@ export const propostaModel = {
     },
     // update proposal
     async update(id: string, propostaAtualizada: PropostaMySqlType) {
+        console.log("propostaAtualizada",propostaAtualizada)
+        console.log("id",id)
         try {
-            const query = `update tbl_proposta set id_prestacao = ?, preco_hora = ?, preco_estimado = ?, estado = ?, anable = ?, apdate_at = ? where id = ?`
+            const query = `update tbl_proposta set id_prestacao = ?, preco_hora = ?, hora_estimada = ?, estado = ?, anable = ?, apdate_at = ? where tbl_proposta.id = ?`
             const values = [
                 propostaAtualizada.id_prestacao,
                 propostaAtualizada.preco_hora,
-                propostaAtualizada.preco_estimado,
+                propostaAtualizada.hora_estimadao,
                 propostaAtualizada.estado,
                 propostaAtualizada.anable,
                 new Date(),
                 id
             ]
             const rows = await db.execute(query, values)
+            console.log("rows",rows)
             return rows
         } catch (error) {
             console.log({ "catch proposta.ts": error })

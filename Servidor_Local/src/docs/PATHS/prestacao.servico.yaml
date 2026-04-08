@@ -29,9 +29,37 @@ paths:
             application/json:
               schema:
                 type: object
-                $ref: '#/components/schemas/RespostaErrorPrestacao_servico'
+                $ref: '#/components/schemas/prestacao_servicoError'
   # buscar uma prestacao de servico por id
-  /prestacao_servico/{id}:
+  /prestacao_servico/create:
+    post:
+      tags:
+        - Prestacao de servico
+      summary: Criar uma prestacao de servico
+      description: Cria uma prestacao de servico
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/components/schemas/prestacao_servico'
+      responses:
+        '200':
+          description: prestacao de servico criada com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/prestacao_servico'
+        '404':
+          description: Nenhuma prestacao de servico encontrada
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/prestacao_servicoError'
+  /prestacao_servico/getById/{id}:
     get:
       tags:
         - Prestacao de servico
@@ -58,7 +86,7 @@ paths:
             application/json:
               schema:
                 type: object
-                $ref: '#/components/schemas/RespostaErrorPrestacao_servico'
+                $ref: '#/components/schemas/prestacao_servicoError'
   # atualizar uma prestacao de servico
   /prestacao_servico/update/{id}:
     put:
@@ -87,14 +115,14 @@ paths:
             application/json:
               schema:
                 type: object
-                $ref: '#/components/schemas/RespostaSucessoPrestacao_servico'
+                $ref: '#/components/schemas/prestacao_servico'
         '404':
           description: Nenhuma prestacao de servico encontrada
           content:
             application/json:
               schema:
                 type: object
-                $ref: '#/components/schemas/RespostaErrorPrestacao_servico'
+                $ref: '#/components/schemas/prestacao_servicoError'
   # deletar uma prestacao de servico
   /prestacao_servico/delete/{id}:
     delete:
@@ -116,11 +144,11 @@ paths:
             application/json:
               schema:
                 type: object
-                $ref: '#/components/schemas/RespostaSucessoPrestacao_servico'
+                $ref: '#/components/schemas/prestacao_servico'
         '404':
           description: Nenhuma prestacao de servico encontrada
           content:
             application/json:
               schema:
                 type: object
-                $ref: '#/components/schemas/RespostaErrorPrestacao_servico'
+                $ref: '#/components/schemas/prestacao_servicoError'

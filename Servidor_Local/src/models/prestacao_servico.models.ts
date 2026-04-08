@@ -7,7 +7,7 @@ export const prestacao_servicoModel = {
     // create prestacao_servico
      async create(novo: Prestacao_servicoType) {
         try {
-            const query = `insert into tbl_prestacao_servico values(?,?,?,?,?,?,?,?,?,?,?,?,?)`
+            const query = `insert into tbl_prestacao_servico values(?,?,?,?,?,?,?,?,?,?,?,?)`
             const values = [
                 null,
                 novo.disignacao,
@@ -55,7 +55,7 @@ export const prestacao_servicoModel = {
     // update prestacao_servico
     async update(id: string, prestacao_servicoAtualizado: Prestacao_servicoType) {
         try {
-            const query = `update tbl_prestacao_servico set disignacao = ?, subtotal = ?, haras_estimadas = ?, id_prestador = ?, id_servico = ?, preco_hora = ?, estado = ?, id_orcamento = ?, enabled = ?, created_at = ?, updated_at = ?, preco_hora = ? where id = ?`
+            const query = `update tbl_prestacao_servico set disignacao = ?, subtotal = ?, haras_estimadas = ?, id_prestador = ?, id_servico = ?, preco_hora = ?, estado = ?, id_orcamento = ?, enabled = ?, created_at = ?, preco_hora = ? where id = ?`
             const values = [
                 prestacao_servicoAtualizado.disignacao,
                 prestacao_servicoAtualizado.subtotal,

@@ -22,16 +22,13 @@ components:
     proposta:
       type: object
       properties:
-        id:
-          type: string
-          example: 1
         id_prestacao:
           type: string
           example: 1
         preco_hora:
           type: number
           example: 1
-        preco_estimado:
+        hora_estimada:
           type: number
           example: 1
         estado:
@@ -40,12 +37,6 @@ components:
         anable:
           type: boolean
           example: true
-        created_at:
-          type: string
-          example: 1
-        updated_at:
-          type: string
-          example: 1
     RespostaErrorproposta:
       type: object
       properties:

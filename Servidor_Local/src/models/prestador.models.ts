@@ -2,14 +2,14 @@ import db from "../lib/db.js"
 import type { PrestadorMySqlType } from "../Utils/types.js"
 import { generateUUID } from "../Utils/uuid.js"
 
- 
+
 export const prestadorModel = {
     // create prestador
     async create(Prestador: PrestadorMySqlType) {
         try {
-            const newPrestador = `insert into tbl_prestador values(?,?,?,?,?,?,?,?,?,?,?)`
+            const newPrestador = `insert into tbl_prestadores values(?,?,?,?,?,?,?,?,?)`
             const values = [
-                generateUUID(), 
+                generateUUID(),
                 Prestador.nome,
                 Prestador.profissao,
                 Prestador.taxa_urgencia,
@@ -17,9 +17,7 @@ export const prestadorModel = {
                 Prestador.nif,
                 Prestador.persentagem_desconto,
                 Prestador.preco_hora,
-                Prestador.disponivel,
-                new Date(),
-                new Date()
+                Prestador.disponivel
             ]
             const rows = await db.execute(newPrestador, values)
             return rows
@@ -44,10 +42,10 @@ export const prestadorModel = {
     // get one prestador by id
     async get(id: string) {
         try {
-            const prestador = `select * from tbl_prestador where id = ?`
-            const values = [id]
-            const rows = await db.execute(prestador, values)
-            return Array.isArray(rows) && rows.length > 0 ? rows[0] : null
+            const prestador = `select * from tbl_prestadores where tbl_prestadores.id = ?`
+            const rows = await db.execute(prestador, [id])
+            console.log("rows", rows)
+            return Array.isArray(rows) && rows.length > 0 ? rows[0] : []
         } catch (error) {
             console.log({ "catch prestador.ts": error })
             return null
@@ -57,18 +55,14 @@ export const prestadorModel = {
     // update prestador
     async update(id: string, apdatePrestador: PrestadorMySqlType) {
         try {
-            const updatePrestador = `update tbl_prestador 
-           ?, 
-           ?, 
-           ?, 
-           ?, 
-           ?, 
-           ?, 
-           ?, 
-           ?,  
-           ?, 
-           ?, 
-           ?` 
+            const updatePrestador = `update tbl_prestadores set nome = ?,
+             profissao = ?,
+              taxa_urgencia = ?, 
+              minimo_desconto = ?, 
+              nif = ?, 
+              persentagem_desconto = ?, 
+              preco_hora = ?, 
+              disponivel = ? where id = ?`
             const values = [
                 apdatePrestador.nome,
                 apdatePrestador.profissao,
@@ -78,7 +72,6 @@ export const prestadorModel = {
                 apdatePrestador.persentagem_desconto,
                 apdatePrestador.preco_hora,
                 apdatePrestador.disponivel,
-                new Date(),
                 id
             ]
             const rows = await db.execute(updatePrestador, values)

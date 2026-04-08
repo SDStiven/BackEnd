@@ -1,5 +1,6 @@
+import { error } from "node:console"
 import db from "../lib/db.js"
-import type { OrcamentoMySqlType, Prestacao_servicoType, PrestadorMySqlType } from "../Utils/types.js"
+import type { OrcamentoMySqlType, Prestacao_servicoType, PrestadorMySqlType, PropostaMySqlType } from "../Utils/types.js"
 
 
 export const orcamentoModel = {
@@ -37,7 +38,7 @@ export const orcamentoModel = {
     },
     // get one orcamento by id
     async get(id: string) {
-        console.log("id1648+6645",id)
+        console.log("id1648+6645", id)
         try {
             const orcamento = `select * from tbl_orcamento where id = ?`
             const values = [id]
@@ -167,5 +168,80 @@ export const orcamentoModel = {
             console.log({ "catch calcularTotal Orcamento.ts": error })
             return null
         }
+    },
+}
+/*
+    // calcular total formador
+    async calculatebudget(req: Request, res: Response) {
+        try {
+            const { id } = req.params
+            // logit based  on the fallowing
+            // accepte proposal bring id_prestador which has urgente tax ,for discount  and discont percentage  acording to types
+            // proposal and precHora and horas_estimada 
+
+            // the calculator buget
+            const Prestacaoservico = await PretacaoServicoModel.getbuidorcamento(id as string)
+            if (!Prestacaoservico) {
+                return res.status(404).json(
+                    {
+                        status: 404,
+                        message: "Nenhum prestador encontrado"
+                    data: null
+                    })
+            }
+            // fectch all proposal
+            const proposals = await PretacaoServicoModel.getbaiIdprestacaosevico(Prestacaoservico.id as string)
+            if (!proposals) {
+                return res.status(404).json(
+                    {
+                        status: 404,
+                        message: "Nenhum prestador encontrado"
+                    data: null
+                    })
+            }
+            // find accepted proposal
+            const acceptedProposal: PropostaMySqlType | undefined = proposals.find((proposal) => proposal.estado === EstadoProposta.ACEITE)
+            if (!acceptedProposal) {
+                return res.status(404).json(
+                    {
+                        status: "error",
+                        message: "ainda não foi aceite nenhuma proposta"
+                    data: null
+                    })
+            }
+            const precHora = acceptedProposal.preco_hora
+            const horasEstimadas = acceptedProposal.haras_estimadas
+
+            // fectch pretador to get urgent t ax minimun disount  and discount percentage based okn  attts in utils/type.ts
+            const prestador = await PrestadorModel.get(acceptedProposal.id_prestador)
+            if (!prestador) {
+                return res.status(404).json(
+                    {
+                        status: 404,
+                        message: "Nenhum prestador encontrado"
+                        data: null
+                    })
+            }
+            const urgentetax = prestador.taxa_urgencia
+            const minimunDiscount = prestador.minimo_desconto
+            const discountPercentage = prestador.persentagem_desconto
+
+            // calcule the budget on utils/type.ts
+        
+
+
+
+
+
+        }catch(error){
+            console.log(error)
+            return res.status(500).json(
+                {
+                    status: 500,
+                    message: "Erro ao calcular o orçamento"
+                data: null
+                })
+        }
     }
 }
+*/

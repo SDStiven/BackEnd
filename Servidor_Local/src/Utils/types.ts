@@ -53,17 +53,14 @@ export interface ServicoMySqlType {
  
 export interface PrestadorMySqlType {
  id:string
- nome: string;
- email: string;
- profissao: string;
- taxa_urgencia: number;
- minimo_desconto: number;
- nif: number;
- persentagem_desconto: number;
- preco_hora: number;
- disponivel: boolean;
- create_at: string;
- apdate_at: string;
+nome: string; 
+profissao: string; 
+taxa_urgencia: number; 
+minimo_desconto: number; 
+nif: number; 
+persentagem_desconto: number; 
+preco_hora: number; 
+disponivel: boolean;
 }
 
 export interface PropostaMySqlType {
@@ -71,7 +68,7 @@ export interface PropostaMySqlType {
     id: string
     id_prestacao: string
     preco_hora: number
-    preco_estimado: number
+    hora_estimada: number
     estado: string
     anable: boolean
     created_at: string
