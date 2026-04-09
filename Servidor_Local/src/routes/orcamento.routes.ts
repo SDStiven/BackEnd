@@ -17,6 +17,7 @@ router.get(orcamentoRoute.getAll, orcamentoControler.getAll)
 router.get(orcamentoRoute.getById, orcamentoControler.get)
 router.put(orcamentoRoute.update, orcamentoControler.update)
 router.delete(orcamentoRoute.delete, orcamentoControler.delete)
+
 router.put(orcamentoRoute.calcularTotal, authMiddelware, orcamentoControler.calcularTotal)
 
 export {router}

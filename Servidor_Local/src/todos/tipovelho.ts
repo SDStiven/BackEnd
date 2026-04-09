@@ -1,0 +1,37 @@
+export interface PedidoServicoType {
+  cliente: string;
+  descricao: string;
+  horasEstimadas: number;
+  urgente: boolean;
+} 
+export interface Servicotype {
+  nome: string;
+  precoHora: number;
+  minimiDesconto: number;
+  categoria: string;
+  percentagemDesconto?: number;
+}
+ 
+export interface PrestadorType {
+    nome: string,
+    precoHora: number,
+    profissao: string,
+    minimoParaDesconto: number,
+    percentagemDesconto: number,
+    taxaUrgencia: number
+}
+ 
+export interface utilizadorMySqlType {
+id : string
+nome : string
+numero_identificacao : string
+data_nascemento : string
+email : string
+telefone : string
+pais : string 
+localidade : string
+password : string
+enabled : boolean 
+created_at : string
+update_at : string
+}

@@ -1,11 +1,11 @@
 import db from "../lib/db.js"
-import type { PrestadorMySqlType } from "../Utils/types.js"
+import type { PrestadorDBType } from "../Utils/types.js"
 import { generateUUID } from "../Utils/uuid.js"
 
 
 export const prestadorModel = {
     // create prestador
-    async create(Prestador: PrestadorMySqlType) {
+    async create(Prestador: PrestadorDBType) {
         try {
             const newPrestador = `insert into tbl_prestadores values(?,?,?,?,?,?,?,?,?)`
             const values = [
@@ -53,7 +53,7 @@ export const prestadorModel = {
     },
 
     // update prestador
-    async update(id: string, apdatePrestador: PrestadorMySqlType) {
+    async update(id: string, apdatePrestador: PrestadorDBType) {
         try {
             const updatePrestador = `update tbl_prestadores set nome = ?,
              profissao = ?,

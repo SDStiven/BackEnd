@@ -1,23 +1,23 @@
 import db from "../lib/db.js"
-import type { PropostaMySqlType, Prestacao_servicoType, PrestadorMySqlType, utilizadorMySqlType } from "../Utils/types.js"
+import type { PropostaDBType, Prestacao_servicoDBType, PrestadorDBType, UtilizadorDBType } from "../Utils/types.js"
 import { generateUUID } from "../Utils/uuid.js"
 import type { PoolConnection } from "mysql2/promise"
 
 type AceitarPropostaResult =
-    | { success: true;  propostaAceite: PropostaMySqlType; prestacao: Prestacao_servicoType | null; prestadorAceite: PrestadorMySqlType | null; propostasRejeitadas: any[] }
+    | { success: true;  propostaAceite: PropostaDBType; prestacao: Prestacao_servicoDBType | null; prestadorAceite: PrestadorDBType | null; propostasRejeitadas: any[] }
     | { success: false; message: string }
 
 
 export const propostaModel = {
     // create proposta
-    async create(newProposta: PropostaMySqlType) {
+    async create(newProposta: PropostaDBType) {
         try {
             const query = `insert into tbl_proposta values(?,?,?,?,?,?,?,?)`
             const values = [
                 null,
                 newProposta.id_prestacao,
                 newProposta.preco_hora,
-                newProposta.preco_estimado,
+                newProposta.hora_estimada,
                 newProposta.estado,
                 newProposta.anable,
                 new Date(),
@@ -54,7 +54,7 @@ export const propostaModel = {
         }
     },
     // update proposal
-    async update(id: string, propostaAtualizada: PropostaMySqlType) {
+    async update(id: string, propostaAtualizada: PropostaDBType) {
         console.log("propostaAtualizada",propostaAtualizada)
         console.log("id",id)
         try {
@@ -62,7 +62,7 @@ export const propostaModel = {
             const values = [
                 propostaAtualizada.id_prestacao,
                 propostaAtualizada.preco_hora,
-                propostaAtualizada.hora_estimadao,
+                propostaAtualizada.hora_estimada,
                 propostaAtualizada.estado,
                 propostaAtualizada.anable,
                 new Date(),
@@ -106,7 +106,7 @@ export const propostaModel = {
                 `select * from tbl_proposta where id = ?`,
                 [propostaId]
             )
-            const propostas = (Array.isArray(propostaRows) ? propostaRows : []) as PropostaMySqlType[]
+            const propostas = (Array.isArray(propostaRows) ? propostaRows : []) as PropostaDBType[]
             if (propostas.length === 0) {
                 await conn.rollback()
                 conn.release()
@@ -125,7 +125,7 @@ export const propostaModel = {
                 `select * from tbl_prestacao_servico where id = ?`,
                 [proposta.id_prestacao]
             )
-            const prestacoes = (Array.isArray(prestacaoRows) ? prestacaoRows : []) as Prestacao_servicoType[]
+            const prestacoes = (Array.isArray(prestacaoRows) ? prestacaoRows : []) as Prestacao_servicoDBType[]
             const prestacao = prestacoes[0] ?? null
 
             if (prestacao) {
@@ -159,7 +159,7 @@ export const propostaModel = {
                     `select * from tbl_prestadores where id = ?`,
                     [prestacao.id_prestador]
                 )
-                const prestadores = (Array.isArray(prestadorRows) ? prestadorRows : []) as PrestadorMySqlType[]
+                const prestadores = (Array.isArray(prestadorRows) ? prestadorRows : []) as PrestadorDBType[]
                 prestadorAceite = prestadores[0] ?? null
             }
 

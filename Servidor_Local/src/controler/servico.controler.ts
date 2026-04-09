@@ -1,14 +1,14 @@
 
 import type { Request, Response } from "express"
 import { servicoModel } from "../models/serveco.modesl.js"
-import type { ServicoMySqlType } from "../Utils/types.js"
+import type { ServicoDBType } from "../Utils/types.js"
 
  
 export const servicoComtroler = {
     // create servico
     async createServico(req: Request, res: Response) {
         try {
-            const newServico:ServicoMySqlType = req.body
+            const newServico:ServicoDBType = req.body
             if(!newServico){
                 return res.status(400).json({
                     status: "error",
@@ -20,9 +20,9 @@ export const servicoComtroler = {
             const CreiteServicoRsesponse = await servicoModel.create(newServico)
 
             if(CreiteServicoRsesponse === null){
-                return res.status(500).json({
+                return res.status(400).json({
                     status: "error",
-                    message: "Erro ao criar servico",
+                    message: "erro ao criar servico",
                     data: null
                 })
             }
@@ -105,7 +105,7 @@ export const servicoComtroler = {
     async update(req: Request, res: Response) {
         try {
             const  id = req.params.id
-            const updateServico:ServicoMySqlType = req.body
+            const updateServico:ServicoDBType = req.body
             if(!id){
                 return res.status(400).json({
                     status: "error",
@@ -122,9 +122,9 @@ export const servicoComtroler = {
             }
             const updateServicoResponse = await servicoModel.update(id as string, updateServico)
             if(!updateServicoResponse){
-                return res.status(500).json({
+                return res.status(400).json({
                     status: "error",
-                    message: "Erro ao atualizar servico,verifique se o id existe e se os dados estão corretos",
+                    message: "Erro ao atualizar servico",
                     data: null
                 })
             }
@@ -155,13 +155,6 @@ export const servicoComtroler = {
                 })
             }
             const deleteServicoResponse = await servicoModel.delete(id as string)
-            if(!deleteServicoResponse){
-                return res.status(500).json({
-                    status: "error",
-                    message: "Erro ao apagar servico,verifique se o id existe",
-                    data: null
-                })
-            }
             return res.status(200).json({
                 status: "success",
                 message: "Servico apagado com sucesso",

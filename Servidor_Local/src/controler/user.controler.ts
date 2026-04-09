@@ -1,6 +1,6 @@
 import { userModel } from "../models/user.models.js"
 import { comparePassword, hashPassword } from "../Utils/password.js"
-import type { utilizadorMySqlType } from "../Utils/types.js"
+import type { UtilizadorDBType } from "../Utils/types.js"
 import type { Request, Response } from "express"
 import jwt from "jsonwebtoken"
 
@@ -12,7 +12,7 @@ export const userControler = {
     // create user
     async create(req: Request, res: Response) {
         try {
-            const newuser: utilizadorMySqlType = req.body
+            const newuser: UtilizadorDBType = req.body
             if (!newuser) {
                 return res.status(400).json({
                     status: "error",
@@ -23,13 +23,6 @@ export const userControler = {
 
             const CreiteServicoRsesponse = await userModel.create(newuser)
 
-            if (CreiteServicoRsesponse === null) {
-                return res.status(500).json({
-                    status: "error",
-                    message: "Erro ao criar usuario",
-                    data: null
-                })
-            }
             return res.status(200).json({
                 status: "success",
                 message: "Usuario criado com sucesso",
@@ -73,8 +66,21 @@ export const userControler = {
     async get(req: Request, res: Response) {
         try {
             const id = req.params.id
+            if (!id) {
+                return res.status(400).json({
+                    status: "error",
+                    message: "ID obrigatorio",
+                    data: null
+                })
+            }
             const user = await userModel.get(id as string)
-
+            if (!user) {
+                return res.status(404).json({
+                    status: "error",
+                    message: "Usuario nao encontrado",
+                    data: null
+                })
+            }
             return res.status(200).json({
                 status: "success",
                 message: "Usuario buscado com sucesso",
@@ -93,7 +99,14 @@ export const userControler = {
     async update(req: Request, res: Response) {
         try {
             const { id } = req.params
-            const user: utilizadorMySqlType = req.body
+            if (!id) {
+                return res.status(400).json({
+                    status: "error",
+                    message: "ID obrigatorio",
+                    data: null
+                })
+            }
+            const user: UtilizadorDBType = req.body
             if (!user) {
                 return res.status(400).json({
                     status: "error",
@@ -103,7 +116,7 @@ export const userControler = {
             }
             const updateServicoRsesponse = await userModel.update(id as string, user)
             if (updateServicoRsesponse === null) {
-                return res.status(500).json({
+                return res.status(400).json({
                     status: "error",
                     message: "Erro ao atualizar usuario",
                     data: null
@@ -179,7 +192,7 @@ export const userControler = {
             const { id } = req.params
             const deleteServicoRsesponse = await userModel.delete(id as string)
             if (deleteServicoRsesponse === null) {
-                return res.status(500).json({
+                return res.status(400).json({
                     status: "error",
                     message: "Erro ao deletar usuario",
                     data: null
@@ -237,5 +250,63 @@ export const userControler = {
             console.error(error);
             return res.status(500).json({ status: "error", message: "Erro interno do servidor", data: null });
         }
-    }
+    },
+    // reset password
+    async resetPassword(req: Request, res: Response) {
+            const { id } = req.params
+    
+            const updatedUser: UtilizadorDBType = req.body
+    
+            if (!id) {
+                return res.status(400).json({
+                    status: "error",
+                    message: "ID obrigatorio",
+                    data: null
+                })
+            }
+    
+            if (!updatedUser) {
+                return res.status(400).json({
+                    status: "error",
+                    message: "Dados de utilizador invalidos",
+                    data: null
+                })
+            }
+    
+            const getUserByIdResponse = await userModel.get(id as string)
+    
+            if (!getUserByIdResponse) {
+                return res.status(404).json({
+                    status: "error",
+                    message: "Utilizador nao encontrado",
+                    data: null
+                })
+            }
+    
+            const comparePasswordResponse = await comparePassword(updatedUser.password, getUserByIdResponse.password)
+    
+            if (!comparePasswordResponse) {
+                return res.status(400).json({
+                    status: "error",
+                    message: "Password antiga invalida",
+                    data: null
+                })
+            }
+    
+            const resetPasswordResponse = await userModel.resetPassword(id as string, updatedUser.password)
+    
+            if (!resetPasswordResponse) {
+                return res.status(400).json({
+                    status: "error",
+                    message: "Erro ao atualizar utilizador",
+                    data: null
+                })
+            }
+    
+            return res.status(200).json({
+                status: "success",
+                message: "Utilizador atualizado com sucesso",
+                data: resetPasswordResponse
+            })
+        },
 }

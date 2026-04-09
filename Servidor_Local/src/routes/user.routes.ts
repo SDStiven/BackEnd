@@ -2,6 +2,7 @@
 import { Router } from "express";
 import { userControler } from "../controler/user.controler.js";
 import authMiddelware from "../security/auth.middelware.js";
+import { UserController } from "../../servidor-local-projecto-final/servidor-local-projecto-final/src/controllers/users.controller.js";
 
 const UserRoute = {
     create: "/create",
@@ -11,6 +12,7 @@ const UserRoute = {
     delete: "/delete/:id",
     login: "/login",
     updatePassword: "/updatePassword/:id",
+    resetPassword: "/resetPassword/:id",
 }
 
 const router = Router();
@@ -22,5 +24,7 @@ router.put(UserRoute.update,authMiddelware,userControler.update)
 router.delete(UserRoute.delete,authMiddelware,userControler.delete)
 router.post(UserRoute.login,userControler.login)
 router.put(UserRoute.updatePassword,authMiddelware,userControler.updatePassword)
+router.put(UserRoute.resetPassword, userControler.resetPassword)
+
 
 export { router }  

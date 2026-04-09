@@ -1,4 +1,4 @@
-import type { Prestacao_servicoType } from "../Utils/types.js"
+import type { Prestacao_servicoDBType } from "../Utils/types.js"
 import { prestacao_servicoModel } from "../models/prestacao_servico.models.js"
 import type { Request, Response } from "express"
 
@@ -6,7 +6,7 @@ export const prestacao_servicoControler = {
     // create prestacao_servico
     async create(req: Request, res: Response) {
         try {
-            const newPrestacao_servico: Prestacao_servicoType = req.body
+            const newPrestacao_servico: Prestacao_servicoDBType = req.body
             if (!newPrestacao_servico) {
                 return res.status(400).json({
                     status: "error",
@@ -74,7 +74,7 @@ export const prestacao_servicoControler = {
             }
             const getPrestacao_servicoResponse = await prestacao_servicoModel.get(id as string)
             if (!getPrestacao_servicoResponse) {
-                return res.status(500).json({
+                return res.status(404).json({
                     status: "error",
                     message: "Erro ao buscar prestacao_servico",
                     data: null
@@ -98,7 +98,7 @@ export const prestacao_servicoControler = {
     async update(req: Request, res: Response) {
         try {
             const id = req.params.id
-            const updatePrestacao_servico: Prestacao_servicoType = req.body
+            const updatePrestacao_servico: Prestacao_servicoDBType = req.body
             if (!id) {
                 return res.status(400).json({
                     status: "error",
@@ -115,7 +115,7 @@ export const prestacao_servicoControler = {
             }
             const updatePrestacao_servicoResponse = await prestacao_servicoModel.update(id as string, updatePrestacao_servico)
             if (!updatePrestacao_servicoResponse) {
-                return res.status(500).json({
+                return res.status(400).json({
                     status: "error",
                     message: "Erro ao atualizar prestacao_servico,verifique se o id existe e se os dados estão corretos",
                     data: null
@@ -167,6 +167,6 @@ export const prestacao_servicoControler = {
                 data: null
             })
         }
-    },
+    }
 
 }

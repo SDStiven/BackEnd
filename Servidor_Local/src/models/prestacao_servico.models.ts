@@ -1,15 +1,16 @@
 import db from "../lib/db.js"
-import type { Prestacao_servicoType } from "../Utils/types.js"
+import type { RowDataPacket } from "mysql2"
+import type { Prestacao_servicoDBType, prestacaoServicoDetalhesType } from "../Utils/types.js"
 import { generateUUID } from "../Utils/uuid.js"
 
 
-export const prestacao_servicoModel = { 
+export const prestacao_servicoModel = {
     // create prestacao_servico
-     async create(novo: Prestacao_servicoType) {
+    async create(novo: Prestacao_servicoDBType) {
         try {
             const query = `insert into tbl_prestacao_servico values(?,?,?,?,?,?,?,?,?,?,?,?)`
             const values = [
-                null,
+                generateUUID(),
                 novo.disignacao,
                 novo.subtotal,
                 novo.haras_estimadas,
@@ -53,7 +54,7 @@ export const prestacao_servicoModel = {
         }
     },
     // update prestacao_servico
-    async update(id: string, prestacao_servicoAtualizado: Prestacao_servicoType) {
+    async update(id: string, prestacao_servicoAtualizado: Prestacao_servicoDBType) {
         try {
             const query = `update tbl_prestacao_servico set disignacao = ?, subtotal = ?, haras_estimadas = ?, id_prestador = ?, id_servico = ?, preco_hora = ?, estado = ?, id_orcamento = ?, enabled = ?, created_at = ?, preco_hora = ? where id = ?`
             const values = [
@@ -86,6 +87,54 @@ export const prestacao_servicoModel = {
             return rows
         } catch (error) {
             console.log({ "catch prestacao_servico.ts": error })
+            return null
+        }
+    }, async getPrestaçãoServicoDetails(limit: number, offset: number) {
+        try {
+            const query = `
+            SELECT 
+                ps.id as id_prestação_servico,
+                ps.designacao as descricoa,
+                u.nome as utilizador,
+                u.email as email_utilizador
+                s.nome as nome_servico,
+                ps.crea_at as data_pedido,
+                ps.urgente
+                FROM tbl_prestacoa servico ps 
+                INNER JOIN tbl_utilizadores u ON ps.id_Utilizador = i.d
+                IONER JOIN tbl_servico  s ON ps.id_servico = s.id
+                ORDER BY ps.crea_at DESC
+                LIMIT ? OFFSET?
+            `
+            const [rows]= await db.execute(
+                query,
+                [
+                    limit.toString(),
+                    offset.toString()
+                ]
+            )
+
+            if(Array.isArray(rows)&& rows.length === 0)return null
+            return Array.isArray(rows ? rows as prestacaoServicoDetalhesType[]:null)
+
+        }catch(err){
+            console.log(err)
+            return null
+        }
+
+    },async getByIdOrcamento(idOrcamento: string): Promise<Prestacao_servicoDBType | null> {
+        try {
+            const [rows] = await db.execute<Prestacao_servicoDBType[] & RowDataPacket[]>(
+                `SELECT * FROM tbl_prestacao_servico 
+                WHERE tbl_prestacao_servico.id_orcamento = ?`,
+
+                [idOrcamento]
+            )
+
+            if (Array.isArray(rows) && rows.length === 0) return null
+            return Array.isArray(rows) ? rows[0] as Prestacao_servicoDBType : null
+        } catch (err) {
+            console.log(err)
             return null
         }
     },

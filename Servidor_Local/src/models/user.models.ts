@@ -1,7 +1,7 @@
 import db from "../lib/db.js"
 import { formatDateDDMMYYYY } from "../Utils/date.js"
 import { hashPassword } from "../Utils/password.js"
-import type { utilizadorMySqlType } from "../Utils/types.js"
+import type { UtilizadorDBType } from "../Utils/types.js"
 import { generateUUID } from "../Utils/uuid.js"
 
 
@@ -9,11 +9,9 @@ import { generateUUID } from "../Utils/uuid.js"
 
 export const userModel = {
     // create user
-    async create(user: utilizadorMySqlType) {
-        console.log("user user.models.ts",user)
+    async create(user: UtilizadorDBType) {
         try {
             const query = `insert into tbl_utilizadores values(?,?,?,?,?,?,?,?,?,?,?,?)`
-            console.log("query user.models.ts",query)
             const values = [
                 generateUUID(),
                 user.nome,
@@ -28,26 +26,19 @@ export const userModel = {
                 new Date(),
                 new Date()
             ]
-            console.log("values user.models.ts",values)
-
             const rows = await db.execute(query, values)
-            console.log("rows user.models.ts",rows)
             return rows
         } catch (error) {
             console.log(error)
             return null
         }
-       
     },
 
     // get all users
     async getAll() {
         try {
-            const user = `select * from tbl_utilizadores`
-
-            const rows = await db.execute(user)
-
-            return Array.isArray(rows) && rows.length > 0 ? rows[0] : []
+            const rows = await db.execute(`select * from tbl_utilizadores`)
+            return rows
         } catch (error) {
             console.log({ "catch user.models.ts": error })
             return null
@@ -55,20 +46,21 @@ export const userModel = {
     },
 
      // get user by id
-    async get(id: string) {
+    async get(id: string): Promise<UtilizadorDBType | null> {
         try {
-            const user = `select * from tbl_utilizadores where tbl_utilizadores.id = ?`
-            const values = [id]
-            const [rows] = await db.execute(user, values)
-            return Array.isArray(rows) && rows.length > 0 ? rows[0] as utilizadorMySqlType : null
+            const [rows] = await db.execute(
+                `select * from tbl_utilizadores where tbl_utilizadores.id = ?`, [id]
+            )
+            if (Array.isArray(rows) && rows.length === 0) return null
+            return Array.isArray(rows) ? rows[0] as UtilizadorDBType : null
         } catch (error) {
             console.log({ "catch user.models.ts": error })
             return null
         }
     },
 
-      // update service
-    async update(id: string, userupdate: utilizadorMySqlType) {
+      // update serv
+    async update(id: string, userupdate: UtilizadorDBType) {
         try { 
             const updateServico = `update tbl_utilizadores 
             set nome = ?, 
@@ -102,13 +94,15 @@ export const userModel = {
         }
     },
     // login
-    async getByEmail(email: string): Promise<utilizadorMySqlType | null> {
+    async getByEmail(email: string): Promise<UtilizadorDBType | null> {
         try {
-            const query = `select * from tbl_utilizadores where tbl_utilizadores.email = ?`
-            const values = [email]
-            const[ rows ]= await db.execute(query, values)
+            const [rows] = await db.execute(
+                `select * from tbl_utilizadores where tbl_utilizadores.email = ?`, [email]
+
+            )
+
             if(Array.isArray(rows) && rows.length === 0)return null
-            return Array.isArray(rows) ? rows[0] as utilizadorMySqlType : null
+            return Array.isArray(rows) ? rows[0] as UtilizadorDBType : null
         } catch (error) {
             console.log({ "catch user.models.ts": error })
             return null
@@ -126,16 +120,45 @@ export const userModel = {
             return null
         }
     }, 
+    
     // update password
     async updatePassword(id: string, newPasswordHash: string) {
         try {
-            const query = `update tbl_utilizadores set password = ? where id = ?`
-            const values = [newPasswordHash, id]
-            const rows = await db.execute(query, values)
+            const [rows] = await db.execute(
+                `update tbl_utilizadores set password = ?, update_at = ? where id = ?`,
+                [
+                    newPasswordHash,
+                    new Date(),
+                    id
+                ]
+            )
             return rows
         } catch (error) {
             console.log({ "catch user.models.ts": error })
             return null
         }
-    }
+    },
+
+    // reset password
+    async resetPassword(id: string, password: string) {
+        try {
+            const [rows] = await db.execute(
+                `UPDATE tbl_utilizadores 
+                SET password = ?, 
+                updated_at = ?
+                WHERE id = ?`,
+
+                [
+                    await hashPassword(password),
+                    new Date(),
+                    id
+                ]
+            )
+            console.log({ rows })
+            return rows
+        } catch (err) {
+            console.log(err)
+            return null
+        }
+    },
 }

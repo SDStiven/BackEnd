@@ -1,5 +1,5 @@
 import { propostaModel } from "../models/proposta.models.js"
-import type { PropostaMySqlType } from "../Utils/types.js"
+import type { PropostaDBType } from "../Utils/types.js"
 import type { Request, Response } from "express"
 import { sendMail } from "../Utils/mailer.js"
 
@@ -8,7 +8,7 @@ export const propostaControler = {
     // create proposta
     async create(req: Request, res: Response) {
         try {
-            const newProposta: PropostaMySqlType = req.body
+            const newProposta: PropostaDBType = req.body
             if (!newProposta) {
                 return res.status(400).json({
                     status: "error",
@@ -18,13 +18,13 @@ export const propostaControler = {
             }
             const createPropostaResponse = await propostaModel.create(newProposta)
             if (!createPropostaResponse) {
-                return res.status(500).json({
+                return res.status(400).json({
                     status: "error",
                     message: "Erro ao criar proposta",
                     data: null
                 })
             }
-            return res.status(200).json({
+            return res.status(201).json({
                 status: "success",
                 message: "Proposta criada com sucesso",
                 data: createPropostaResponse
@@ -76,7 +76,7 @@ export const propostaControler = {
             }
             const getPropostaResponse = await propostaModel.get(id as string)
             if (!getPropostaResponse) {
-                return res.status(500).json({
+                return res.status(400).json({
                     status: "error",
                     message: "Erro ao buscar proposta",
                     data: null
@@ -100,7 +100,7 @@ export const propostaControler = {
     async update(req: Request, res: Response) {
         try {
             const id = req.params.id
-            const updateProposta: PropostaMySqlType = req.body
+            const updateProposta: PropostaDBType = req.body
             if (!id) {
                 return res.status(400).json({
                     status: "error",
@@ -117,9 +117,9 @@ export const propostaControler = {
             }
             const updatePropostaResponse = await propostaModel.update(id as string, updateProposta)
             if (!updatePropostaResponse) {
-                return res.status(500).json({
+                return res.status(400).json({
                     status: "error",
-                    message: "Erro ao atualizar proposta,verifique se o id existe e se os dados estão corretos",
+                    message: "Erro ao atualizar proposta",
                     data: null
                 })
             }
@@ -150,9 +150,9 @@ export const propostaControler = {
             }
             const deletePropostaResponse = await propostaModel.delete(id as string)
             if (!deletePropostaResponse) {
-                return res.status(500).json({
+                return res.status(400).json({
                     status: "error",
-                    message: "Erro ao apagar proposta,verifique se o id existe",
+                    message: "Erro ao apagar proposta",
                     data: null
                 })
             }
@@ -184,7 +184,12 @@ export const propostaControler = {
             }
 
             const resultado = await propostaModel.aceitarProposta(String(id))
+            // we should update prestacao servico fields once a accepted proposal based on the prestacao servico that has the orcamento id
+            //fetch proposal to get id_prestacao_servico as proposalResponse does not fetch 
+            //const propostaResponse = await PropostaModel.get(id as string)
 
+            // check utils/types.ts
+            //const prestacaoServicoResponse = await PrestacaoServicoModel.update(propostaResponse?.id_prestacao_servico as string, propostaResponse)
             if (!resultado.success) {
                 return res.status(resultado.message === "Proposta não encontrada" ? 404 : 500).json({
                     status: "error",
@@ -193,30 +198,11 @@ export const propostaControler = {
                 })
             }
 
-            // --- Notificações (assíncronas, não bloqueiam a resposta HTTP) ---
-            const { prestadorAceite, propostasRejeitadas } = resultado
-
-           
-
-            // E-mail para os prestadores com propostas rejeitadas
-            for (const rejeitada of (propostasRejeitadas as any[])) {
-                if (rejeitada.email) {
-                    sendMail({
-                        to: rejeitada.email,
-                        subject: "A sua proposta não foi selecionada",
-                        html: `<h2>Olá, ${rejeitada.prestador_nome ?? "Prestador"}!</h2>
-                               <p>Infelizmente a sua proposta foi <strong>rejeitada</strong> para este serviço. Obrigado pela participação.</p>`
-                    })
-                }
-            }
-
             return res.status(200).json({
                 status: "success",
-                message: "Proposta aceite com sucesso. Notificações enviadas.",
+                message: "Proposta aceite com sucesso",
                 data: {
-                    propostaAceite: resultado.propostaAceite,
-                    prestacao: resultado.prestacao,
-                    totalRejeitadas: (resultado.propostasRejeitadas as any[]).length
+                    message: "Proposta aceite com sucesso", resultado
                 }
             })
         } catch (error) {

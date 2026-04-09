@@ -1,15 +1,14 @@
 import { error } from "node:console"
 import db from "../lib/db.js"
-import type { OrcamentoMySqlType, Prestacao_servicoType, PrestadorMySqlType, PropostaMySqlType } from "../Utils/types.js"
+import type { OrcamentoDBType, Prestacao_servicoDBType, PrestadorDBType, PropostaDBType } from "../Utils/types.js"
 
 
 export const orcamentoModel = {
     // create orcamento
-    async create(newOrcamento: OrcamentoMySqlType) {
+    async create(newOrcamento: OrcamentoDBType) {
         try {
             const query = `insert into tbl_orcamento values(?,?,?,?,?,?)`
             const values = [
-                null,
                 newOrcamento.total,
                 newOrcamento.id_utilizador,
                 newOrcamento.enable,
@@ -50,7 +49,7 @@ export const orcamentoModel = {
         }
     },
     // update orcamento
-    async update(id: string, orcamentoAtualizado: OrcamentoMySqlType) {
+    async update(id: string, orcamentoAtualizado: OrcamentoDBType) {
         try {
             const updateOrcamento = `update tbl_orcamento 
             set id_prestacao = ?, 
@@ -101,7 +100,7 @@ export const orcamentoModel = {
                 `select * from tbl_prestacao_servico where id_orcamento = ? and enabled = 1`,
                 [id]
             )
-            const servicos = (Array.isArray(servicoRows) ? servicoRows : []) as Prestacao_servicoType[]
+            const servicos = (Array.isArray(servicoRows) ? servicoRows : []) as Prestacao_servicoDBType[]
 
             if (servicos.length === 0) {
                 // Nenhum serviço — total é 0
@@ -126,7 +125,7 @@ export const orcamentoModel = {
                         `select * from tbl_prestadores where id = ?`,
                         [servico.id_prestador]
                     )
-                    const prestadores = (Array.isArray(prestRows) ? prestRows : []) as PrestadorMySqlType[]
+                    const prestadores = (Array.isArray(prestRows) ? prestRows : []) as PrestadorDBType[]
                     const prestador = prestadores[0]
 
                     if (prestador) {
@@ -200,7 +199,7 @@ export const orcamentoModel = {
                     })
             }
             // find accepted proposal
-            const acceptedProposal: PropostaMySqlType | undefined = proposals.find((proposal) => proposal.estado === EstadoProposta.ACEITE)
+            const acceptedProposal: PropostaDBType | undefined = proposals.find((proposal) => proposal.estado === EstadoProposta.ACEITE)
             if (!acceptedProposal) {
                 return res.status(404).json(
                     {
