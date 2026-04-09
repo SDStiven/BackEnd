@@ -217,7 +217,7 @@ export const orcamentoControler = {
             })
         }
     },
-    
+    /*
         async calculateBudget(req: Request, res: Response) {
             const { id } = req.params
     
@@ -336,7 +336,7 @@ export const orcamentoControler = {
             console.log(err)
             return null
         }
-    }
+    }*/
 }
     
 

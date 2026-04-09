@@ -37,7 +37,7 @@ export const userModel = {
     // get all users
     async getAll() {
         try {
-            const rows = await db.execute(`select * from tbl_utilizadores`)
+            const [rows] = await db.execute(`select * from tbl_utilizadores`)
             return rows
         } catch (error) {
             console.log({ "catch user.models.ts": error })

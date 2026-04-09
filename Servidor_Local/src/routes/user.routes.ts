@@ -2,7 +2,6 @@
 import { Router } from "express";
 import { userControler } from "../controler/user.controler.js";
 import authMiddelware from "../security/auth.middelware.js";
-import { UserController } from "../../servidor-local-projecto-final/servidor-local-projecto-final/src/controllers/users.controller.js";
 
 const UserRoute = {
     create: "/create",
