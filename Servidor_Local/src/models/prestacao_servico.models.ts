@@ -94,35 +94,41 @@ export const prestacao_servicoModel = {
             const query = `
             SELECT 
                 ps.id as id_prestação_servico,
+                s.id as id_servico,
+
                 ps.designacao as descricoa,
                 u.nome as utilizador,
-                u.email as email_utilizador
+                u.email as email_utilizador,
                 s.nome as nome_servico,
-                ps.crea_at as data_pedido,
+                ps.created_at as data_pedido,
                 ps.urgente
-                FROM tbl_prestacoa servico ps 
-                INNER JOIN tbl_utilizadores u ON ps.id_Utilizador = i.d
-                IONER JOIN tbl_servico  s ON ps.id_servico = s.id
-                ORDER BY ps.crea_at DESC
-                LIMIT ? OFFSET?
+                FROM tbl_prestacao_servico ps 
+                INNER JOIN tbl_utilizadores u ON ps.id_Utilizador = u.id
+                INNER JOIN tbl_servicos  s ON ps.id_servico = s.id
+                ORDER BY ps.created_at DESC
+                LIMIT ? OFFSET ?
             `
-            const [rows]= await db.execute(
+            const [rows] = await db.execute(
                 query,
                 [
                     limit.toString(),
                     offset.toString()
                 ]
             )
+            console.log("limit", limit)
+            console.log("offset", offset)
+            console.log("rows", rows)
+            console.log("rows", [rows])
 
-            if(Array.isArray(rows)&& rows.length === 0)return null
-            return Array.isArray(rows ? rows as prestacaoServicoDetalhesType[]:null)
+            if (Array.isArray(rows) && rows.length === 0) return null
+            return Array.isArray(rows ? rows as prestacaoServicoDetalhesType[] : null)
 
-        }catch(err){
+        } catch (err) {
             console.log(err)
             return null
         }
 
-    },async getByIdOrcamento(idOrcamento: string): Promise<Prestacao_servicoDBType | null> {
+    }, async getByIdOrcamento(idOrcamento: string): Promise<Prestacao_servicoDBType | null> {
         try {
             const [rows] = await db.execute<Prestacao_servicoDBType[] & RowDataPacket[]>(
                 `SELECT * FROM tbl_prestacao_servico 

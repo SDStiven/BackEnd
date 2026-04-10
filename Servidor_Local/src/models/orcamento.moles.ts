@@ -1,11 +1,11 @@
-import { error } from "node:console"
 import db from "../lib/db.js"
 import type { OrcamentoDBType, Prestacao_servicoDBType, PrestadorDBType, PropostaDBType } from "../Utils/types.js"
+import type { RowDataPacket } from "mysql2"
 
 
 export const orcamentoModel = {
     // create orcamento
-    async create(newOrcamento: OrcamentoDBType) {
+    async create(newOrcamento: OrcamentoDBType): Promise<OrcamentoDBType | null> {
         try {
             const query = `insert into tbl_orcamento values(?,?,?,?,?,?)`
             const values = [
@@ -15,21 +15,21 @@ export const orcamentoModel = {
                 new Date(),
                 new Date()
             ]
-            const rows = await db.execute(query, values)
-            return rows
+            const [rows] = await db.execute<OrcamentoDBType & RowDataPacket[]>(query, values)
+            return rows as OrcamentoDBType
         } catch (error) {
             console.log({ "catch Orcamento.ts": error })
             return null
         }
     },
     // get all orcamentos
-    async getAll() {
+    async getAll(): Promise<OrcamentoDBType[] | null> {
         try {
             const orcamentos = `select * from tbl_orcamento`
 
-            const rows = await db.execute(orcamentos)
+            const rows = await db.execute<OrcamentoDBType & RowDataPacket[]>(orcamentos)
 
-            return Array.isArray(rows) && rows.length > 0 ? rows[0] : []
+            return Array.isArray(rows) && rows.length > 0 ? rows as OrcamentoDBType[] : []
         } catch (error) {
             console.log({ "catch Orcamento.ts": error })
             return null
@@ -37,19 +37,18 @@ export const orcamentoModel = {
     },
     // get one orcamento by id
     async get(id: string) {
-        console.log("id1648+6645", id)
         try {
             const orcamento = `select * from tbl_orcamento where id = ?`
             const values = [id]
-            const rows = await db.execute(orcamento, values)
-            return Array.isArray(rows) && rows.length > 0 ? rows[0] : null
+            const rows = await db.execute<OrcamentoDBType & RowDataPacket[]>(orcamento, values)
+            return Array.isArray(rows) && rows.length > 0 ? rows[0] as OrcamentoDBType : null
         } catch (error) {
             console.log({ "catch Orcamento.ts": error })
             return null
         }
     },
     // update orcamento
-    async update(id: string, orcamentoAtualizado: OrcamentoDBType) {
+    async update(id: string, orcamentoAtualizado: OrcamentoDBType): Promise<OrcamentoDBType | null> {
         try {
             const updateOrcamento = `update tbl_orcamento 
             set id_prestacao = ?, 
@@ -66,27 +65,27 @@ export const orcamentoModel = {
                 new Date(),
                 id
             ]
-            const rows = await db.execute(updateOrcamento, values)
-            return rows
+            const [rows] = await db.execute<OrcamentoDBType & RowDataPacket[]>(updateOrcamento, values)
+            return rows as OrcamentoDBType
         } catch (error) {
             console.log({ "catch Orcamento.ts": error })
             return null
         }
     },
     // delete orcamento
-    async delete(id: string) {
+    async delete(id: string): Promise<OrcamentoDBType | null> {
         try {
             const query = `delete from tbl_orcamento where id = ?`
             const values = [id]
-            const rows = await db.execute(query, values)
-            return rows
+            const [rows] = await db.execute<OrcamentoDBType & RowDataPacket[]>(query, values)
+            return rows as OrcamentoDBType
         } catch (error) {
             console.log({ "catch Orcamento.ts": error })
             return null
         }
     },
     // Calcular Total (PUT /orcamento/:id/calcular)
-    async calcularTotal(id: string): Promise<{ total: number } | null> {
+    async calcularTotal(id: string): Promise<OrcamentoDBType | { total: number } | null> {
         try {
             // 1. Verificar se o orçamento existe
             const [orcRows] = await db.execute(

@@ -152,3 +152,40 @@ paths:
               schema:
                 type: object
                 $ref: '#/components/schemas/prestacao_servicoError'
+  # buscar todas as prestacoes de servico detalhadas
+  /prestacao_servico/get-all-detalhado:
+    get:
+      tags:
+        - Prestacao de servico
+      summary: Buscar todas as prestacoes de servico detalhadas
+      description: Retorna uma lista de todas as prestacoes de servico detalhadas
+      parameters:
+        - name: limit
+          in: query
+          required: false
+          description: limite de prestacoes de servico a serem retornadas
+          schema:
+            type: string
+            example: "10"
+        - name: offset
+          in: query
+          required: false
+          description: offset de prestacoes de servico a serem retornadas
+          schema:
+            type: string
+            example: "0"
+      responses:
+        '200':
+          description: prestacao de servico encontrada com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/prestacao_servico'
+        '500':
+          description: Erro ao buscar prestacao de servico
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/prestacao_servicoError'

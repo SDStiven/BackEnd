@@ -1,10 +1,7 @@
 
 import type { Request, Response } from "express"
 import { orcamentoModel } from "../models/orcamento.moles.js"
-import { EstadoProposta, type OrcamentoDBType, type PropostaDBType, type responseType } from "../Utils/types.js"
-import { prestacao_servicoModel } from "../models/prestacao_servico.models.js"
-import db from "../lib/db.js"
-import { propostaModel } from "../models/proposta.models.js"
+import { type OrcamentoDBType, type responseType } from "../Utils/types.js"
 
 export const orcamentoControler = {
     // create orcamento
@@ -19,7 +16,7 @@ export const orcamentoControler = {
                 }
                 return res.status(400).json(response)
             }
-            const createOrcamentoResponse = await orcamentoModel.create(newOrcamento)
+            const createOrcamentoResponse : OrcamentoDBType | null = await orcamentoModel.create(newOrcamento)
             if(!createOrcamentoResponse){
                 const response:responseType<null> = {
                     status: "error",
@@ -32,7 +29,7 @@ export const orcamentoControler = {
             const response:responseType<OrcamentoDBType> = {
                 status: "success",
                 message: "Orcamento criado com sucesso",
-                data:newOrcamento
+                data:createOrcamentoResponse
                 
             }
             return res.status(201).json(response)
@@ -49,7 +46,7 @@ export const orcamentoControler = {
     // get all orcamentos
     async getAll(req: Request, res: Response) {
         try {
-            const getOrcamentoResponse = await orcamentoModel.getAll()
+            const getOrcamentoResponse : OrcamentoDBType[] | null = await orcamentoModel.getAll()
             if(!getOrcamentoResponse){
                 return res.status(500).json({
                     status: "error",
@@ -60,7 +57,7 @@ export const orcamentoControler = {
             return res.status(200).json({
                 status: "success",
                 message: "Orcamentos buscados com sucesso",
-                data: getOrcamentoResponse
+                data: getOrcamentoResponse as OrcamentoDBType[]
             })
         } catch (error) {
             console.error(error)
@@ -74,7 +71,7 @@ export const orcamentoControler = {
     // get one orcamento by id
     async get(req: Request, res: Response) {
         try {
-            const  id = req.params.id
+            const  id= req.params.id
             if(!id){
                 return res.status(400).json({
                     status: "error",
@@ -82,7 +79,7 @@ export const orcamentoControler = {
                     data: null
                 })
             }
-            const getOrcamentoResponse = await orcamentoModel.get(id as string)
+            const getOrcamentoResponse : OrcamentoDBType | null = await orcamentoModel.get(id as string)
             if(!getOrcamentoResponse){
                 return res.status(404).json({
                     status: "error",
@@ -93,7 +90,7 @@ export const orcamentoControler = {
             return res.status(200).json({
                 status: "success",
                 message: "Orcamento buscado com sucesso",
-                data: getOrcamentoResponse
+                data: getOrcamentoResponse as OrcamentoDBType
             })
         } catch (error) {
             console.error(error)
@@ -125,7 +122,7 @@ export const orcamentoControler = {
                 }
                 return res.status(400).json(response)
             }
-            const updateOrcamentoResponse = await orcamentoModel.update(id as string, updateOrcamento)
+            const updateOrcamentoResponse : OrcamentoDBType | null = await orcamentoModel.update(id as string, updateOrcamento)
 
             if(!updateOrcamentoResponse){
                 const response:responseType<null> = {
@@ -162,7 +159,7 @@ export const orcamentoControler = {
                     data: null
                 })
             }
-            const deleteOrcamentoResponse = await orcamentoModel.delete(id as string)
+            const deleteOrcamentoResponse : OrcamentoDBType | null = await orcamentoModel.delete(id as string)
             if(!deleteOrcamentoResponse){
                 return res.status(500).json({
                     status: "error",
@@ -173,7 +170,7 @@ export const orcamentoControler = {
             return res.status(200).json({
                 status: "success",
                 message: "Orcamento apagado com sucesso",
-                data: deleteOrcamentoResponse
+                data: deleteOrcamentoResponse as OrcamentoDBType
             })
         } catch (error) {
             console.error(error)
