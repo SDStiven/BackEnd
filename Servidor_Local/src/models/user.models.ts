@@ -1,3 +1,4 @@
+import type { RowDataPacket } from "mysql2"
 import db from "../lib/db.js"
 import { formatDateDDMMYYYY } from "../Utils/date.js"
 import { hashPassword } from "../Utils/password.js"
@@ -9,7 +10,7 @@ import { generateUUID } from "../Utils/uuid.js"
 
 export const userModel = {
     // create user
-    async create(user: UtilizadorDBType) {
+    async create(user: UtilizadorDBType): Promise<UtilizadorDBType | null> {
         try {
             const query = `insert into tbl_utilizadores values(?,?,?,?,?,?,?,?,?,?,?,?)`
             const values = [
@@ -26,8 +27,8 @@ export const userModel = {
                 new Date(),
                 new Date()
             ]
-            const rows = await db.execute(query, values)
-            return rows
+            const [rows] = await db.execute<UtilizadorDBType & RowDataPacket[]>(query, values)
+            return rows as UtilizadorDBType
         } catch (error) {
             console.log(error)
             return null
@@ -35,10 +36,10 @@ export const userModel = {
     },
 
     // get all users
-    async getAll() {
+    async getAll(): Promise<UtilizadorDBType[] | null> {
         try {
-            const [rows] = await db.execute(`select * from tbl_utilizadores`)
-            return rows
+            const [rows] = await db.execute<UtilizadorDBType[] & RowDataPacket[]>(`select * from tbl_utilizadores`)
+            return Array.isArray(rows) && rows.length > 0 ? rows : []
         } catch (error) {
             console.log({ "catch user.models.ts": error })
             return null
@@ -48,7 +49,7 @@ export const userModel = {
      // get user by id
     async get(id: string): Promise<UtilizadorDBType | null> {
         try {
-            const [rows] = await db.execute(
+            const [rows] = await db.execute<UtilizadorDBType[] & RowDataPacket[]>(
                 `select * from tbl_utilizadores where tbl_utilizadores.id = ?`, [id]
             )
             if (Array.isArray(rows) && rows.length === 0) return null
@@ -60,7 +61,7 @@ export const userModel = {
     },
 
       // update serv
-    async update(id: string, userupdate: UtilizadorDBType) {
+    async update(id: string, userupdate: UtilizadorDBType): Promise<UtilizadorDBType | null> {
         try { 
             const updateServico = `update tbl_utilizadores 
             set nome = ?, 
@@ -86,8 +87,8 @@ export const userModel = {
                 new Date(),
                 id
             ]
-            const rows = await db.execute(updateServico, values)
-            return rows
+            const [rows] = await db.execute<UtilizadorDBType & RowDataPacket[]>(updateServico, values)
+            return rows as UtilizadorDBType
         } catch (error) {
             console.log({ "catch user.models.ts": error })
             return null
@@ -96,7 +97,7 @@ export const userModel = {
     // login
     async getByEmail(email: string): Promise<UtilizadorDBType | null> {
         try {
-            const [rows] = await db.execute(
+            const [rows] = await db.execute<UtilizadorDBType[] & RowDataPacket[]>(
                 `select * from tbl_utilizadores where tbl_utilizadores.email = ?`, [email]
 
             )
@@ -109,12 +110,12 @@ export const userModel = {
         }
     }, 
     // delete user
-    async delete(id: string) {
+    async delete(id: string): Promise<UtilizadorDBType | null> {
         try {
             const query = `delete from tbl_utilizadores where id = ?`
             const values = [id]
-            const rows = await db.execute(query, values)
-            return rows
+            const [rows] = await db.execute<UtilizadorDBType & RowDataPacket[]>(query, values)
+            return rows as UtilizadorDBType
         } catch (error) {
             console.log({ "catch user.models.ts": error })
             return null
@@ -122,9 +123,9 @@ export const userModel = {
     }, 
     
     // update password
-    async updatePassword(id: string, newPasswordHash: string) {
+    async updatePassword(id: string, newPasswordHash: string): Promise<UtilizadorDBType | null> {
         try {
-            const [rows] = await db.execute(
+            const [rows] = await db.execute<UtilizadorDBType & RowDataPacket[]>(
                 `update tbl_utilizadores set password = ?, update_at = ? where id = ?`,
                 [
                     newPasswordHash,
@@ -132,7 +133,7 @@ export const userModel = {
                     id
                 ]
             )
-            return rows
+            return rows as UtilizadorDBType
         } catch (error) {
             console.log({ "catch user.models.ts": error })
             return null
@@ -140,9 +141,9 @@ export const userModel = {
     },
 
     // reset password
-    async resetPassword(id: string, password: string) {
+    async resetPassword(id: string, password: string): Promise<UtilizadorDBType | null> {
         try {
-            const [rows] = await db.execute(
+            const [rows] = await db.execute<UtilizadorDBType & RowDataPacket[]>(
                 `UPDATE tbl_utilizadores 
                 SET password = ?, 
                 updated_at = ?
@@ -155,7 +156,7 @@ export const userModel = {
                 ]
             )
             console.log({ rows })
-            return rows
+            return rows as UtilizadorDBType
         } catch (err) {
             console.log(err)
             return null

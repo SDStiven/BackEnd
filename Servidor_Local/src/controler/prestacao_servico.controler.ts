@@ -1,10 +1,10 @@
-import type { Prestacao_servicoDBType } from "../Utils/types.js"
+import type { Prestacao_servicoDBType, prestacaoServicoDetalhesType } from "../Utils/types.js"
 import { prestacao_servicoModel } from "../models/prestacao_servico.models.js"
 import type { Request, Response } from "express"
 
 export const prestacao_servicoControler = {
     // create prestacao_servico
-    async create(req: Request, res: Response) {
+    async create(req: Request, res: Response): Promise<Prestacao_servicoDBType | any> {
         try {
             const newPrestacao_servico: Prestacao_servicoDBType = req.body
             if (!newPrestacao_servico) {
@@ -37,7 +37,7 @@ export const prestacao_servicoControler = {
         }
     },
     // get all prestacao_servico
-    async getAll(req: Request, res: Response) {
+    async getAll(req: Request, res: Response): Promise<Prestacao_servicoDBType[] | any> {
         try {
             const getPrestacao_servicoResponse = await prestacao_servicoModel.getAll()
             if (!getPrestacao_servicoResponse) {
@@ -62,7 +62,7 @@ export const prestacao_servicoControler = {
         }
     },
     // get one prestacao_servico by id
-    async get(req: Request, res: Response) {
+    async get(req: Request, res: Response): Promise<Prestacao_servicoDBType | any> {
         try {
             const id = req.params.id
             if (!id) {
@@ -95,7 +95,7 @@ export const prestacao_servicoControler = {
         }
     },
     // update prestacao_servico
-    async update(req: Request, res: Response) {
+    async update(req: Request, res: Response): Promise<Prestacao_servicoDBType | any> {
         try {
             const id = req.params.id
             const updatePrestacao_servico: Prestacao_servicoDBType = req.body
@@ -136,7 +136,7 @@ export const prestacao_servicoControler = {
         }
     },
     // delete prestacao_servico
-    async delete(req: Request, res: Response) {
+    async delete(req: Request, res: Response): Promise<Prestacao_servicoDBType | any> {
         try {
             const id = req.params.id
             if (!id) {
@@ -168,7 +168,7 @@ export const prestacao_servicoControler = {
             })
         }
     },
-    async getPrestaçãoServicoDetalhada(req: Request, res: Response) {
+    async getPrestaçãoServicoDetalhada(req: Request, res: Response): Promise<prestacaoServicoDetalhesType | any> {
         const { limit, offset } = req.params as { limit: string, offset: string }
 
         let LIMIT = 10

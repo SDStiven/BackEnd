@@ -102,3 +102,11 @@ export interface prestacaoServicoDetalhesType {
     data_pedido: string 
     urgente: boolean 
 }
+export interface ServicoDetalhadaType{
+  id
+  nome
+  descricao
+  designacao
+  icones
+  
+}

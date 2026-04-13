@@ -1,7 +1,7 @@
+import type { PoolConnection, RowDataPacket } from "mysql2/promise"
 import db from "../lib/db.js"
 import type { PropostaDBType, Prestacao_servicoDBType, PrestadorDBType, UtilizadorDBType } from "../Utils/types.js"
 import { generateUUID } from "../Utils/uuid.js"
-import type { PoolConnection } from "mysql2/promise"
 
 type AceitarPropostaResult =
     | { success: true;  propostaAceite: PropostaDBType; prestacao: Prestacao_servicoDBType | null; prestadorAceite: PrestadorDBType | null; propostasRejeitadas: any[] }
@@ -10,7 +10,7 @@ type AceitarPropostaResult =
 
 export const propostaModel = {
     // create proposta
-    async create(newProposta: PropostaDBType) {
+    async create(newProposta: PropostaDBType): Promise<PropostaDBType | null> {
         try {
             const query = `insert into tbl_proposta values(?,?,?,?,?,?,?,?)`
             const values = [
@@ -23,38 +23,38 @@ export const propostaModel = {
                 new Date(),
                 new Date()
             ]
-            const rows = await db.execute(query, values)
-            return rows
+            const [rows] = await db.execute<PropostaDBType & RowDataPacket[]>(query, values)
+            return rows as PropostaDBType
         } catch (error) {
             console.log({ "catch proposta.ts": error })
             return null
         }
     },
     // get all proposals
-    async getAll() {
+    async getAll(): Promise<PropostaDBType[] | null> {
         try {
             const query = `select * from tbl_proposta`
-            const rows = await db.execute(query)
-            return Array.isArray(rows) && rows.length > 0 ? rows[0] : []
+            const [rows] = await db.execute<PropostaDBType[] & RowDataPacket[]>(query)
+            return Array.isArray(rows) && rows.length > 0 ? rows : []
         } catch (error) {
             console.log({ "catch proposta.ts": error })
             return null
         }
     },
     // get one proposal by id
-    async get(id: string) {
+    async get(id: string): Promise<PropostaDBType | null> {
         try {
             const query = `select * from tbl_proposta where tbl_proposta.id = ?`
             const values = [id]
-            const rows = await db.execute(query, values)
-            return Array.isArray(rows) && rows.length > 0 ? rows[0] : null
+            const [rows] = await db.execute<PropostaDBType[] & RowDataPacket[]>(query, values)
+            return Array.isArray(rows) && rows.length > 0 ? rows[0] as PropostaDBType : null
         } catch (error) {
             console.log({ "catch proposta.ts": error })
             return null
         }
     },
     // update proposal
-    async update(id: string, propostaAtualizada: PropostaDBType) {
+    async update(id: string, propostaAtualizada: PropostaDBType): Promise<PropostaDBType | null> {
         console.log("propostaAtualizada",propostaAtualizada)
         console.log("id",id)
         try {
@@ -68,21 +68,21 @@ export const propostaModel = {
                 new Date(),
                 id
             ]
-            const rows = await db.execute(query, values)
+            const [rows] = await db.execute<PropostaDBType & RowDataPacket[]>(query, values)
             console.log("rows",rows)
-            return rows
+            return rows as PropostaDBType
         } catch (error) {
             console.log({ "catch proposta.ts": error })
             return null
         }
     },
     // delete proposal
-    async delete(id: string) {
+    async delete(id: string): Promise<PropostaDBType | null> {
         try {
             const query = `delete from tbl_proposta where id = ?`
             const values = [id]
-            const rows = await db.execute(query, values)
-            return rows
+            const [rows] = await db.execute<PropostaDBType & RowDataPacket[]>(query, values)
+            return rows as PropostaDBType
         } catch (error) {
             console.log({ "catch proposta.ts": error })
             return null
@@ -102,7 +102,7 @@ export const propostaModel = {
             await conn.beginTransaction()
 
             // 1. Buscar a proposta selecionada
-            const [propostaRows] = await conn.execute(
+            const [propostaRows] = await conn.execute<PropostaDBType[] & RowDataPacket[]>(
                 `select * from tbl_proposta where id = ?`,
                 [propostaId]
             )
@@ -121,7 +121,7 @@ export const propostaModel = {
             )
 
             // 3. Buscar a prestação de serviço relacionada
-            const [prestacaoRows] = await conn.execute(
+            const [prestacaoRows] = await conn.execute<Prestacao_servicoDBType[] & RowDataPacket[]>(
                 `select * from tbl_prestacao_servico where id = ?`,
                 [proposta.id_prestacao]
             )
@@ -144,7 +144,7 @@ export const propostaModel = {
             )
 
             // 6. Buscar todas as propostas rejeitadas (para notificações)
-            const [rejeitadasRows] = await conn.execute(
+            const [rejeitadasRows] = await conn.execute<any[] & RowDataPacket[]>(
                 `select p.*, pr.nome as prestador_nome, pr.id as prestador_id
                  from tbl_proposta p
                  left join tbl_prestadores pr on pr.id = p.id_prestacao
@@ -155,7 +155,7 @@ export const propostaModel = {
             // 7. Buscar dados do prestador da proposta aceite
             let prestadorAceite: any = null
             if (prestacao?.id_prestador) {
-                const [prestadorRows] = await conn.execute(
+                const [prestadorRows] = await conn.execute<PrestadorDBType[] & RowDataPacket[]>(
                     `select * from tbl_prestadores where id = ?`,
                     [prestacao.id_prestador]
                 )

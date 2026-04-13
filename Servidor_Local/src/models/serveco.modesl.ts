@@ -1,11 +1,13 @@
+import type { RowDataPacket } from "mysql2";
 import db from "../lib/db.js";
 import { formatDate } from "../Utils/date.js";
 import type { ServicoDBType } from "../Utils/types.js";
+import type { promises } from "node:dns";
  
 // Funções do modelo de servico
 export const servicoModel = {
     // create servico
-    async create(newServico: ServicoDBType) {
+    async create(newServico: ServicoDBType): Promise<ServicoDBType | null> {
         try {
             const query = `insert into tbl_servicos values(?,?,?,?,?,?,?)`
             const values = [
@@ -17,8 +19,8 @@ export const servicoModel = {
                 new Date(),
                 new Date()
             ] 
-            const rows = await db.execute(query, values)
-            return rows
+            const [rows] = await db.execute<ServicoDBType & RowDataPacket[]>(query, values)
+            return rows as ServicoDBType
         } catch (error) {
             console.log({ "catch Servico.ts": error })
             return null
@@ -26,13 +28,13 @@ export const servicoModel = {
     },
  
     // get all services
-    async getAll() {
+    async getAll(): Promise<ServicoDBType[] | null> {
         try {
             const servicos = `select * from tbl_servicos`
 
-            const rows = await db.execute(servicos)
+            const [rows] = await db.execute<ServicoDBType[] & RowDataPacket[]>(servicos)
 
-            return Array.isArray(rows) && rows.length > 0 ? rows[0] : []
+            return Array.isArray(rows) && rows.length > 0 ? rows : []
         } catch (error) {
             console.log({ "catch Servico.ts": error })
             return null
@@ -40,11 +42,11 @@ export const servicoModel = {
     },
 
     // // get one service by id
-    async get(id: string) {
+    async get(id: string): Promise<ServicoDBType | null> {
         try {
             const servico = "select * from tbl_servicos  WHERE tbl_servicos.id = ? "
-            const rows = await db.execute(servico, [id])
-            return Array.isArray(rows) ? rows[0]: null
+            const [rows] = await db.execute<ServicoDBType[] & RowDataPacket[]>(servico, [id])
+            return Array.isArray(rows) && rows.length > 0 ? rows[0] as ServicoDBType : null
         } catch (error) {
             console.log({ "catch Servico.ts": error })
             return null
@@ -53,7 +55,7 @@ export const servicoModel = {
   
 
     // update service
-    async update(id: string, ServicoAtualizado: ServicoDBType) {
+    async update(id: string, ServicoAtualizado: ServicoDBType): Promise<ServicoDBType | null> {
 
         try {
            const updateServico = `update tbl_servicos set nome = ?, descricao = ? ,categoria = ?, enabled = ?, apdate_at = ? where id = ?`
@@ -65,8 +67,8 @@ export const servicoModel = {
                 new Date(),
                 id
             ]
-            const rows = await db.execute(updateServico, values)
-            return rows
+            const [rows] = await db.execute<ServicoDBType & RowDataPacket[]>(updateServico, values)
+            return rows as ServicoDBType
         } catch (error) {
 
             console.log({ "catch Servico.ts": error })
@@ -75,19 +77,52 @@ export const servicoModel = {
     },
 
     // delete service
-    async delete(id: string) {
+    async delete(id: string): Promise<ServicoDBType | null> {
         try {
             // query = deletar um servico
             const query = `delete from tbl_servicos where id = ?`
             const values = [id]
-            const rows = await db.execute(query, values)
+            const [rows] = await db.execute<ServicoDBType & RowDataPacket[]>(query, values)
             
-            return rows
+            return rows as ServicoDBType
         } catch (error) {
             console.log({ "catch Servico.ts": error })
             return null
         }
     },
+    getAllServicoDetalhado(limit:number,offset:number):promise<ServicoDetalhadaType[]|null>{
+         try {
+            const query = `
+            SELECT 
+              s.id
+               s.nome
+               s.descriçao
+               c.designacao
+               c.icone
+               e.id as id_empresa
+               e.designacao
+               e.icone
+               s.enable
 
+
+                FROM tbl_servico s 
+                INNER JOIN tbl_categoria c ON c.id = id.categoria
+                INNER JOIN tbl_empresa  e ON e.id = s.id_empresa
+                ORDER BY ps.created_at DESC
+                LIMIT ? OFFSET ?
+            `
+              const  value =
+                [
+                    limit.toString(),
+                    offset.toString()
+                ]
+           
+         
+        } catch (err) {
+            console.log(err)
+            return null
+        }
+
+    }
 
 }

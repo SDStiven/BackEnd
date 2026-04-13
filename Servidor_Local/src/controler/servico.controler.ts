@@ -6,7 +6,7 @@ import type { ServicoDBType } from "../Utils/types.js"
  
 export const servicoComtroler = {
     // create servico
-    async createServico(req: Request, res: Response) {
+    async createServico(req: Request, res: Response): Promise<ServicoDBType | any> {
         try {
             const newServico:ServicoDBType = req.body
             if(!newServico){
@@ -41,7 +41,7 @@ export const servicoComtroler = {
         }
     },
     // get all services
-    async getAll(req: Request, res: Response) {
+    async getAll(req: Request, res: Response): Promise<ServicoDBType[] | any> {
         try {
             const getServicoResponse = await servicoModel.getAll()
 
@@ -68,7 +68,7 @@ export const servicoComtroler = {
     },
 
     // get one service by id
-    async get(req: Request, res: Response) {
+    async get(req: Request, res: Response): Promise<ServicoDBType | any> {
         try {
             const id = req.params.id
             if(!id){
@@ -102,7 +102,7 @@ export const servicoComtroler = {
     },
 
     // update service
-    async update(req: Request, res: Response) {
+    async update(req: Request, res: Response): Promise<ServicoDBType | any> {
         try {
             const  id = req.params.id
             const updateServico:ServicoDBType = req.body
@@ -144,7 +144,7 @@ export const servicoComtroler = {
     },
 
     // delete service
-    async delete(req: Request, res: Response) {
+    async delete(req: Request, res: Response): Promise<ServicoDBType | any> {
         try {
             const  id = req.params.id
             if(!id){

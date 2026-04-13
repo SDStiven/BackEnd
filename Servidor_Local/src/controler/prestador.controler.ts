@@ -5,7 +5,7 @@ import type { Request, Response } from "express"
 
 export const prestadorControler = {
     // create prestador
-    async create(req: Request, res: Response) {
+    async create(req: Request, res: Response): Promise<PrestadorDBType | any> {
         try {
             const newPrestador: PrestadorDBType = req.body
             if (!newPrestador) {
@@ -39,7 +39,7 @@ export const prestadorControler = {
     },
 
     // getAll prestadores
-    async getAll(req: Request, res: Response) {
+    async getAll(req: Request, res: Response): Promise<PrestadorDBType[] | any> {
         try {
             const prestadores = await prestadorModel.getAll()
             if (!prestadores) {
@@ -65,7 +65,7 @@ export const prestadorControler = {
     },
 
     // get one prestador by id
-    async get(req: Request, res: Response) {
+    async get(req: Request, res: Response): Promise<PrestadorDBType | any> {
         try {
             const id = req.params.id
             if (!id) {
@@ -99,7 +99,7 @@ export const prestadorControler = {
     },
 
     // update prestador
-    async update(req: Request, res: Response) {
+    async update(req: Request, res: Response): Promise<PrestadorDBType | any> {
         try {
             const id = req.params.id
             if (!id) {
@@ -141,7 +141,7 @@ export const prestadorControler = {
     },
 
     // delete prestador
-    async delete (req: Request, res: Response) {
+    async delete (req: Request, res: Response): Promise<PrestadorDBType | any> {
         try {
             const id = req.params.id
             if (!id) {

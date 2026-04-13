@@ -10,7 +10,7 @@ import jwt from "jsonwebtoken"
 
 export const userControler = {
     // create user
-    async create(req: Request, res: Response) {
+    async create(req: Request, res: Response): Promise<UtilizadorDBType | any> {
         try {
             const newuser: UtilizadorDBType = req.body
             if (!newuser) {
@@ -38,7 +38,7 @@ export const userControler = {
         }
     },
     // get all users
-    async getAll(req: Request, res: Response) {
+    async getAll(req: Request, res: Response): Promise<UtilizadorDBType[] | any> {
         try {
             const users = await userModel.getAll()
             if (users === null) {
@@ -63,7 +63,7 @@ export const userControler = {
         }
     },
     // get one user by id
-    async get(req: Request, res: Response) {
+    async get(req: Request, res: Response): Promise<UtilizadorDBType | any> {
         try {
             const id = req.params.id
             if (!id) {
@@ -96,7 +96,7 @@ export const userControler = {
         }
     },
     // update user
-    async update(req: Request, res: Response) {
+    async update(req: Request, res: Response): Promise<UtilizadorDBType | any> {
         try {
             const { id } = req.params
             if (!id) {
@@ -137,7 +137,7 @@ export const userControler = {
         }
     },
     // login user
-    async login(req: Request, res: Response) {
+    async login(req: Request, res: Response): Promise<UtilizadorDBType | any> {
         try {
             const { email, password } = req.body
             if (!email || !password) {
@@ -187,7 +187,7 @@ export const userControler = {
         }
     },
     // delete user
-    async delete(req: Request, res: Response) {
+    async delete(req: Request, res: Response): Promise<UtilizadorDBType | any> {
         try {
             const { id } = req.params
             const deleteServicoRsesponse = await userModel.delete(id as string)
@@ -213,7 +213,7 @@ export const userControler = {
         }
     },
     // Atualizar senha
-    async updatePassword(req: Request, res: Response) {
+    async updatePassword(req: Request, res: Response): Promise<UtilizadorDBType | any> {
         try {
             const { password, newPassword } = req.body;
             // Pegar o id do token decodificado no middleware
@@ -252,7 +252,7 @@ export const userControler = {
         }
     },
     // reset password
-    async resetPassword(req: Request, res: Response) {
+    async resetPassword(req: Request, res: Response): Promise<UtilizadorDBType | any> {
             const { id } = req.params
     
             const updatedUser: UtilizadorDBType = req.body

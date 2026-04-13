@@ -5,7 +5,7 @@ import { type OrcamentoDBType, type responseType } from "../Utils/types.js"
 
 export const orcamentoControler = {
     // create orcamento
-    async create(req: Request, res: Response) {
+    async create(req: Request, res: Response): Promise<OrcamentoDBType | any> {
         try {
             const newOrcamento: OrcamentoDBType = req.body
             if(!newOrcamento){
@@ -44,7 +44,7 @@ export const orcamentoControler = {
         }
     }, 
     // get all orcamentos
-    async getAll(req: Request, res: Response) {
+    async getAll(req: Request, res: Response): Promise<OrcamentoDBType[] | any> {
         try {
             const getOrcamentoResponse : OrcamentoDBType[] | null = await orcamentoModel.getAll()
             if(!getOrcamentoResponse){
@@ -69,7 +69,7 @@ export const orcamentoControler = {
         }
     },
     // get one orcamento by id
-    async get(req: Request, res: Response) {
+    async get(req: Request, res: Response): Promise<OrcamentoDBType | any> {
         try {
             const  id= req.params.id
             if(!id){
@@ -102,7 +102,7 @@ export const orcamentoControler = {
         }
     },
     // update orcamento
-    async update(req: Request, res: Response) {
+    async update(req: Request, res: Response): Promise<OrcamentoDBType | any> {
         try {
             const  id = req.params.id
             const updateOrcamento:OrcamentoDBType = req.body
@@ -149,7 +149,7 @@ export const orcamentoControler = {
         }
     },
     // delete orcamento
-    async delete(req: Request, res: Response) {
+    async delete(req: Request, res: Response): Promise<OrcamentoDBType | any> {
         try {
             const  id = req.params.id
             if(!id){

@@ -6,7 +6,7 @@ import { sendMail } from "../Utils/mailer.js"
 
 export const propostaControler = {
     // create proposta
-    async create(req: Request, res: Response) {
+    async create(req: Request, res: Response): Promise<PropostaDBType | any> {
         try {
             const newProposta: PropostaDBType = req.body
             if (!newProposta) {
@@ -39,7 +39,7 @@ export const propostaControler = {
         }
     },
     // get all proposals
-    async getAll(req: Request, res: Response) {
+    async getAll(req: Request, res: Response): Promise<PropostaDBType[] | any> {
         try {
             const getPropostaResponse = await propostaModel.getAll()
             if (!getPropostaResponse) {
@@ -64,7 +64,7 @@ export const propostaControler = {
         }
     },
     // get one proposal by id
-    async get(req: Request, res: Response) {
+    async get(req: Request, res: Response): Promise<Response | any> {
         try {
             const id = req.params.id
             if (!id) {
@@ -97,7 +97,7 @@ export const propostaControler = {
         }
     },
     // update proposal
-    async update(req: Request, res: Response) {
+    async update(req: Request, res: Response): Promise<PropostaDBType | any> {
         try {
             const id = req.params.id
             const updateProposta: PropostaDBType = req.body
@@ -138,7 +138,7 @@ export const propostaControler = {
         }
     },
     // delete proposal
-    async delete(req: Request, res: Response) {
+    async delete(req: Request, res: Response): Promise<PropostaDBType | any> {
         try {
             const id = req.params.id
             if (!id) {
@@ -172,7 +172,7 @@ export const propostaControler = {
     },
 
     // Aceitar uma proposta (PUT /propostas/:id/aceitar)
-    async aceitar(req: Request, res: Response) {
+    async aceitar(req: Request, res: Response): Promise<PropostaDBType | any> {
         try {
             const { id } = req.params
             if (!id) {

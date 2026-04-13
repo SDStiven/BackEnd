@@ -1,11 +1,12 @@
 import db from "../lib/db.js"
+import type { RowDataPacket } from "mysql2"
 import type { PrestadorDBType } from "../Utils/types.js"
 import { generateUUID } from "../Utils/uuid.js"
 
 
 export const prestadorModel = {
     // create prestador
-    async create(Prestador: PrestadorDBType) {
+    async create(Prestador: PrestadorDBType): Promise<PrestadorDBType | null> {
         try {
             const newPrestador = `insert into tbl_prestadores values(?,?,?,?,?,?,?,?,?)`
             const values = [
@@ -19,8 +20,8 @@ export const prestadorModel = {
                 Prestador.preco_hora,
                 Prestador.disponivel
             ]
-            const rows = await db.execute(newPrestador, values)
-            return rows
+            const [rows] = await db.execute<PrestadorDBType & RowDataPacket[]>(newPrestador, values)
+            return rows as PrestadorDBType
         } catch (error) {
             console.log({ "catch prestador-modules.ts": error })
             return null
@@ -28,11 +29,11 @@ export const prestadorModel = {
     },
 
     // getAll prestadores
-    async getAll() {
+    async getAll(): Promise<PrestadorDBType[] | null> {
         try {
             const prestadores = `select * from tbl_prestadores`
-            const rows = await db.execute(prestadores)
-            return Array.isArray(rows) && rows.length > 0 ? rows[0] : []
+            const [rows] = await db.execute<PrestadorDBType[] & RowDataPacket[]>(prestadores)
+            return Array.isArray(rows) && rows.length > 0 ? rows as PrestadorDBType[] : []
         } catch (error) {
             console.log({ "catch prestador.ts": error })
             return null
@@ -40,12 +41,12 @@ export const prestadorModel = {
     },
 
     // get one prestador by id
-    async get(id: string) {
+    async get(id: string): Promise<PrestadorDBType | null> {
         try {
             const prestador = `select * from tbl_prestadores where tbl_prestadores.id = ?`
-            const rows = await db.execute(prestador, [id])
+            const [rows] = await db.execute<PrestadorDBType[] & RowDataPacket[]>(prestador, [id])
             console.log("rows", rows)
-            return Array.isArray(rows) && rows.length > 0 ? rows[0] : []
+            return Array.isArray(rows) && rows.length > 0 ? rows[0] as PrestadorDBType : null
         } catch (error) {
             console.log({ "catch prestador.ts": error })
             return null
@@ -53,7 +54,7 @@ export const prestadorModel = {
     },
 
     // update prestador
-    async update(id: string, apdatePrestador: PrestadorDBType) {
+    async update(id: string, apdatePrestador: PrestadorDBType): Promise<PrestadorDBType | null> {
         try {
             const updatePrestador = `update tbl_prestadores set nome = ?,
              profissao = ?,
@@ -74,8 +75,8 @@ export const prestadorModel = {
                 apdatePrestador.disponivel,
                 id
             ]
-            const rows = await db.execute(updatePrestador, values)
-            return rows
+            const [rows] = await db.execute<PrestadorDBType & RowDataPacket[]>(updatePrestador, values)
+            return rows as PrestadorDBType
         } catch (error) {
             console.log({ "catch prestador.ts": error })
             return null
@@ -83,12 +84,12 @@ export const prestadorModel = {
     },
 
     // delete prestador
-    async delete(id: string) {
+    async delete(id: string): Promise<PrestadorDBType | null> {
         try {
             const query = `delete from tbl_prestadores where id = ?`
             const values = [id]
-            const rows = await db.execute(query, values)
-            return rows
+            const [rows] = await db.execute<PrestadorDBType & RowDataPacket[]>(query, values)
+            return rows as PrestadorDBType
         } catch (error) {
             console.log({ "catch prestador.ts": error })
             return null

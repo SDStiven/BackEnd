@@ -36,11 +36,11 @@ export const orcamentoModel = {
         }
     },
     // get one orcamento by id
-    async get(id: string) {
+    async get(id: string): Promise<OrcamentoDBType | null> {
         try {
             const orcamento = `select * from tbl_orcamento where id = ?`
             const values = [id]
-            const rows = await db.execute<OrcamentoDBType & RowDataPacket[]>(orcamento, values)
+            const [rows] = await db.execute<OrcamentoDBType[] & RowDataPacket[]>(orcamento, values)
             return Array.isArray(rows) && rows.length > 0 ? rows[0] as OrcamentoDBType : null
         } catch (error) {
             console.log({ "catch Orcamento.ts": error })
