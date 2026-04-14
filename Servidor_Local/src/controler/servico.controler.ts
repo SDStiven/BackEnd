@@ -1,7 +1,7 @@
 
 import type { Request, Response } from "express"
 import { servicoModel } from "../models/serveco.modesl.js"
-import type { ServicoDBType } from "../Utils/types.js"
+import type { responseType, ServicoDBType, ServicoDetalhadaType } from "../Utils/types.js"
 
  
 export const servicoComtroler = {
@@ -167,6 +167,44 @@ export const servicoComtroler = {
                 message: "Erro interno do servidor",
                 data: null
             })
+        }
+    },
+    async getAllServicoDetalhado(req: Request, res: Response): Promise<ServicoDetalhadaType[] | any> {
+        try {
+            const {limit,offset} = req.query
+            let LIMIT =  10
+            let OFFSET =  0
+            if(limit){
+                LIMIT = parseInt(limit as string)
+            }
+            if(offset){
+                OFFSET = parseInt(offset as string)
+            }
+           const getAllServicoDetalhadoResponse = await servicoModel.getAllServicoDetalhado(LIMIT,OFFSET)
+
+           if(!getAllServicoDetalhadoResponse){
+            const response :responseType<null> = {
+                status: "error",
+                message: "Erro ao buscar servicos",
+                data: null
+            }
+            return res.status(500).json(response)
+           }
+           const response :responseType<ServicoDetalhadaType[]> = {
+            status: "success",
+            message: "Servicos buscados com sucesso",
+            data: getAllServicoDetalhadoResponse
+           }
+           return res.status(200).json(response)
+           
+        } catch (error) {
+            console.error(error)
+            const response :responseType<null> = {
+                status: "error",
+                message: "Erro interno do servidor",
+                data: null
+            }
+            return res.status(500).json(response)
         }
     },
 } 

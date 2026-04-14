@@ -1,7 +1,7 @@
 import type { RowDataPacket } from "mysql2";
 import db from "../lib/db.js";
 import { formatDate } from "../Utils/date.js";
-import type { ServicoDBType } from "../Utils/types.js";
+import type { ServicoDBType, ServicoDetalhadaType } from "../Utils/types.js";
 import type { promises } from "node:dns";
  
 // Funções do modelo de servico
@@ -20,6 +20,7 @@ export const servicoModel = {
                 new Date()
             ] 
             const [rows] = await db.execute<ServicoDBType & RowDataPacket[]>(query, values)
+            console.log("rows1232", rows)
             return rows as ServicoDBType
         } catch (error) {
             console.log({ "catch Servico.ts": error })
@@ -90,34 +91,35 @@ export const servicoModel = {
             return null
         }
     },
-    getAllServicoDetalhado(limit:number,offset:number):promise<ServicoDetalhadaType[]|null>{
+    async getAllServicoDetalhado(limit:number,offset:number):Promise<ServicoDetalhadaType[]|null>{
          try {
             const query = `
-            SELECT 
-              s.id
-               s.nome
-               s.descriçao
-               c.designacao
-               c.icone
+            SELECT DISTINCT
+               s.id as id_servico
+               s.nome as nome_servico
+               s.descricao as descricao_servico
+               c.designacao as designacao_categoria
+               c.icone as icone_categoria
                e.id as id_empresa
-               e.designacao
-               e.icone
+               e.designacao as designacao_empresa
+               e.icone as icone_empresa
                s.enable
 
-
-                FROM tbl_servico s 
-                INNER JOIN tbl_categoria c ON c.id = id.categoria
-                INNER JOIN tbl_empresa  e ON e.id = s.id_empresa
-                ORDER BY ps.created_at DESC
-                LIMIT ? OFFSET ?
+               FROM tbl_servico s 
+               INNER JOIN tbl_categoria c ON c.id = id.categoria
+               INNER JOIN tbl_servico_empresa se ON se.id_servico = s.id
+               INNER JOIN tbl_empresa  e ON e.id = se.id_empresa
+               ORDER BY s.created_at DESC
+               LIMIT ? OFFSET ?
             `
               const  value =
                 [
-                    limit.toString(),
-                    offset.toString()
+                    limit,
+                    offset
                 ]
-           
-         
+            const [rows] = await db.execute<(ServicoDetalhadaType & RowDataPacket)[]>(query, value)
+            if (Array.isArray(rows) && rows.length === 0) return null
+            return Array.isArray(rows) ? rows as ServicoDetalhadaType[] : null
         } catch (err) {
             console.log(err)
             return null

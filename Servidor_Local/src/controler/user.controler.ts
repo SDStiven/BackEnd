@@ -166,8 +166,9 @@ export const userControler = {
             const payload = {
                 id: userdata.id,
                 email: userdata.email,
-                nome: userdata.nome
-            }
+                nome: userdata.nome,
+                role: userdata.role
+            } 
 
             const token = jwt.sign(payload, process.env.JWT_SECRET as string, { expiresIn: "1h" }
             )
@@ -309,4 +310,7 @@ export const userControler = {
                 data: resetPasswordResponse
             })
         },
+
+
+        
 }

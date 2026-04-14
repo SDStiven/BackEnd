@@ -165,8 +165,49 @@ paths:
                         application/json:
                             schema:
                                 type: object
-                                $ref: '#/components/schemas/RespostaError'   
-
-
+                                $ref: '#/components/schemas/RespostaError'
+    # listar todos os servicos detalhados
+    /servico/getAllServicoDetalhado:
+        get:
+            tags:
+                - Servico
+            summary: Listar todos os Servicos detalhados
+            parameters:
+                - name: limit
+                  in: query
+                  required: false
+                  description: limite de servicos a serem retornados
+                  schema:
+                    type: integer
+                    example: 10
+                - name: offset
+                  in: query
+                  required: false
+                  description: offset de servicos a serem retornados
+                  schema:
+                    type: integer
+                    example: 0
+            responses:
+                '200':
+                    description: servicos detalhados retornados com sucesso
+                    content:  
+                        application/json:
+                            schema:
+                                type: object
+                                $ref: '#/components/schemas/responseSucesso'
+                '404':
+                    description: servicos detalhados nao encontrados
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                $ref: '#/components/schemas/RespostaError'
+                '500':
+                    description: erro interno do servidor
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                $ref: '#/components/schemas/RespostaError'
 
                                 

@@ -1,5 +1,27 @@
 
+export enum EstadoProposta {
+    PENDENTE = "pendente",
+    ACEITE = "aceite",
+    CANCELADO = "cancelado"
+}
 
+export enum EstadoPrestacaoServico {
+    PENDENTE = "pendente",
+    FINALIZADO = "finalizado",
+    EM_PROGRESSO = "em_progresso",
+    CANCELADO = "cancelado"
+}
+
+export enum Role {
+   CLIENTE ="cliente",
+   ADMIN ="admin",
+   PRESTADOR ="prestador",
+   EMPRESA ="empresa"
+}
+export enum tipo_prestador {
+    PRESTADOR ="prestador",
+    EMPRESA ="empresa"
+}
 export interface ServicoDBType {
   id:string
   nome: string; 
@@ -38,6 +60,7 @@ export interface UtilizadorDBType {
   numero_identificacao: string
   data_nascemento: string
   email: string
+  role: Role
   telefone: string
   pais: string
   localidade: string
@@ -47,18 +70,7 @@ export interface UtilizadorDBType {
   updated_at: string
 }
 
-export enum EstadoProposta {
-    PENDENTE = "pendente",
-    ACEITE = "aceite",
-    CANCELADO = "cancelado"
-}
 
-export enum EstadoPrestacaoServico {
-    PENDENTE = "pendente",
-    FINALIZADO = "finalizado",
-    EM_PROGRESSO = "em_progresso",
-    CANCELADO = "cancelado"
-}
 
 export interface PropostaDBType {
   
@@ -81,7 +93,9 @@ id_servico: string
 preco_hora: number 
 estado: EstadoPrestacaoServico
 id_orcamento: string 
-id_utilizador: string 
+id_utilizador: string
+id_empresa: string
+tipo_prestador: tipo_prestador 
 enabled: boolean 
 created_at: string 
 updated_at: string
@@ -103,10 +117,25 @@ export interface prestacaoServicoDetalhesType {
     urgente: boolean 
 }
 export interface ServicoDetalhadaType{
-  id
-  nome
-  descricao
-  designacao
-  icones
-  
+  id:string
+  nome: string
+  descricao: string
+  designacao: string
+  icones: string
+  id_empresa: string
+  designacao_empresa: string
+  icone_empresa: string
+  enable: boolean
+}
+export interface EmpresaDBType {
+  id: string
+  designacao: string
+  descricao: string
+  nif: string
+  icone: string
+  id_utilizador: string
+  localizacao: string
+  enabled: boolean
+  created_at: string
+  updated_at: string
 }

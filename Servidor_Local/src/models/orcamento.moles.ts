@@ -7,7 +7,7 @@ export const orcamentoModel = {
     // create orcamento
     async create(newOrcamento: OrcamentoDBType): Promise<OrcamentoDBType | null> {
         try {
-            const query = `insert into tbl_orcamento values(?,?,?,?,?,?)`
+            const query = `insert into tbl_orcamento values(?,?,?,?,?)`
             const values = [
                 newOrcamento.total,
                 newOrcamento.id_utilizador,
@@ -16,6 +16,7 @@ export const orcamentoModel = {
                 new Date()
             ]
             const [rows] = await db.execute<OrcamentoDBType & RowDataPacket[]>(query, values)
+            console.log("rows1232", rows)
             return rows as OrcamentoDBType
         } catch (error) {
             console.log({ "catch Orcamento.ts": error })
