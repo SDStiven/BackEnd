@@ -1,6 +1,7 @@
 import { propostaControler } from "../controler/proposta.control.js";
 import { Router } from "express";
-import authMiddelware from "../security/auth.middelware.js";
+import authMiddelware, { autorized } from "../security/auth.middelware.js";
+import { Role } from "../Utils/types.js";
 
 const propostaRouter ={
     create:"/create",
@@ -12,11 +13,15 @@ const propostaRouter ={
 }
 
 const router = Router()
-router.post(propostaRouter.create, propostaControler.create)
-router.get(propostaRouter.getAll, propostaControler.getAll)
-router.get(propostaRouter.get, propostaControler.get)
-router.put(propostaRouter.update, propostaControler.update)
-router.delete(propostaRouter.delete, propostaControler.delete)
-router.put(propostaRouter.aceitar, authMiddelware, propostaControler.aceitar)
+
+router.get(propostaRouter.getAll,propostaControler.getAll)
+router.get(propostaRouter.get,propostaControler.get)
+
+router.use(authMiddelware)
+
+router.post(propostaRouter.create,autorized([Role.ADMIN,Role.PRESTADOR,Role.EMPRESA]),propostaControler.create)
+router.put(propostaRouter.update,autorized([Role.ADMIN,Role.PRESTADOR,Role.EMPRESA]),propostaControler.update)
+router.delete(propostaRouter.delete,autorized([Role.ADMIN,Role.PRESTADOR,Role.EMPRESA]),propostaControler.delete)
+router.put(propostaRouter.aceitar,autorized([Role.ADMIN,Role.PRESTADOR,Role.EMPRESA]),propostaControler.aceitar)
 
 export {router}

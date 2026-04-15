@@ -15,14 +15,15 @@ const ServicoRoute ={
  
 const router = Router()
 
+router.get (ServicoRoute.getAll,autorized([Role.ADMIN,Role.PRESTADOR,Role.EMPRESA,Role.CLIENTE]),servicoComtroler.getAll)
+router.get (ServicoRoute.getById,autorized([Role.ADMIN,Role.PRESTADOR,Role.EMPRESA,Role.CLIENTE]),servicoComtroler.get)
+router.get(ServicoRoute.getAllServicoDetalhado,servicoComtroler.getAllServicoDetalhado)
+
 router.use(authMiddelware)
 
-router.get (ServicoRoute.getAll, servicoComtroler.getAll)
-router.get (ServicoRoute.getById, servicoComtroler.get)
-router.post(ServicoRoute.create,autorized([Role.ADMIN]), servicoComtroler.createServico)
-router.put(ServicoRoute.update,autorized([Role.ADMIN]), servicoComtroler.update)
-router.delete(ServicoRoute.delete,autorized([Role.ADMIN]), servicoComtroler.delete)
-router.get(ServicoRoute.getAllServicoDetalhado,autorized([Role.ADMIN,Role.PRESTADOR,Role.EMPRESA,Role.CLIENTE]), servicoComtroler.getAllServicoDetalhado)
+router.post(ServicoRoute.create,autorized([Role.ADMIN]),servicoComtroler.createServico)
+router.put(ServicoRoute.update,autorized([Role.ADMIN]),servicoComtroler.update)
+router.delete(ServicoRoute.delete,autorized([Role.ADMIN]),servicoComtroler.delete)
 
 export {router}
 

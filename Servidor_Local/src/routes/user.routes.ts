@@ -21,7 +21,6 @@ router.post(UserRoute.login,userControler.login)
 router.post(UserRoute.create,userControler.create)
 
 
-
 router.use(authMiddelware)
 
 router.get(UserRoute.getAll,autorized([Role.ADMIN]),userControler.getAll)

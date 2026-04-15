@@ -1,47 +1,47 @@
 
 export enum EstadoProposta {
-    PENDENTE = "pendente",
-    ACEITE = "aceite",
-    CANCELADO = "cancelado"
+  PENDENTE = "pendente",
+  ACEITE = "aceite",
+  CANCELADO = "cancelado"
 }
 
 export enum EstadoPrestacaoServico {
-    PENDENTE = "pendente",
-    FINALIZADO = "finalizado",
-    EM_PROGRESSO = "em_progresso",
-    CANCELADO = "cancelado"
+  PENDENTE = "pendente",
+  FINALIZADO = "finalizado",
+  EM_PROGRESSO = "em_progresso",
+  CANCELADO = "cancelado"
 }
 
 export enum Role {
-   CLIENTE ="cliente",
-   ADMIN ="admin",
-   PRESTADOR ="prestador",
-   EMPRESA ="empresa"
+  CLIENTE = "cliente",
+  ADMIN = "admin",
+  PRESTADOR = "prestador",
+  EMPRESA = "empresa"
 }
 export enum tipo_prestador {
-    PRESTADOR ="prestador",
-    EMPRESA ="empresa"
+  PRESTADOR = "prestador",
+  EMPRESA = "empresa"
 }
 export interface ServicoDBType {
-  id:string
-  nome: string; 
+  id: string
+  nome: string;
   descricao: string;
   categoria: string;
   enabled: boolean;
   created_at: string;
   updated_at: string;
 }
- 
+
 export interface PrestadorDBType {
-    id:string
-    nome: string; 
-    profissao: string; 
-    taxa_urgencia: number; 
-    minimo_desconto: number; 
-    nif: number; 
-    persentagem_desconto: number; 
-    preco_hora: number; 
-    disponivel: boolean;
+  id: string
+  nome: string;
+  profissao: string;
+  taxa_urgencia: number;
+  minimo_desconto: number;
+  nif: number;
+  persentagem_desconto: number;
+  preco_hora: number;
+  disponivel: boolean;
 }
 
 
@@ -73,32 +73,51 @@ export interface UtilizadorDBType {
 
 
 export interface PropostaDBType {
-  
-    id: string
-    id_prestacao: string
-    preco_hora: number
-    hora_estimada: number
-    estado: EstadoProposta
-    anable: boolean
-    created_at: string
-    updated_at: string
+
+  id: string
+  id_prestacao: string
+  preco_hora: number
+  hora_estimada: number
+  estado: EstadoProposta
+  anable: boolean
+  created_at: string
+  updated_at: string
 }
 export interface Prestacao_servicoDBType {
-id: string 
-disignacao: string 
-subtotal: number 
-haras_estimadas: number 
-id_prestador: string 
-id_servico: string 
-preco_hora: number 
-estado: EstadoPrestacaoServico
-id_orcamento: string 
-id_utilizador: string
-id_empresa: string
-tipo_prestador: tipo_prestador 
-enabled: boolean 
-created_at: string 
-updated_at: string
+  id: string
+  disignacao: string
+  subtotal: number
+  haras_estimadas: number
+  id_prestador: string
+  id_servico: string
+  preco_hora: number
+  estado: EstadoPrestacaoServico
+  id_orcamento: string
+  id_utilizador: string
+  id_empresa: string
+  tipo_prestador: tipo_prestador
+  enabled: boolean
+  created_at: string
+  updated_at: string
+}
+export interface prestacaoServicocategoria {
+  id: string
+  disignacao: string
+  subtotal: number
+  haras_estimadas: number
+  id_prestador: string
+  id_servico: string
+  preco_hora: number
+  estado: EstadoPrestacaoServico
+  id_orcamento: string
+  id_utilizador: string
+  id_empresa: string
+  tipo_prestador: tipo_prestador
+  enabled: boolean
+  created_at: string
+  updated_at: string
+  id_categoria: string
+  nome_categoria: string
 }
 
 export interface responseType<T> {
@@ -107,17 +126,17 @@ export interface responseType<T> {
   data: T | null
 }
 export interface prestacaoServicoDetalhesType {
-    id: string 
-    nome_utilizador: string 
-    email_utilizador: string 
-    nome_servico: string 
-    descricao: string 
-    estado: string 
-    data_pedido: string 
-    urgente: boolean 
+  id: string
+  nome_utilizador: string
+  email_utilizador: string
+  nome_servico: string
+  descricao: string
+  estado: string
+  data_pedido: string
+  urgente: boolean
 }
-export interface ServicoDetalhadaType{
-  id:string
+export interface ServicoDetalhadaType {
+  id: string
   nome: string
   descricao: string
   designacao: string
@@ -138,4 +157,16 @@ export interface EmpresaDBType {
   enabled: boolean
   created_at: string
   updated_at: string
+}
+export interface prestacaoServicocategoria {
+  id: string
+  nome_utilizador: string
+  email_utilizador: string
+  nome_servico: string
+  descricao: string
+  estado: EstadoPrestacaoServico
+  data_pedido: string
+  urgente: boolean
+  id_categoria: string
+  nome_categoria: string
 }

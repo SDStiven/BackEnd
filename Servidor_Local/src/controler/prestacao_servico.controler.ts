@@ -1,4 +1,4 @@
-import type { Prestacao_servicoDBType, prestacaoServicoDetalhesType } from "../Utils/types.js"
+import type { Prestacao_servicoDBType, prestacaoServicocategoria, prestacaoServicoDetalhesType } from "../Utils/types.js"
 import { prestacao_servicoModel } from "../models/prestacao_servico.models.js"
 import type { Request, Response } from "express"
 
@@ -184,6 +184,25 @@ export const prestacao_servicoControler = {
                 status: "error",
                 message: "Erro ao buscar prestacao_servico",
                 data: null
+            })
+        }
+        return res.status(200).json({
+            status: "success",
+            message: "Prestacao_servico buscado com sucesso",
+            data: prestacaoServicoResponse
+        })
+
+    },
+    async getPrestaçãoServicoCategoria(req: Request, res: Response): Promise<prestacaoServicocategoria[] | any> {
+        const { idCategoria } = req.params as { idCategoria: string }
+
+        const prestacaoServicoResponse = await prestacao_servicoModel.getAllPrestacaoServicoCategoria(idCategoria as string)
+
+        if(!prestacaoServicoResponse){
+            return res.status(500).json({
+                status: "error",
+                message: "Erro ao buscar prestacao_servico",
+                data: prestacaoServicoResponse
             })
         }
         return res.status(200).json({

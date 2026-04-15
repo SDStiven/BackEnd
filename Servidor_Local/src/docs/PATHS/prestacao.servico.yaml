@@ -189,3 +189,33 @@ paths:
               schema:
                 type: object
                 $ref: '#/components/schemas/prestacao_servicoError'
+  # buscar todas as prestacoes de servico por categoria
+  /prestacao_servico/get-all-categoria/{idCategoria}:
+    get:
+      tags:
+        - Prestacao de servico
+      summary: Buscar todas as prestacoes de servico por categoria
+      description: Retorna uma lista de todas as prestacoes de servico por categoria
+      parameters:
+        - name: idCategoria
+          in: path
+          required: true
+          description: id da categoria
+          schema:
+            type: string
+            example: "1"
+      responses:
+        '200':
+          description: prestacao de servico encontrada com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/prestacao_servico'
+        '500':
+          description: Erro ao buscar prestacao de servico
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/prestacao_servicoError'

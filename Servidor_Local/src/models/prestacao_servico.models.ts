@@ -1,6 +1,6 @@
 import db from "../lib/db.js"
 import type { RowDataPacket } from "mysql2"
-import type { Prestacao_servicoDBType, prestacaoServicoDetalhesType } from "../Utils/types.js"
+import type { Prestacao_servicoDBType, prestacaoServicocategoria, prestacaoServicoDetalhesType } from "../Utils/types.js"
 import { generateUUID } from "../Utils/uuid.js"
 
 
@@ -115,12 +115,6 @@ export const prestacao_servicoModel = {
                     offset.toString()
                 ]
             )
-            console.log("limit", limit)
-            console.log("offset", offset)
-            console.log("rows", rows)
-            console.log("rows", [rows])
-            console.log("rows", rows[1])
-            console.log("rows", rows[0])
 
             if (Array.isArray(rows) && rows.length === 0) return null
             return Array.isArray(rows) ? rows as prestacaoServicoDetalhesType[] : null
@@ -146,4 +140,35 @@ export const prestacao_servicoModel = {
             return null
         }
     },
+    async getAllPrestacaoServicoCategoria(idCategoria:string):Promise<prestacaoServicocategoria[]|null>{
+        try {
+            console.log("idCategoria", idCategoria)
+            const [rows] = await db.execute<(prestacaoServicocategoria & RowDataPacket)[]>(
+                `SELECT DISTINCT
+
+                u.nome as utilizador,
+                u.email as email_utilizador,
+                s.nome as nome_servico,
+                ps.created_at as data_pedido,
+                ps.urgente,
+                c.id as id_categoria,
+                c.designacao as nome_categoria
+
+                FROM tbl_prestacao_servico ps 
+                INNER JOIN tbl_utilizadores u ON ps.id_Utilizador = u.id
+                INNER JOIN tbl_servicos  s ON ps.id_servico = s.id
+                INNER JOIN tbl_categorias c ON s.id_categoria = c.id AND c.id = ?`,
+
+                [idCategoria]
+            )
+            
+            if (Array.isArray(rows) && rows.length === 0) return []
+            return Array.isArray(rows) ? rows as prestacaoServicocategoria[] :[]
+
+            
+        } catch (err) {
+            console.log(err)
+            return null
+        }
+    }
 }

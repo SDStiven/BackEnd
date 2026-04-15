@@ -91,35 +91,37 @@ export const servicoModel = {
             return null
         }
     },
-    async getAllServicoDetalhado(limit:number,offset:number):Promise<ServicoDetalhadaType[]|null>{
+    async   getAllServicoDetalhado(limit:number,offset:number):Promise<ServicoDetalhadaType[]|null>{
          try {
             const query = `
             SELECT DISTINCT
-               s.id as id_servico
-               s.nome as nome_servico
-               s.descricao as descricao_servico
-               c.designacao as designacao_categoria
-               c.icone as icone_categoria
-               e.id as id_empresa
-               e.designacao as designacao_empresa
-               e.icone as icone_empresa
-               s.enable
+               s.id as id_servico,
+               s.nome as nome_servico,
+               s.descricao as descricao_servico,
+               c.designacao as designacao_categoria,
+               c.icone as icone_categoria,
+               e.id as id_empresa,
+               e.designacao as designacao_empresa,
+               e.icone as icone_empresa,
+               s.enabled
 
-               FROM tbl_servico s 
-               INNER JOIN tbl_categoria c ON c.id = id.categoria
-               INNER JOIN tbl_servico_empresa se ON se.id_servico = s.id
-               INNER JOIN tbl_empresa  e ON e.id = se.id_empresa
-               ORDER BY s.created_at DESC
+               FROM tbl_servicos s 
+               INNER JOIN tbl_categorias c ON c.id = s.id_categoria
+               INNER JOIN tbl_prestacao_servico ps ON ps.id_servico = s.id
+               INNER JOIN tbl_empresa  e ON e.id = ps.id_empresa
                LIMIT ? OFFSET ?
             `
               const  value =
                 [
-                    limit,
-                    offset
+                    limit.toString(),
+                    offset.toString()
                 ]
             const [rows] = await db.execute<(ServicoDetalhadaType & RowDataPacket)[]>(query, value)
-            if (Array.isArray(rows) && rows.length === 0) return null
-            return Array.isArray(rows) ? rows as ServicoDetalhadaType[] : null
+            console.log("rows", rows)
+            console.log("value", value)
+            console.log("limit", limit,offset)
+            if (Array.isArray(rows) && rows.length === 0) return []
+            return Array.isArray(rows) ? rows as ServicoDetalhadaType[] : []
         } catch (err) {
             console.log(err)
             return null
