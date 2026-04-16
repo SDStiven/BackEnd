@@ -151,8 +151,12 @@ export const prestacao_servicoModel = {
                 s.nome as nome_servico,
                 ps.created_at as data_pedido,
                 ps.urgente,
+                ps.id as id_prestacao_servico,
+                ps.preco_hora as preco_hora,
+                
                 c.id as id_categoria,
-                c.designacao as nome_categoria
+                c.designacao as nome_categoria,
+                c.icone as icone_categoria
 
                 FROM tbl_prestacao_servico ps 
                 INNER JOIN tbl_utilizadores u ON ps.id_Utilizador = u.id

@@ -116,6 +116,10 @@ export const propostaControler = {
                 })
             }
             const updatePropostaResponse = await propostaModel.update(id as string, updateProposta)
+            
+        //    if(updatePropostaResponse && updatePropostaResponse.estado === propostaControler.estado.pendente){
+            
+        //    }
             if (!updatePropostaResponse) {
                 return res.status(400).json({
                     status: "error",

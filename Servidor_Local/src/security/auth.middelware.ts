@@ -47,6 +47,13 @@ export function autorized(role:string[]){
     }
 }
 
+export function isDwener(model:any,id:string){
+    return async(req:Request,res:Response,next:NextFunction)=>{
+        if()
+    }
+}
+    
+
 /*
 req{
     headers:{
