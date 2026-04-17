@@ -47,9 +47,24 @@ export function autorized(role:string[]){
     }
 }
 
-export function isDwener(model:any,id:string){
+export function isDwener(model:any,field:string){
     return async(req:Request,res:Response,next:NextFunction)=>{
-        if()
+      const userid = req.user?.id
+
+      const{ id }= req.params
+
+      const entiry = await model.get(id as string)
+      if(!entiry){
+        return res.status(404).json({message:"entidade não encontrada"})
+      }
+      if(!userid){
+        return res.status(404).json({message:"entidade não encontrada"})
+      }
+      if(entiry[field] !== userid){
+        return res.status(403).json({message:"permissão invalida"})
+      }
+      next()
+     
     }
 }
     

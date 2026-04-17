@@ -1,0 +1,35 @@
+# schema/categoria.yaml
+
+components:
+  schemas:
+    categoria:
+      type: object
+      properties:
+        designacao:
+          type: string
+          example: 'Limpeza'
+        descricao:
+          type: string
+          example: 'Serviços de limpeza e manutenção'
+        icone:
+          type: string
+          example: 'limpeza.png'
+        enabled:
+          type: boolean
+          example: true
+
+    RespostaSucessoCategoria:
+      type: object
+      properties:
+        message:
+          type: string
+          example: 'Categoria criada com sucesso'
+        categoria:
+          $ref: '#/components/schemas/categoria'
+
+    RespostaErrorCategoria:
+      type: object
+      properties:
+        message:
+          type: string
+          example: 'Categoria não encontrada'

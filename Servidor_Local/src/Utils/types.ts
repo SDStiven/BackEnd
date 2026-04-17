@@ -22,6 +22,13 @@ export enum tipo_prestador {
   PRESTADOR = "prestador",
   EMPRESA = "empresa"
 }
+export interface CategoriaDBType {
+  id: string
+  designacao: string
+  icone: string
+  created_at: string
+  updated_at: string
+}
 export interface ServicoDBType {
   id: string
   nome: string;
@@ -70,8 +77,6 @@ export interface UtilizadorDBType {
   updated_at: string
 }
 
-
-
 export interface PropostaDBType {
 
   id: string
@@ -79,6 +84,8 @@ export interface PropostaDBType {
   preco_hora: number
   hora_estimada: number
   estado: EstadoProposta
+  id_prestador: string
+  owner: string
   anable: boolean
   created_at: string
   updated_at: string
@@ -150,10 +157,10 @@ export interface EmpresaDBType {
   id: string
   designacao: string
   descricao: string
+  localizacao: string
   nif: string
   icone: string
   id_utilizador: string
-  localizacao: string
   enabled: boolean
   created_at: string
   updated_at: string

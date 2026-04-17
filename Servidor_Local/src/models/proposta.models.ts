@@ -47,13 +47,14 @@ export const propostaModel = {
         try {
             const query = `select Distinct 
                 pt.*,
-                pr.id as owner,
-                from tbl_proposta pt
+                u.id as owner
+                FROM tbl_proposta pt
                 INNER JOIN tbl_prestadores pr on pt.id_prestador = pr.id
                 INNER JOIN tbl_utilizadores u on pr.id_utilizador = u.id
                 where pt.id = ?`
             const values = [id]
             const [rows] = await db.execute<PropostaDBType[] & RowDataPacket[]>(query, values)
+            console.log("rows",rows)
             return Array.isArray(rows) && rows.length > 0 ? rows[0] as PropostaDBType : null
         } catch (error) {
             console.log({ "catch proposta.ts": error })

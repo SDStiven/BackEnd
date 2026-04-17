@@ -1,0 +1,101 @@
+# schema/empresa.yaml
+
+components:
+  schemas:
+    empresa:
+      type: object
+      properties:
+        designacao:
+          type: string
+          example: 'Empresa de Limpeza'
+        descricao:
+          type: string
+          example: 'Especialistas em limpeza profunda'
+        localizacao:
+          type: string
+          example: 'Rua Principal, 123'
+        nif:
+          type: string
+          example: '123456789'
+        icone:
+          type: string
+          example: 'empresa_logo.png'
+        id_utilizador:
+          type: integer
+          example: 1
+        enabled:
+          type: boolean
+          example: true
+    createEmpresa:
+      type: object
+      required:
+        - designacao
+        - nif
+        - id_utilizador
+      properties:
+        designacao:
+          type: string
+          example: 'Empresa de Limpeza'
+        descricao:
+          type: string
+          example: 'Especialistas em limpeza profunda'
+        localizacao:
+          type: string
+          example: 'Rua Principal, 123'
+        nif:
+          type: string
+          example: '123456789'
+        icone:
+          type: string
+          example: 'empresa_logo.png'
+        id_utilizador:
+          type: integer
+          example: 1
+        enabled:
+          type: boolean
+          example: true
+
+    updateEmpresa:
+      type: object
+      properties:
+        designacao:
+          type: string
+        descricao:
+          type: string
+        localizacao:
+          type: string
+        nif:
+          type: string
+        icone:
+          type: string
+        id_utilizador:
+          type: integer
+        enabled:
+          type: boolean
+
+    RespostaSucessoEmpresa:
+      type: object
+      properties:
+        message:
+          type: string
+          example: 'Empresa criada com sucesso'
+        empresa:
+          $ref: '#/components/schemas/empresa'
+
+    RespostaSucessoListEmpresas:
+      type: object
+      properties:
+        message:
+          type: string
+          example: 'Empresas encontradas com sucesso'
+        empresas:
+          type: array
+          items:
+            $ref: '#/components/schemas/empresa'
+
+    RespostaErrorEmpresa:
+      type: object
+      properties:
+        message:
+          type: string
+          example: 'Empresa não encontrada'

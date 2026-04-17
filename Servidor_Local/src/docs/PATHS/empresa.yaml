@@ -1,0 +1,129 @@
+# paths/empresa.yaml
+
+paths:
+  /empresa/create:
+    post:
+      tags:
+        - Empresa
+      summary: Create a new company
+      description: Cria uma nova empresa
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/createEmpresa'
+      responses:
+        "201":
+          description: Empresa criada com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespostaSucessoEmpresa'
+        "400":
+          description: Erro na criação
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespostaErrorEmpresa'
+
+  /empresa:
+    get:
+      tags:
+        - Empresa
+      summary: Get all companies
+      description: Retorna uma lista de todas as empresas cadastradas
+      responses:
+        "200":
+          description: Empresas encontradas com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespostaSucessoListEmpresas'
+
+  /empresa/{id}:
+    get:
+      tags:
+        - Empresa
+      summary: Buscar uma empresa por id
+      description: Retorna uma empresa cadastrada
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: id da empresa
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Empresa encontrada com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespostaSucessoEmpresa'
+        '400':
+          description: Empresa não encontrada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespostaErrorEmpresa'
+
+  /empresa/update/{id}:
+    put:
+      tags:
+        - Empresa
+      summary: Atualizar uma empresa
+      description: Atualiza uma empresa cadastrada
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: id da empresa
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/updateEmpresa'
+      responses:
+        '200':
+          description: Empresa atualizada com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespostaSucessoEmpresa'
+        '400':
+          description: Erro na atualização
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespostaErrorEmpresa'
+
+  /empresa/delete/{id}:
+    delete:
+      tags:
+        - Empresa
+      summary: Deletar uma empresa
+      description: Deleta uma empresa cadastrada
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: id da empresa
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Empresa deletada com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespostaSucessoEmpresa'
+        '400':
+          description: Erro na deleção
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespostaErrorEmpresa'

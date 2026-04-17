@@ -45,7 +45,7 @@ export const servicoModel = {
     // // get one service by id
     async get(id: string): Promise<ServicoDBType | null> {
         try {
-            const servico = "select * from tbl_servicos  WHERE tbl_servicos.id = ? "
+            const servico = "select DISTINCT * from tbl_servicos  WHERE tbl_servicos.id = ? "
             const [rows] = await db.execute<ServicoDBType[] & RowDataPacket[]>(servico, [id])
             return Array.isArray(rows) && rows.length > 0 ? rows[0] as ServicoDBType : null
         } catch (error) {
