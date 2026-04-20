@@ -47,7 +47,7 @@ export function autorized(role:string[]){
     }
 }
 
-export function isDwener(model:any,field:string){
+export function isOwner(model:any,field:string){
     return async(req:Request,res:Response,next:NextFunction)=>{
       const userid = req.user?.id
 
@@ -61,7 +61,7 @@ export function isDwener(model:any,field:string){
         return res.status(404).json({message:"entidade não encontrada"})
       }
       if(entiry[field] !== userid){
-        return res.status(403).json({message:"permissão invalida"})
+        return res.status(403).json({message:"permissão insuficiente"})
       }
       next()
      
