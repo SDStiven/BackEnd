@@ -19,5 +19,5 @@ export default {
     },
     moduleNameMapper: {
         "^(\\.{1,2}/.*)\\.js$": "$1",//fixes import with .js extension in TS files for jest
-    },
+    }
 }
