@@ -85,7 +85,7 @@ export async function novoServico(servico: ServicoMySqlType) {
   try {
     const novoServico =   await db.execute(
       `
-      insert into tbl_servicos
+      insert into tblservico
       values(?,?,?,?,?,?,?)
       `,
       [
@@ -113,7 +113,7 @@ export async function selecionarServicos() {
   try {
     const servicos = await db.execute(
       `
-      select * from tbl_servicos
+      select * from tblservico
       `
     )
     return servicos[0]
@@ -130,7 +130,7 @@ export async function selecionarServicoById(id:string
   try {
     const servico = await db.execute(
       `
-      select * from tbl_servicos where id = ?
+      select * from tblservico where id = ?
       `,
       [id]
     )

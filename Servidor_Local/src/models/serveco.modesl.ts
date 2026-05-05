@@ -1,15 +1,12 @@
 import type { RowDataPacket } from "mysql2";
 import db from "../lib/db.js";
-import { formatDate } from "../Utils/date.js";
 import type { ServicoDBType, ServicoDetalhadaType } from "../Utils/types.js";
-import type { promises } from "node:dns";
- 
 // Funções do modelo de servico
 export const servicoModel = {
     // create servico
     async create(newServico: ServicoDBType): Promise<ServicoDBType | null> {
         try {
-            const query = `insert into tbl_servicos values(?,?,?,?,?,?,?)`
+            const query = `insert into tblservico values(?,?,?,?,?,?,?)`
             const values = [
                 null,
                 newServico.nome,
@@ -31,7 +28,7 @@ export const servicoModel = {
     // get all services
     async getAll(): Promise<ServicoDBType[] | null> {
         try {
-            const servicos = `select * from tbl_servicos`
+            const servicos = `select * from tblservico`
 
             const [rows] = await db.execute<ServicoDBType[] & RowDataPacket[]>(servicos)
 
@@ -45,7 +42,7 @@ export const servicoModel = {
     // // get one service by id
     async get(id: string): Promise<ServicoDBType | null> {
         try {
-            const servico = "select DISTINCT * from tbl_servicos  WHERE tbl_servicos.id = ? "
+            const servico = "select DISTINCT * from tblservico  WHERE tblservico.id = ? "
             const [rows] = await db.execute<ServicoDBType[] & RowDataPacket[]>(servico, [id])
             return Array.isArray(rows) && rows.length > 0 ? rows[0] as ServicoDBType : null
         } catch (error) {
@@ -59,7 +56,7 @@ export const servicoModel = {
     async update(id: string, ServicoAtualizado: ServicoDBType): Promise<ServicoDBType | null> {
 
         try {
-           const updateServico = `update tbl_servicos set nome = ?, descricao = ? ,categoria = ?, enabled = ?, apdate_at = ? where id = ?`
+           const updateServico = `update tblservico set nome = ?, descricao = ? ,categoria = ?, enabled = ?, apdate_at = ? where id = ?`
             const values = [
                 ServicoAtualizado.nome,
                 ServicoAtualizado.descricao,
@@ -81,7 +78,7 @@ export const servicoModel = {
     async delete(id: string): Promise<ServicoDBType | null> {
         try {
             // query = deletar um servico
-            const query = `delete from tbl_servicos where id = ?`
+            const query = `delete from tblservico where id = ?`
             const values = [id]
             const [rows] = await db.execute<ServicoDBType & RowDataPacket[]>(query, values)
             
@@ -105,10 +102,10 @@ export const servicoModel = {
                e.icone as icone_empresa,
                s.enabled
 
-               FROM tbl_servicos s 
-               INNER JOIN tbl_categorias c ON c.id = s.id_categoria
-               INNER JOIN tbl_prestacao_servico ps ON ps.id_servico = s.id
-               INNER JOIN tbl_empresa  e ON e.id = ps.id_empresa
+               FROM tblservico s 
+               INNER JOIN tblcategoria c ON c.id = s.id_categoria
+               INNER JOIN tblprestacao_servico ps ON ps.id_servico = s.id
+               INNER JOIN tblempresa  e ON e.id = ps.id_empresa
                LIMIT ? OFFSET ?
             `
               const  value =

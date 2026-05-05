@@ -8,7 +8,7 @@ export const prestacao_servicoModel = {
     // create prestacao_servico
     async create(novo: Prestacao_servicoDBType): Promise<Prestacao_servicoDBType | null> {
         try {
-            const query = `insert into tbl_prestacao_servico values(?,?,?,?,?,?,?,?,?,?,?,?)`
+            const query = `insert into tblprestacao_servico values(?,?,?,?,?,?,?,?,?,?,?,?)`
             const values = [
                 generateUUID(),
                 novo.disignacao,
@@ -33,7 +33,7 @@ export const prestacao_servicoModel = {
     // get all prestacao_servico
     async getAll(): Promise<Prestacao_servicoDBType[] | null> {
         try {
-            const query = `select * from tbl_prestacao_servico`
+            const query = `select * from tblprestacao_servico`
             const [rows] = await db.execute<Prestacao_servicoDBType[] & RowDataPacket[]>(query)
             return Array.isArray(rows) && rows.length > 0 ? rows : []
         } catch (error) {
@@ -44,7 +44,7 @@ export const prestacao_servicoModel = {
     // get one prestacao_servico by id
     async get(id: string): Promise<Prestacao_servicoDBType | null> {
         try {
-            const query = `select * from tbl_prestacao_servico where id = ?`
+            const query = `select * from tblprestacao_servico where id = ?`
             const values = [id]
             const [rows] = await db.execute<Prestacao_servicoDBType[] & RowDataPacket[]>(query, values)
             return Array.isArray(rows) && rows.length > 0 ? rows[0] as Prestacao_servicoDBType : null
@@ -56,7 +56,7 @@ export const prestacao_servicoModel = {
     // update prestacao_servico
     async update(id: string, prestacao_servicoAtualizado: Prestacao_servicoDBType): Promise<Prestacao_servicoDBType | null> {
         try {
-            const query = `update tbl_prestacao_servico set disignacao = ?, subtotal = ?, haras_estimadas = ?, id_prestador = ?, id_servico = ?, preco_hora = ?, estado = ?, id_orcamento = ?, enabled = ?, created_at = ?, preco_hora = ? where id = ?`
+            const query = `update tblprestacao_servico set disignacao = ?, subtotal = ?, haras_estimadas = ?, id_prestador = ?, id_servico = ?, preco_hora = ?, estado = ?, id_orcamento = ?, enabled = ?, created_at = ?, preco_hora = ? where id = ?`
             const values = [
                 prestacao_servicoAtualizado.disignacao,
                 prestacao_servicoAtualizado.subtotal,
@@ -81,7 +81,7 @@ export const prestacao_servicoModel = {
     // delete prestacao_servico
     async delete(id: string): Promise<Prestacao_servicoDBType | null> {
         try {
-            const query = `delete from tbl_prestacao_servico where id = ?`
+            const query = `delete from tblprestacao_servico where id = ?`
             const values = [id]
             const [rows] = await db.execute<Prestacao_servicoDBType & RowDataPacket[]>(query, values)
             return rows as Prestacao_servicoDBType
@@ -102,9 +102,9 @@ export const prestacao_servicoModel = {
                 s.nome as nome_servico,
                 ps.created_at as data_pedido,
                 ps.urgente
-                FROM tbl_prestacao_servico ps 
-                INNER JOIN tbl_utilizadores u ON ps.id_Utilizador = u.id
-                INNER JOIN tbl_servicos  s ON ps.id_servico = s.id
+                FROM tblprestacao_servico ps 
+                INNER JOIN tblutilizador u ON ps.id_Utilizador = u.id
+                INNER JOIN tblservico  s ON ps.id_servico = s.id
                 ORDER BY ps.created_at DESC
                 LIMIT ? OFFSET ?
             `
@@ -127,8 +127,8 @@ export const prestacao_servicoModel = {
     }, async getByIdOrcamento(idOrcamento: string): Promise<Prestacao_servicoDBType | null> {
         try {
             const [rows] = await db.execute<Prestacao_servicoDBType[] & RowDataPacket[]>(
-                `SELECT * FROM tbl_prestacao_servico 
-                WHERE tbl_prestacao_servico.id_orcamento = ?`,
+                `SELECT * FROM tblprestacao_servico 
+                WHERE tblprestacao_servico.id_orcamento = ?`,
 
                 [idOrcamento]
             )
@@ -158,10 +158,10 @@ export const prestacao_servicoModel = {
                 c.designacao as nome_categoria,
                 c.icone as icone_categoria
 
-                FROM tbl_prestacao_servico ps 
-                INNER JOIN tbl_utilizadores u ON ps.id_Utilizador = u.id
-                INNER JOIN tbl_servicos  s ON ps.id_servico = s.id
-                INNER JOIN tbl_categorias c ON s.id_categoria = c.id AND c.id = ?`,
+                FROM tblprestacao_servico ps 
+                INNER JOIN tblutilizador u ON ps.id_Utilizador = u.id
+                INNER JOIN tblservico  s ON ps.id_servico = s.id
+                INNER JOIN tblcategoria c ON s.id_categoria = c.id AND c.id = ?`,
 
                 [idCategoria]
             )

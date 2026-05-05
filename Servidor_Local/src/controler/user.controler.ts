@@ -1,6 +1,6 @@
 import { userModel } from "../models/user.models.js"
 import { comparePassword, hashPassword } from "../Utils/password.js"
-import type { UtilizadorDBType } from "../Utils/types.js"
+import type { responseType, UtilizadorDBType } from "../Utils/types.js"
 import type { Request, Response } from "express"
 import jwt from "jsonwebtoken"
 
@@ -13,6 +13,7 @@ export const userControler = {
     async create(req: Request, res: Response): Promise<UtilizadorDBType | any> {
         try {
             const newuser: UtilizadorDBType = req.body
+            console.log("newuser", newuser)
             if (!newuser) {
                 return res.status(400).json({
                     status: "error",
@@ -22,12 +23,22 @@ export const userControler = {
             }
 
             const CreiteServicoRsesponse = await userModel.create(newuser)
+            console.log("CreiteServicoRsesponse", CreiteServicoRsesponse)
+            if(CreiteServicoRsesponse === null) {
+                return res.status(500).json({
+                    status: "error",
+                    message: "Erro ao criar usuario",
+                    data: null
+                })
+            }
+
 
             return res.status(200).json({
                 status: "success",
                 message: "Usuario criado com sucesso",
                 data: CreiteServicoRsesponse
             })
+
         } catch (error) {
             console.error("error user.controler.ts", error)
             return res.status(500).json({
@@ -170,13 +181,17 @@ export const userControler = {
                 role: userdata.role
             } 
 
+            console.log("payload", payload)
             const token = jwt.sign(payload, process.env.JWT_SECRET as string, { expiresIn: "1h" }
             )
-            return res.status(200).json({
+            const response: responseType<string> = {
                 status: "success",
                 message: "Usuario logado com sucesso",
                 data: token
-            })
+            }
+            console.log("token", response)
+            return res.status(200).json(response)
+            
 
         } catch (error) {
             console.error(error)

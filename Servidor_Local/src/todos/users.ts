@@ -1,16 +1,16 @@
 import db from "../lib/db.js"
 import { formatDateDDMMYYYY } from "../Utils/date.js"
 import { hashPassword } from "../Utils/password.js"
-import type { utilizadorMySqlType } from "../Utils/types.js"
+import type { UtilizadorDBType } from "../Utils/types.js"
 import { generateUUID } from "../Utils/uuid.js"
 
 export async function getUser() {
-    const [rows] = await db.execute(`select * from tbl_utilizadores`)
+    const [rows] = await db.execute(`select * from tblUtilizador`)
     return rows
 }
 
 export async function getUseById(id: string) {
-    const [rows] = await db.execute(`SELECT * FROM tbl_utilizadores WHERE tbl_utilizadores.id = ?`,
+    const [rows] = await db.execute(`SELECT * FROM tblUtilizador WHERE tblUtilizador.id = ?`,
         [id]
     )
     if (Array.isArray(rows) && rows.length === 0) return null
@@ -20,10 +20,10 @@ export async function getUseById(id: string) {
 }
 
 // Inserir um novo utilizador mysql
-export async function novoUtilizador(utilizador: utilizadorMySqlType) {
+export async function novoUtilizador(utilizador: UtilizadorDBType) {
     try {
         const user = db.execute(`
-        insert into tbl_utilizadores
+        insert into tblUtilizador
         values(
         ?,?,?,?,?,?,?,?,?,?,?,?)
         `,
@@ -51,7 +51,7 @@ export async function novoUtilizador(utilizador: utilizadorMySqlType) {
 }
 
 export async function deleteUser(id: string) {
-    const [rows] = await db.execute(`DELETE FROM tbl_utilizadores WHERE tbl_utilizadores.id = ?`,
+    const [rows] = await db.execute(`DELETE FROM tblUtilizador WHERE tblUtilizador.id = ?`,
         [id]
     )
     return rows

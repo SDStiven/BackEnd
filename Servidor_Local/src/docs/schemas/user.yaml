@@ -24,6 +24,9 @@ components:
         email: 
           type: string
           example: "stiven@2222.com"
+        role: 
+          type: string
+          example: "cliente"
         telefone: 
           type: string
           example: "123456789"

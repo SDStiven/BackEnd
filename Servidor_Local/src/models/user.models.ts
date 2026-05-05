@@ -12,13 +12,14 @@ export const userModel = {
     // create user
     async create(user: UtilizadorDBType): Promise<UtilizadorDBType | null> {
         try {
-            const query = `insert into tbl_utilizadores values(?,?,?,?,?,?,?,?,?,?,?,?)`
+            const query = `insert into tblUtilizador values(?,?,?,?,?,?,?,?,?,?,?,?,?)`
             const values = [
                 generateUUID(),
                 user.nome,
                 user.numero_identificacao,
                 formatDateDDMMYYYY(user.data_nascemento),
                 user.email,
+                user.role,
                 user.telefone,
                 user.pais,
                 user.localidade,
@@ -26,8 +27,12 @@ export const userModel = {
                 user.enabled,
                 new Date(),
                 new Date()
-            ]
+            ] 
+
             const [rows] = await db.execute<UtilizadorDBType & RowDataPacket[]>(query, values)
+            console.log("rows", rows)
+            console.log("rows",[ rows])
+
             return rows as UtilizadorDBType
         } catch (error) {
             console.log(error)
@@ -38,7 +43,7 @@ export const userModel = {
     // get all users
     async getAll(): Promise<UtilizadorDBType[] | null> {
         try {
-            const [rows] = await db.execute<UtilizadorDBType[] & RowDataPacket[]>(`select * from tbl_utilizadores`)
+            const [rows] = await db.execute<UtilizadorDBType[] & RowDataPacket[]>(`select * from tblutilizador`)
             return Array.isArray(rows) && rows.length > 0 ? rows : []
         } catch (error) {
             console.log({ "catch user.models.ts": error })
@@ -50,7 +55,7 @@ export const userModel = {
     async get(id: string): Promise<UtilizadorDBType | null> {
         try {
             const [rows] = await db.execute<UtilizadorDBType[] & RowDataPacket[]>(
-                `select * from tbl_utilizadores where tbl_utilizadores.id = ?`, [id]
+                `select * from tblUtilizador where tblUtilizador.id = ?`, [id]
             )
             if (Array.isArray(rows) && rows.length === 0) return null
             return Array.isArray(rows) ? rows[0] as UtilizadorDBType : null
@@ -63,7 +68,7 @@ export const userModel = {
       // update serv
     async update(id: string, userupdate: UtilizadorDBType): Promise<UtilizadorDBType | null> {
         try { 
-            const updateServico = `update tbl_utilizadores 
+            const updateServico = `update tblUtilizador 
             set nome = ?, 
             numero_identificacao = ?, 
             data_nascemento = ?, 
@@ -98,7 +103,7 @@ export const userModel = {
     async getByEmail(email: string): Promise<UtilizadorDBType | null> {
         try {
             const [rows] = await db.execute<UtilizadorDBType[] & RowDataPacket[]>(
-                `select * from tbl_utilizadores where tbl_utilizadores.email = ?`, [email]
+                `select * from tblUtilizador where tblUtilizador.email = ?`, [email]
 
             )
 
@@ -112,7 +117,7 @@ export const userModel = {
     // delete user
     async delete(id: string): Promise<UtilizadorDBType | null> {
         try {
-            const query = `delete from tbl_utilizadores where id = ?`
+            const query = `delete from tblUtilizador where id = ?`
             const values = [id]
             const [rows] = await db.execute<UtilizadorDBType & RowDataPacket[]>(query, values)
             return rows as UtilizadorDBType
@@ -126,7 +131,7 @@ export const userModel = {
     async updatePassword(id: string, newPasswordHash: string): Promise<UtilizadorDBType | null> {
         try {
             const [rows] = await db.execute<UtilizadorDBType & RowDataPacket[]>(
-                `update tbl_utilizadores set password = ?, update_at = ? where id = ?`,
+                `update tblUtilizador set password = ?, update_at = ? where id = ?`,
                 [
                     newPasswordHash,
                     new Date(),
@@ -144,7 +149,7 @@ export const userModel = {
     async resetPassword(id: string, password: string): Promise<UtilizadorDBType | null> {
         try {
             const [rows] = await db.execute<UtilizadorDBType & RowDataPacket[]>(
-                `UPDATE tbl_utilizadores 
+                `UPDATE tblUtilizador 
                 SET password = ?, 
                 updated_at = ?
                 WHERE id = ?`,

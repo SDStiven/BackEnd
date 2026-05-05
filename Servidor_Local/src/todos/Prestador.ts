@@ -57,7 +57,7 @@ export async function novoPrestador(prestador: PrestadorMySqlType) {
     try {
         const novoPrestador = await db.execute(
             `
-          insert into tbl_prestadores 
+          insert into tblprestador 
           values(
             ?,?,?,?,?,?,?,?,?
           )

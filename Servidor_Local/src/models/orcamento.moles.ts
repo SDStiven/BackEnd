@@ -7,7 +7,7 @@ export const orcamentoModel = {
     // create orcamento
     async create(newOrcamento: OrcamentoDBType): Promise<OrcamentoDBType | null> {
         try {
-            const query = `insert into tbl_orcamento values(?,?,?,?,?)`
+            const query = `insert into tblorcamento values(?,?,?,?,?)`
             const values = [
                 newOrcamento.total,
                 newOrcamento.id_utilizador,
@@ -26,7 +26,7 @@ export const orcamentoModel = {
     // get all orcamentos
     async getAll(): Promise<OrcamentoDBType[] | null> {
         try {
-            const orcamentos = `select * from tbl_orcamento`
+            const orcamentos = `select * from tblorcamento`
 
             const rows = await db.execute<OrcamentoDBType & RowDataPacket[]>(orcamentos)
 
@@ -39,7 +39,7 @@ export const orcamentoModel = {
     // get one orcamento by id
     async get(id: string): Promise<OrcamentoDBType | null> {
         try {
-            const orcamento = `select * from tbl_orcamento where id = ?`
+            const orcamento = `select * from tblorcamento where id = ?`
             const values = [id]
             const [rows] = await db.execute<OrcamentoDBType[] & RowDataPacket[]>(orcamento, values)
             return Array.isArray(rows) && rows.length > 0 ? rows[0] as OrcamentoDBType : null
@@ -51,7 +51,7 @@ export const orcamentoModel = {
     // update orcamento
     async update(id: string, orcamentoAtualizado: OrcamentoDBType): Promise<OrcamentoDBType | null> {
         try {
-            const updateOrcamento = `update tbl_orcamento 
+            const updateOrcamento = `update tblorcamento 
             set id_prestacao = ?, 
             preco_hora = ?, 
             preco_estimado = ?, 
@@ -76,7 +76,7 @@ export const orcamentoModel = {
     // delete orcamento
     async delete(id: string): Promise<OrcamentoDBType | null> {
         try {
-            const query = `delete from tbl_orcamento where id = ?`
+            const query = `delete from tblorcamento where id = ?`
             const values = [id]
             const [rows] = await db.execute<OrcamentoDBType & RowDataPacket[]>(query, values)
             return rows as OrcamentoDBType
@@ -90,14 +90,14 @@ export const orcamentoModel = {
         try {
             // 1. Verificar se o orçamento existe
             const [orcRows] = await db.execute(
-                `select * from tbl_orcamento where id = ?`,
+                `select * from tblorcamento where id = ?`,
                 [id]
             )
             if (!Array.isArray(orcRows) || orcRows.length === 0) return null
 
             // 2. Buscar todos os serviços (prestações) ligados a este orçamento
             const [servicoRows] = await db.execute(
-                `select * from tbl_prestacao_servico where id_orcamento = ? and enabled = 1`,
+                `select * from tblprestacao_servico where id_orcamento = ? and enabled = 1`,
                 [id]
             )
             const servicos = (Array.isArray(servicoRows) ? servicoRows : []) as Prestacao_servicoDBType[]
@@ -105,7 +105,7 @@ export const orcamentoModel = {
             if (servicos.length === 0) {
                 // Nenhum serviço — total é 0
                 await db.execute(
-                    `update tbl_orcamento set total = 0, updated_at = ? where id = ?`,
+                    `update tblorcamento set total = 0, updated_at = ? where id = ?`,
                     [new Date(), id]
                 )
                 return { total: 0 }
@@ -122,7 +122,7 @@ export const orcamentoModel = {
                 // 3b. Buscar dados do prestador para aplicar regras de negócio
                 if (servico.id_prestador) {
                     const [prestRows] = await db.execute(
-                        `select * from tbl_prestadores where id = ?`,
+                        `select * from tblprestador where id = ?`,
                         [servico.id_prestador]
                     )
                     const prestadores = (Array.isArray(prestRows) ? prestRows : []) as PrestadorDBType[]
@@ -148,7 +148,7 @@ export const orcamentoModel = {
 
                 // 3c. Atualizar o subtotal calculado na própria prestação de serviço
                 await db.execute(
-                    `update tbl_prestacao_servico set subtotal = ?, updated_at = ? where id = ?`,
+                    `update tblprestacao_servico set subtotal = ?, updated_at = ? where id = ?`,
                     [subtotalFinal, new Date(), servico.id]
                 )
 
@@ -158,7 +158,7 @@ export const orcamentoModel = {
             // 4. Gravar o total absoluto no orçamento
             const totalAbsoluto = Math.abs(totalGeral)
             await db.execute(
-                `update tbl_orcamento set total = ?, updated_at = ? where id = ?`,
+                `update tblorcamento set total = ?, updated_at = ? where id = ?`,
                 [totalAbsoluto, new Date(), id]
             )
 

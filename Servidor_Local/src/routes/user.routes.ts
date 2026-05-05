@@ -21,9 +21,9 @@ router.post(UserRoute.login,userControler.login)
 router.post(UserRoute.create,userControler.create)
 
 
+router.get(UserRoute.getAll,/*autorized([Role.ADMIN]),*/userControler.getAll)
 router.use(authMiddelware)
 
-router.get(UserRoute.getAll,autorized([Role.ADMIN]),userControler.getAll)
 router.get(UserRoute.getById,autorized([Role.ADMIN,Role.PRESTADOR,Role.EMPRESA,Role.CLIENTE]), userControler.get)
 router.put(UserRoute.update,autorized([Role.ADMIN,Role.PRESTADOR,Role.EMPRESA,Role.CLIENTE]),userControler.update)
 router.delete(UserRoute.delete,autorized([Role.ADMIN]),userControler.delete)

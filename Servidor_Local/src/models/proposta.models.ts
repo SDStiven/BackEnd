@@ -12,7 +12,7 @@ export const propostaModel = {
     // create proposta
     async create(newProposta: PropostaDBType): Promise<PropostaDBType | null> {
         try {
-            const query = `insert into tbl_proposta values(?,?,?,?,?,?,?,?)`
+            const query = `insert into tblproposta values(?,?,?,?,?,?,?,?)`
             const values = [
                 null,
                 newProposta.id_prestacao,
@@ -33,7 +33,7 @@ export const propostaModel = {
     // get all proposals
     async getAll(): Promise<PropostaDBType[] | null> {
         try {
-            const query = `select * from tbl_proposta`
+            const query = `select * from tblproposta`
             const [rows] = await db.execute<PropostaDBType[] & RowDataPacket[]>(query)
             return Array.isArray(rows) && rows.length > 0 ? rows : []
         } catch (error) {
@@ -48,9 +48,9 @@ export const propostaModel = {
             const query = `select Distinct 
                 pt.*,
                 u.id as owner
-                FROM tbl_proposta pt
-                INNER JOIN tbl_prestadores pr on pt.id_prestador = pr.id
-                INNER JOIN tbl_utilizadores u on pr.id_utilizador = u.id
+                FROM tblproposta pt
+                INNER JOIN tblprestador pr on pt.id_prestador = pr.id
+                INNER JOIN tblutilizador u on pr.id_utilizador = u.id
                 where pt.id = ?`
             const values = [id]
             const [rows] = await db.execute<PropostaDBType[] & RowDataPacket[]>(query, values)
@@ -66,7 +66,7 @@ export const propostaModel = {
         console.log("propostaAtualizada",propostaAtualizada)
         console.log("id",id)
         try {
-            const query = `update tbl_proposta set id_prestacao = ?, preco_hora = ?, hora_estimada = ?, estado = ?, anable = ?, apdate_at = ? where tbl_proposta.id = ?`
+            const query = `update tblproposta set id_prestacao = ?, preco_hora = ?, hora_estimada = ?, estado = ?, anable = ?, apdate_at = ? where tblproposta.id = ?`
             const values = [
                 propostaAtualizada.id_prestacao,
                 propostaAtualizada.preco_hora,
@@ -87,7 +87,7 @@ export const propostaModel = {
     // delete proposal
     async delete(id: string): Promise<PropostaDBType | null> {
         try {
-            const query = `delete from tbl_proposta where id = ?`
+            const query = `delete from tblproposta where id = ?`
             const values = [id]
             const [rows] = await db.execute<PropostaDBType & RowDataPacket[]>(query, values)
             return rows as PropostaDBType
@@ -111,7 +111,7 @@ export const propostaModel = {
 
             // 1. Buscar a proposta selecionada
             const [propostaRows] = await conn.execute<PropostaDBType[] & RowDataPacket[]>(
-                `select * from tbl_proposta where id = ?`,
+                `select * from tblproposta where id = ?`,
                 [propostaId]
             )
             const propostas = (Array.isArray(propostaRows) ? propostaRows : []) as PropostaDBType[]
@@ -124,13 +124,13 @@ export const propostaModel = {
 
             // 2. Marcar a proposta como 'Aceite'
             await conn.execute(
-                `update tbl_proposta set estado = 'Aceite', updated_at = ? where id = ?`,
+                `update tblproposta set estado = 'Aceite', updated_at = ? where id = ?`,
                 [new Date(), propostaId]
             )
 
             // 3. Buscar a prestação de serviço relacionada
             const [prestacaoRows] = await conn.execute<Prestacao_servicoDBType[] & RowDataPacket[]>(
-                `select * from tbl_prestacao_servico where id = ?`,
+                `select * from tblprestacao_servico where id = ?`,
                 [proposta.id_prestacao]
             )
             const prestacoes = (Array.isArray(prestacaoRows) ? prestacaoRows : []) as Prestacao_servicoDBType[]
@@ -139,14 +139,14 @@ export const propostaModel = {
             if (prestacao) {
                 // 4. Atualizar a prestação para 'Em execução'
                 await conn.execute(
-                    `update tbl_prestacao_servico set estado = 'Em execução', updated_at = ? where id = ?`,
+                    `update tblprestacao_servico set estado = 'Em execução', updated_at = ? where id = ?`,
                     [new Date(), prestacao.id]
                 )
             }
 
             // 5. Rejeitar as outras propostas do mesmo id_prestacao
             await conn.execute(
-                `update tbl_proposta set estado = 'Rejeitada', updated_at = ? 
+                `update tblproposta set estado = 'Rejeitada', updated_at = ? 
                  where id_prestacao = ? and id != ? and estado != 'Aceite'`,
                 [new Date(), proposta.id_prestacao, propostaId]
             )
@@ -154,8 +154,8 @@ export const propostaModel = {
             // 6. Buscar todas as propostas rejeitadas (para notificações)
             const [rejeitadasRows] = await conn.execute<any[] & RowDataPacket[]>(
                 `select p.*, pr.nome as prestador_nome, pr.id as prestador_id
-                 from tbl_proposta p
-                 left join tbl_prestadores pr on pr.id = p.id_prestacao
+                 from tblproposta p
+                 left join tblprestador pr on pr.id = p.id_prestacao
                  where p.id_prestacao = ? and p.id != ? and p.estado = 'Rejeitada'`,
                 [proposta.id_prestacao, propostaId]
             )
@@ -164,7 +164,7 @@ export const propostaModel = {
             let prestadorAceite: any = null
             if (prestacao?.id_prestador) {
                 const [prestadorRows] = await conn.execute<PrestadorDBType[] & RowDataPacket[]>(
-                    `select * from tbl_prestadores where id = ?`,
+                    `select * from tblprestador where id = ?`,
                     [prestacao.id_prestador]
                 )
                 const prestadores = (Array.isArray(prestadorRows) ? prestadorRows : []) as PrestadorDBType[]

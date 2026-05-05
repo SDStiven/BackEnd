@@ -75,7 +75,7 @@ export interface UtilizadorDBType {
   enabled: boolean
   created_at: string
   updated_at: string
-}
+} 
 
 export interface PropostaDBType {
 

@@ -6,7 +6,7 @@ import { generateUUID } from "../Utils/uuid.js"
 const empresaModel = {
     async create(empresa: EmpresaDBType): Promise<EmpresaDBType | null> {
         try {
-            const query = `insert into tbl_empresa values(?,?,?,?,?,?,?,?,?,?)`
+            const query = `insert into tblempresa values(?,?,?,?,?,?,?,?,?,?)`
             const values = [
                 null,
                 empresa.designacao,
@@ -28,7 +28,7 @@ const empresaModel = {
     },
     async getAll(): Promise<EmpresaDBType[] | null> {
         try {
-            const query = `select * from tbl_empresas`
+            const query = `select * from tblempresa`
             const [rows] = await db.execute<EmpresaDBType[] & RowDataPacket[]>(query)
             return Array.isArray(rows) && rows.length > 0 ? rows : []
         } catch (error) {
@@ -38,7 +38,7 @@ const empresaModel = {
     },
     async get(id: string): Promise<EmpresaDBType | null> {
         try {
-            const query = `select * from tbl_empresas where id = ?`
+            const query = `select * from tblempresa where id = ?`
             const values = [id]
             const [rows] = await db.execute<EmpresaDBType[] & RowDataPacket[]>(query, values)
             return Array.isArray(rows) && rows.length > 0 ? rows[0] as EmpresaDBType : null
@@ -49,7 +49,7 @@ const empresaModel = {
     },
     async update(id: string, empresaAtualizada: EmpresaDBType): Promise<EmpresaDBType | null> {
         try {
-            const query = `update tbl_empresas set designacao = ?, descricao = ?, nif = ?, icone = ?, id_utilizador = ?, localizacao = ?, enabled = ?, updated_at = ? where id = ?`
+            const query = `update tblempresa set designacao = ?, descricao = ?, nif = ?, icone = ?, id_utilizador = ?, localizacao = ?, enabled = ?, updated_at = ? where id = ?`
             const values = [
                 empresaAtualizada.designacao,
                 empresaAtualizada.descricao,
@@ -70,7 +70,7 @@ const empresaModel = {
     },
     async delete(id: string): Promise<EmpresaDBType | null> {
         try {
-            const query = `delete from tbl_empresas where id = ?`
+            const query = `delete from tblempresa where id = ?`
             const values = [id]
             const [rows] = await db.execute<EmpresaDBType & RowDataPacket[]>(query, values)
             return rows as EmpresaDBType

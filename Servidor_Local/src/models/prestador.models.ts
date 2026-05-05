@@ -8,7 +8,7 @@ export const prestadorModel = {
     // create prestador
     async create(Prestador: PrestadorDBType): Promise<PrestadorDBType | null> {
         try {
-            const newPrestador = `insert into tbl_prestadores values(?,?,?,?,?,?,?,?,?)`
+            const newPrestador = `insert into tblprestador values(?,?,?,?,?,?,?,?,?)`
             const values = [
                 generateUUID(),
                 Prestador.nome,
@@ -31,7 +31,7 @@ export const prestadorModel = {
     // getAll prestadores
     async getAll(): Promise<PrestadorDBType[] | null> {
         try {
-            const prestadores = `select * from tbl_prestadores`
+            const prestadores = `select * from tblprestador`
             const [rows] = await db.execute<PrestadorDBType[] & RowDataPacket[]>(prestadores)
             return Array.isArray(rows) && rows.length > 0 ? rows as PrestadorDBType[] : []
         } catch (error) {
@@ -43,7 +43,7 @@ export const prestadorModel = {
     // get one prestador by id
     async get(id: string): Promise<PrestadorDBType | null> {
         try {
-            const prestador = `select * from tbl_prestadores where tbl_prestadores.id = ?`
+            const prestador = `select * from tblprestador where tblprestador.id = ?`
             const [rows] = await db.execute<PrestadorDBType[] & RowDataPacket[]>(prestador, [id])
             console.log("rows", rows)
             return Array.isArray(rows) && rows.length > 0 ? rows[0] as PrestadorDBType : null
@@ -56,7 +56,7 @@ export const prestadorModel = {
     // update prestador
     async update(id: string, apdatePrestador: PrestadorDBType): Promise<PrestadorDBType | null> {
         try {
-            const updatePrestador = `update tbl_prestadores set nome = ?,
+            const updatePrestador = `update tblprestador set nome = ?,
              profissao = ?,
               taxa_urgencia = ?, 
               minimo_desconto = ?, 
@@ -86,7 +86,7 @@ export const prestadorModel = {
     // delete prestador
     async delete(id: string): Promise<PrestadorDBType | null> {
         try {
-            const query = `delete from tbl_prestadores where id = ?`
+            const query = `delete from tblprestador where id = ?`
             const values = [id]
             const [rows] = await db.execute<PrestadorDBType & RowDataPacket[]>(query, values)
             return rows as PrestadorDBType

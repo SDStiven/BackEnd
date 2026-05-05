@@ -324,7 +324,7 @@ export const orcamentoControler = {
             async updateBudget(id: string, total: number) {
         try {
             const rows: any = await db.execute(
-                `UPDATE tbl_orcamentos SET total = ?, updated_at = ? WHERE id = ?`,
+                `UPDATE tblorcamento SET total = ?, updated_at = ? WHERE id = ?`,
                 [total, new Date(), id]
             )
 
